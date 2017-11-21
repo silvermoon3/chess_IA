@@ -9,8 +9,12 @@ using System.Threading;
 
 namespace processAI1
 {
+    public enum colorPlayer { White, Black };
     class Program
     {
+
+       
+        static Agent agent = new Agent(colorPlayer.White);
        static void Main(string[] args)
         {
             try
@@ -59,6 +63,7 @@ namespace processAI1
                             }
                             if (!stop)
                             {
+                                agent.doWork();
                                 /******************************************************************************************************/
                                 /***************************************** ECRIRE LE CODE DE L'IA *************************************/
                                 /******************************************************************************************************/
