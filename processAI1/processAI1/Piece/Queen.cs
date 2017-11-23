@@ -4,31 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace processAI1
+namespace processAI1.Piece
 {
     class Queen : Piece
     {
-        override
-        public List<Position> getPossibleMoves(Position currentPosition, Square[,] board)
+        public Queen(int x, int y, Boolean isWhite) : base(x, y, isWhite)
         {
-            return allLegalMoves(currentPosition, board);
-        }
 
-        public List<Position> allLegalMoves(Position currentPosition, Square[,] board)
-        {
-            List<Position> legalMoves = new List<Position>();
-            Rook r = new Rook();
-            legalMoves.AddRange(r.getPossibleMoves(currentPosition, board));
-            Bishop b = new Bishop();
-            legalMoves.AddRange(b.getPossibleMoves(currentPosition, board));
-            
-            return legalMoves;
         }
-
-        override
-        public Boolean ocuppiedOrOnPath(Position currentPosition, Position desination, Square[,] board)
+    
+        public override List<Point> getPossibleMoves(Belief belief)
         {
-            return false;
+            Rook r = new Rook(position.getX(), position.getY(), isWhite);
+            Bishop b = new Bishop(position.getX(), position.getY(), isWhite);
+            return r.getPossibleMoves(belief).Union(b.getPossibleMoves(belief)).ToList();
+           
+        }
+        public override String getPiece()
+        {
+            return isWhite ? "q" : "Q";
         }
     }
 }

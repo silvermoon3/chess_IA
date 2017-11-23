@@ -4,88 +4,111 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace processAI1
+namespace processAI1.Piece
 {
-    class Rook: Piece
+    class Rook : Piece
     {
-
-        override
-       public List<Position> getPossibleMoves(Position currentPosition, Square[,] board)
+        public Rook(int x, int y, Boolean isWhite) : base(x, y, isWhite)
         {
-            List<Position> legalMoves = new List<Position>();
-            //Right
-            if (currentPosition.getX() < 7)
-                for (int i= currentPosition.getX() + 1 ; i<= 7; i++)
-                {
-                    if (!Belief.isOccupied(i, currentPosition.getY()))
-                        legalMoves.Add(new Position(i, currentPosition.getY()));
 
+        }
+
+        public override List<Point> getPossibleMoves(Belief belief)
+        {
+            List<Point> legalMoves = new List<Point>();
+            int left = (int)position.getX() - 8 > 0 ? (int)position.getX() - 8 : 0;
+            int right = (int)position.getX() + 8 < 7 ? (int)position.getX() + 8 : 7;
+                        
+            for (int i = (int)position.getX() - 1; i >= left; i--)
+            {
+                Point p = new Point(i, position.getY());
+                if (belief.isOccupied(p))
+                {
+                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    {
+                        legalMoves.Add(p);
+                        break;
+                    }
+                    break;
+                }
                 else
                 {
-                    
-                    /*if (e.getCase(i, position.rangee).piece.info.couleur != joueur.couleur)
-                        mouvements.Add(e.getCase(i, position.rangee));
-                    break;*/
+                    legalMoves.Add(p);
                 }
+
+            }
+            for (int i = (int)position.getX() + 1; i <= right; i++)
+            {
+                Point p = new Point(i, position.getY());
+                if (belief.isOccupied(p))
+                {
+                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    {
+                        legalMoves.Add(p);
+                        break;
+
+                    }
+                    break;
+                }
+                else
+                {
+                    legalMoves.Add(p);
+                }
+
             }
 
-            if (currentPosition.getX() > 0)
-                for (int i = currentPosition.getX() - 1; i >= 0; i--)
+            // Up and down
+            int up = (int)position.getY() + 8 < 7 ? (int)position.getY() + 8 : 7;
+            int down = (int)position.getY() - 8 > 0 ? (int)position.getY() - 8 : 0;
+            for (int i = (int)position.getY() + 1; i <= up; i++)
+            {
+                
+                Point p = new Point(position.getX(), i);
+                if (belief.isOccupied(p))
                 {
-                    if(!Belief.isOccupied(i, currentPosition.getY()))
-                        legalMoves.Add(new Position(i, currentPosition.getY()));
-                     else
-                     {
-                    //if (e.getCase(i, position.rangee).piece.info.couleur != joueur.couleur)
-                    //    mouvements.Add(e.getCase(i, position.rangee));
-                    //break;
-                     }
-
-             }   
-
-            if (currentPosition.getY() < 7)
-                for (int i = currentPosition.getY() + 1; i <= 7; i++)
-                {
-                    if (!Belief.isOccupied(currentPosition.getX(), i))
-                        legalMoves.Add(new Position(currentPosition.getX(), i));                    
-                    else
+                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
                     {
-                        //if (e.getCase(position.colonne, i).piece.info.couleur != joueur.couleur)
-                        //    mouvements.Add(e.getCase(position.colonne, i));
-                        //break;
+                        legalMoves.Add(p);
+                        break;
+
                     }
+                    break;
                 }
-            if (currentPosition.getY() > 0)
-                for (int i = currentPosition.getY() - 1; i >= 0; i--)
+                else
                 {
-                    if (!Belief.isOccupied(currentPosition.getX(), i))
-                        legalMoves.Add(new Position(currentPosition.getX(), i));
-                    else
-                    {
-                        //if (e.getCase(position.colonne, i).piece.info.couleur != joueur.couleur)
-                        //    mouvements.Add(e.getCase(position.colonne, i));
-                        //break;
-                    }
+                    legalMoves.Add(p);
                 }
 
 
-            return null;
-        }
+            }
+            for (int i = (int)position.getY() - 1; i >= down; i--)
+            {
+                
+                Point p = new Point(position.getX(), i);
+                if (belief.isOccupied(p))
+                {
+                    if(!belief.isOccupiedWithMyPiece(p, isWhite))
+                    {
+                        legalMoves.Add(p);
+                        break;
 
-        public List<Position> allLegalMoves(Position currentPosition, Square[,] board)
-        {
-            List<Position> legalMoves = new List<Position>();
-            foreach (Position p in legalMoves)
-                if (!ocuppiedOrOnPath(currentPosition, p, board))
-                    legalMoves.Remove(p);
+                    }
+                    break;
 
+                }
+                else
+                {
+                    legalMoves.Add(p);
+                }
+                
+                
+            }
             return legalMoves;
-
         }
-        override
-        public Boolean ocuppiedOrOnPath(Position currentPosition, Position desination, Square[,] board)
+
+        public override String getPiece()
         {
-            return false;
+            return isWhite ? "r" : "R";
         }
 
     }

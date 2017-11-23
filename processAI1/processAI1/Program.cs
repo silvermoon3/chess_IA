@@ -14,7 +14,6 @@ namespace processAI1
     {
 
        
-        static Agent agent = new Agent(colorPlayer.White);
        static void Main(string[] args)
         {
             try
@@ -31,7 +30,8 @@ namespace processAI1
                                                    "a3","b3","c3","d3","e3","f3","g3","h3",
                                                    "a2","b2","c2","d2","e2","f2","g2","h2",
                                                    "a1","b1","c1","d1","e1","f1","g1","h1" };
-
+                Agent a = new Agent();
+                a.doWork();
                 while (!stop)
                 {
                     using (var mmf = MemoryMappedFile.OpenExisting("plateau"))
@@ -40,7 +40,7 @@ namespace processAI1
                         {
                             Mutex mutexStartAI1 = Mutex.OpenExisting("mutexStartAI1");
                             Mutex mutexAI1 = Mutex.OpenExisting("mutexAI1");
-                            mutexAI1.WaitOne();
+                            //mutexAI1.WaitOne();
                             
                             mutexStartAI1.WaitOne();
 
@@ -63,7 +63,7 @@ namespace processAI1
                             }
                             if (!stop)
                             {
-                                agent.doWork();
+                                
                                 /******************************************************************************************************/
                                 /***************************************** ECRIRE LE CODE DE L'IA *************************************/
                                 /******************************************************************************************************/

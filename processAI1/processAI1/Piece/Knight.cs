@@ -4,41 +4,91 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace processAI1
+namespace processAI1.Piece
 {
     class Knight:Piece
     {
-        public Knight(colorPlayer colorPlayer): base(colorPlayer) { }
-        override
-       public List<Position> getPossibleMoves(Position currentPosition, Square[,] board)
+        public Knight(int x, int y, Boolean isWhite): base(x,y,isWhite)
         {
-            List<Position> legalMoves = new List<Position>();
-           // if (currentPosition.getX() < 7 && currentPosition.getY() < 6 && (!Belief.isOccupied(currentPosition.getX() + 1, currentPosition.getY() + 2) || Belief.isOccupied(currentPosition.getX() + 1, currentPosition.getY() + 2).piece.info.couleur != joueur.couleur))
-           //     legalMoves.Add(new Position(currentPosition.getX() + 1, currentPosition.getY() + 2));
 
-            //if (currentPosition.colonne < 7 && currentPosition.rangee > 1 && (!e.getCase(currentPosition.colonne + 1, position.rangee - 2).occupée || e.getCase(position.colonne + 1, position.rangee - 2).piece.info.couleur != joueur.couleur))
-            //    mouvements.Add(e.getCase(position.colonne + 1, position.rangee - 2));
-
-            //if (currentPosition.colonne < 6 && currentPosition.rangee < 7 && (!e.getCase(currentPosition.colonne + 2, position.rangee + 1).occupée || e.getCase(position.colonne + 2, position.rangee + 1).piece.info.couleur != joueur.couleur))
-            //    mouvements.Add(e.getCase(position.colonne + 2, position.rangee + 1));
-            //if (currentPosition.colonne < 6 && currentPosition.rangee > 0 && (!e.getCase(currentPosition.colonne + 2, position.rangee - 1).occupée || e.getCase(position.colonne + 2, position.rangee - 1).piece.info.couleur != joueur.couleur))
-            //    mouvements.Add(e.getCase(position.colonne + 2, position.rangee - 1));
-
-            //if (currentPosition.colonne > 0 && currentPosition.rangee > 1 && (!e.getCase(position.colonne - 1, position.rangee - 2).occupée || e.getCase(position.colonne - 1, position.rangee - 2).piece.info.couleur != joueur.couleur))
-            //    mouvements.Add(e.getCase(position.colonne - 1, position.rangee - 2));
-            //if (position.colonne > 0 && position.rangee < 6 && (!e.getCase(position.colonne - 1, position.rangee + 2).occupée || e.getCase(position.colonne - 1, position.rangee + 2).piece.info.couleur != joueur.couleur))
-            //    mouvements.Add(e.getCase(position.colonne - 1, position.rangee + 2));
-
-            //if (position.colonne > 1 && position.rangee < 7 && (!e.getCase(position.colonne - 2, position.rangee + 1).occupée || e.getCase(position.colonne - 2, position.rangee + 1).piece.info.couleur != joueur.couleur))
-            //    mouvements.Add(e.getCase(position.colonne - 2, position.rangee + 1));
-            //if (position.colonne > 1 && position.rangee > 0 && (!e.getCase(position.colonne - 2, position.rangee - 1).occupée || e.getCase(position.colonne - 2, position.rangee - 1).piece.info.couleur != joueur.couleur))
-            //    mouvements.Add(e.getCase(position.colonne - 2, position.rangee - 1));
-            return legalMoves;
         }
-        override
-        public Boolean ocuppiedOrOnPath(Position currentPosition, Position desination, Square[,] board)
+        public override List<Point> getPossibleMoves(Belief belief)
         {
-            return false;
+            List<Point> legalMoves = new List<Point>();
+            if (position.getX() - 2 >= 0)
+            {
+                if (position.getY() < 7)
+                {
+                    Point p = new Point(position.getX() - 2, position.getY() + 1);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(p);
+                }
+                if (position.getY() > 0)
+                {
+                    Point p = new Point(position.getX() - 2, position.getY() - 1);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(p);
+                }
+               
+            }
+            if (position.getX() < 6)
+            {
+                if (position.getY() < 7)
+                {
+                        Point p = new Point(position.getX() + 2, position.getY() + 1);
+                        if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                            legalMoves.Add(p);
+                }
+               
+                if (position.getY() > 0)
+                {
+                    Point p = new Point(position.getX() + 2, position.getY() - 1);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(p);
+                }
+                
+
+            }
+            if (position.getY() - 2 >= 0)
+            {
+                if (position.getX() < 7)
+                {
+                    Point p = new Point(position.getX() + 1, position.getY() - 2);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(p);
+                }
+              
+                if (position.getX() > 0)
+                {
+                    Point p = new Point(position.getX() - 1, position.getY() - 2);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(p);
+                }
+               
+            }
+            if (position.getY() < 6)
+            {
+                if (position.getX() < 7)
+                {
+                    Point p = new Point(position.getX() + 1, position.getY() + 2);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(p);
+                }
+              
+                if (position.getX() > 0)
+                {
+                    Point p = new Point(position.getX() - 1, position.getY() + 2);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(p);
+                }
+                
+            }
+            return legalMoves;
+                  
+        }
+        public override String getPiece()
+        {
+            return isWhite ? "n" : "N";
         }
     }
 }

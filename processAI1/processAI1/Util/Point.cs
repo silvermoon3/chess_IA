@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace processAI1
 {
-    class Position
+    public class Point
     {
         int x;
         int y;
 
-        public Position(int _x, int _y)
+        public Point(int _x, int _y)
         {
             this.x = _x;
             this.y = _y;
@@ -25,6 +25,11 @@ namespace processAI1
         public int getY()
         {
             return this.y;
+        }
+
+        public Boolean validPosition()
+        {
+            return this.x >= 0 && this.x <= 7 && this.y >= 0 && this.y <= 7;
         }
 
     }

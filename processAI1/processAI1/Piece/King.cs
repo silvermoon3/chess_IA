@@ -4,63 +4,114 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace processAI1
+namespace processAI1.Piece
 {
     class King : Piece
     {
-        public King(colorPlayer colorPlayer): base(colorPlayer) { }
-
-        override
-        public List<Position> getPossibleMoves(Position currentPosition, Square[,] board)
-        {
-            return allLegalMoves(currentPosition, board);
-        }
         
-
-        public List<Position> allLegalMoves(Position currentPosition, Square[,] board)
+        public King(int x, int y, Boolean isWhite): base(x,y,isWhite)
         {
-            List<Position> legalMoves = new List<Position>();
-            //up
-            legalMoves.Add(new Position(currentPosition.getX(), currentPosition.getY() + 1));
 
-            //upRight
-            legalMoves.Add(new Position(currentPosition.getX() + 1, currentPosition.getY() + 1));
+        }
 
-            //upLeft
-            legalMoves.Add(new Position(currentPosition.getX() - 1, currentPosition.getY() + 1));
+        public override List<Point> getPossibleMoves(Belief belief)
+        {
+            List<Point> legalMoves = new List<Point>();
 
-            //down
-            legalMoves.Add(new Position(currentPosition.getX(), currentPosition.getY() - 1));
+            // Right and left
+           
+            int left = (int)position.getX() - 1 > 0 ? (int)position.getX() - 1 : 0;
+            int right = (int)position.getX() + 1 < 7 ? (int)position.getX() + 1 : 7;
 
-            //downRight
-            legalMoves.Add(new Position(currentPosition.getX() + 1, currentPosition.getY() - 1));
+            for (int i = (int)position.getX() - 1; i >= left; i--)
+            {
+                Point p = new Point(i, position.getY());
+                if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    legalMoves.Add(p);
+                break;
+            }
+            for (int i = (int)position.getX() + 1; i <= right; i++)
+            {
+                Point p = new Point(i, position.getY());
+                if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    legalMoves.Add(p);
+                break;
+            }
 
-            //downLeft
-            legalMoves.Add(new Position(currentPosition.getX() - 1, currentPosition.getY() - 1));
+            // Up and down
+            int up = (int)position.getY() + 1 < 7 ? (int)position.getY() + 1 : 7;
+            int down = (int)position.getY() - 1 > 0 ? (int)position.getY() - 1 : 0;
+            for (int i = (int)position.getY() + 1; i <= up; i++)
+            {
 
-            //right
-            legalMoves.Add(new Position(currentPosition.getX() + 1, currentPosition.getY()));
+                Point p = new Point(position.getX(), i);
+                if (belief.isOccupied(p))
+                {
+                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    {
+                        legalMoves.Add(p);
+                        break;
+                    }
+                    break;
+                }
+                else
+                {
+                    legalMoves.Add(p);
+                }
 
-            //left
-            legalMoves.Add(new Position(currentPosition.getX() - 1, currentPosition.getY()));
+              
 
-            foreach (Position p in legalMoves)
-                if (ocuppiedOrOnPath(currentPosition, p, board))
-                    legalMoves.Remove(p);
+            }
+            for (int i = (int)position.getY() - 1; i >= down; i--)
+            {
+
+                Point p = new Point(position.getX(), i);
+                if (belief.isOccupied(p))
+                {
+                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    {
+                        legalMoves.Add(p);
+                        break;
+                    }
+                    break;
+                }
+                else
+                {
+                    legalMoves.Add(p);
+                }
+
+            }
+
+
+            //diagonales
+            Point rightUp = new Point(position.getX() + 1, position.getY() + 1);
+            Point rightDown = new Point(position.getX() + 1, position.getY() - 1);
+            Point leftUp = new Point(position.getX() - 1, position.getY() + 1);
+            Point leftDown = new Point(position.getX() - 1, position.getY() - 1);
+
+            if (rightUp.validPosition() && !belief.isOccupiedWithMyPiece(rightUp, isWhite))
+            {
+                legalMoves.Add(rightUp);
+            }
+            if (rightDown.validPosition() && !belief.isOccupiedWithMyPiece(rightDown, isWhite))
+            {
+                legalMoves.Add(rightDown);
+            }
+            if (leftUp.validPosition() && !belief.isOccupiedWithMyPiece(leftUp, isWhite))
+            {
+                legalMoves.Add(leftUp);
+            }
+            if (leftDown.validPosition() && !belief.isOccupiedWithMyPiece(leftDown, isWhite))
+            {
+                legalMoves.Add(leftDown);
+            }
 
             return legalMoves;
-
         }
-
-
-        override
-        public Boolean ocuppiedOrOnPath(Position currentPosition, Position destinations, Square[,] board)
+        public override String getPiece()
         {
-            //check if there is no piece on the destination
-            return Belief.isOccupied(destinations);
-          
+            return isWhite ? "k" : "K";
         }
-
 
     }
 }

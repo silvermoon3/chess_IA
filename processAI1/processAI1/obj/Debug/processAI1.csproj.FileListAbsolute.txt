@@ -21,3 +21,9 @@ D:\Logiciels développés\[2017-06-30] - Échecs\processAI1\processAI1\obj\Debug
 D:\Logiciels développés\[2017-06-30] - Échecs\processAI1\processAI1\bin\Debug\processAI1.exe
 D:\Logiciels développés\[2017-06-30] - Échecs\processAI1\processAI1\bin\Debug\processAI1.pdb
 D:\Logiciels développés\[2017-06-30] - Échecs\processAI1\processAI1\obj\Debug\processAI1.csprojResolveAssemblyReference.cache
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\processAI1\bin\Debug\processAI1.exe.config
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\processAI1\bin\Debug\processAI1.exe
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\processAI1\bin\Debug\processAI1.pdb
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\processAI1\obj\Debug\processAI1.csprojResolveAssemblyReference.cache
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\processAI1\obj\Debug\processAI1.exe
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\processAI1\obj\Debug\processAI1.pdb

@@ -4,47 +4,63 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace processAI1
+namespace processAI1.Piece
 {
     class Pawn: Piece
     {
-        Boolean firstMove = true;
-       
-        public Pawn(colorPlayer colorPlayer): base(colorPlayer) { }
-        override
-       public List<Position> getPossibleMoves(Position currentPosition, Square[,] board)
+        Boolean moved;
+
+        public Pawn(int x, int y, bool _isWhite = true):base(x,y,_isWhite){ }
+
+        public override List<Point> getPossibleMoves(Belief belief)
         {
-            List<Position> legalMoves = new List<Position>();
-            if (firstMove)
+            List<Point> legalMoves = new List<Point>();
+            int oneStep = isWhite ? 1 : -1;
+            int twoStep = isWhite ? 2 : -2;
+            if (!belief.isOccupied(position.getX(), position.getY() + oneStep))
             {
-                //We can jump 2 case
-                legalMoves.Add(new Position(currentPosition.getX(), currentPosition.getY()+2));
-
+                legalMoves.Add(new Point(position.getX(), position.getY() + oneStep));
+                if (isFirstMove && !belief.isOccupied(position.getX(), position.getY() + twoStep))
+                    legalMoves.Add(new Point(position.getX(), position.getY() + twoStep));
             }
-            //Only one case
-            legalMoves.Add(new Position(currentPosition.getX(), currentPosition.getY() + 1));
 
-            foreach (Position pos in legalMoves)
-                if (!ocuppiedOrOnPath(currentPosition, pos, board))
-                    legalMoves.Remove(pos);
-
-            Position positionUpRight = new Position(currentPosition.getX() + 1, currentPosition.getY() + 1);
-            if (ocuppiedOrOnPath(currentPosition, positionUpRight, board))
-                legalMoves.Add(positionUpRight);
-
-            Position positionUpLeft = new Position(currentPosition.getX() + 1, currentPosition.getY() + 1);
-            if (ocuppiedOrOnPath(currentPosition, positionUpLeft, board))
-                legalMoves.Add(positionUpLeft);
-
-
-
-
-            return null;
+            getPawnAttack(ref legalMoves, belief);
+            return legalMoves;
         }
-        override
-        public Boolean ocuppiedOrOnPath(Position currentPosition, Position desination, Square[,] board)
+
+        private void getPawnAttack(ref List<Point> legalMoves, Belief belief)
         {
-            return false;
+            int offset = isWhite ? 1 : 1;
+            Point right = new Point(position.getX() + 1, position.getY() + offset);
+            Point left = new Point(position.getX() - 1, position.getY() + offset);
+            
+                if (right.validPosition())
+                {
+                    if (belief.isOccupied(right))
+                    {
+                        if (!belief.isOccupiedWithMyPiece(right, isWhite))
+                        {
+                            legalMoves.Add(right);
+                        }
+                    }
+                }
+            
+           
+                if (left.validPosition())
+                {
+                    if (belief.isOccupied(left))
+                    {
+                         if (!belief.isOccupiedWithMyPiece(left, isWhite))
+                        {
+                        legalMoves.Add(left);
+                         }
+                    }
+                }
+            
+        }
+        public override String getPiece()
+        {
+            return isWhite ? "p" : "P";
         }
 
     }

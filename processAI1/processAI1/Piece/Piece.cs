@@ -4,19 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace processAI1
+namespace processAI1.Piece
 {
-    abstract class Piece
+    public abstract class Piece
     {
-        colorPlayer colorPlayer;
-        public Piece(colorPlayer _colorPlayer)
+        public bool isWhite { get; set; }
+        protected Point position { get; set; }
+        protected bool isFirstMove { get; set; }
+        
+        public Piece(int x, int y, bool _isWhite = true)
         {
-            this.colorPlayer = _colorPlayer;
-            //info = InfoPiece.GetInfo(joueur.couleur, type);
-
+            position = new Point(x, y);
+            isWhite = _isWhite;
+            isFirstMove = true;
         }
-        public abstract List<Position> getPossibleMoves(Position currentPosition, Square[,] board);
-        public abstract Boolean ocuppiedOrOnPath(Position currentPosition, Position desination, Square[,] board);
 
+        public virtual List<Point> getPossibleMoves(Belief belief)
+        {
+            return new List<Point>();
+        }
+                   
+        public virtual String getPiece()
+        {
+            return "";
+        }
+       
     }
 }
