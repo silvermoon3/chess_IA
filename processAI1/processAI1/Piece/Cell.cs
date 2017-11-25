@@ -8,19 +8,27 @@ namespace processAI1.Piece
 {
     public class Cell
     {
-        public Piece Piece;
-        public Point Position;
+        private Piece piece;
+        private Point position;
+        public bool isOccupied { get; set; }
 
         public Cell(Piece _piece, Point _position)
         {
-            Piece = _piece;
-            Position = _position;
+            piece = _piece;
+            position = _position;
+            isOccupied = _piece != null;            
 
         }
 
         public Piece getPiece()
         {
-            return Piece;
+            return piece;
         }
+        public Point getPosition()
+        {
+            return position;
+        }
+
+        
     }
 }

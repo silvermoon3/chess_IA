@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Threading;
+using processAI1.Agent;
 
 namespace processAI1
 {
@@ -30,8 +31,8 @@ namespace processAI1
                                                    "a3","b3","c3","d3","e3","f3","g3","h3",
                                                    "a2","b2","c2","d2","e2","f2","g2","h2",
                                                    "a1","b1","c1","d1","e1","f1","g1","h1" };
-                Agent a = new Agent();
-                a.doWork();
+                Agent.Agent a = new Agent.Agent();
+               
                 while (!stop)
                 {
                     using (var mmf = MemoryMappedFile.OpenExisting("plateau"))
@@ -40,9 +41,9 @@ namespace processAI1
                         {
                             Mutex mutexStartAI1 = Mutex.OpenExisting("mutexStartAI1");
                             Mutex mutexAI1 = Mutex.OpenExisting("mutexAI1");
-                            //mutexAI1.WaitOne();
-                            
+                            mutexAI1.WaitOne();                            
                             mutexStartAI1.WaitOne();
+                        
 
                             using (var accessor = mmf.CreateViewAccessor())
                             {
@@ -63,31 +64,34 @@ namespace processAI1
                             }
                             if (!stop)
                             {
-                                
                                 /******************************************************************************************************/
                                 /***************************************** ECRIRE LE CODE DE L'IA *************************************/
                                 /******************************************************************************************************/
 
-                                List<String> mesPieces = new List<String>();
+                                List<String> mesPieces = new List<String>();                            
                                 for (int i = 0; i < tabVal.Length; i++)
                                 {
-                                    if (tabVal[i] > 0) mesPieces.Add(tabCoord[i]);
+                                    if (tabVal[i] > 0) mesPieces.Add(tabCoord[i]);     
                                 }
 
                                 List<String> reste = new List<String>();
+                                List<Piece.Piece> restePieces = new List<Piece.Piece>();
                                 for (int i = 0; i < tabVal.Length; i++)
                                 {
                                     if (tabVal[i] <= 0) reste.Add(tabCoord[i]);
                                 }
 
+                                a.getEffector().setTabVal(tabVal);
+                                a.doWork();
                                 Random rnd = new Random();
-                                coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
-                                //coord[0] = "b7";
-                                //coord[1] = "b8";
-                                coord[1] = tabCoord[rnd.Next(reste.Count)];
+                                // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
+                                String[] result = a.getBestMove();
+                                coord[0] = result[0];
+                                coord[1] = result[1];
+                                //coord[1] = tabCoord[rnd.Next(reste.Count)];
                                 //coord[2] = "P";
 
-                                
+
                                 /********************************************************************************************************/
                                 /********************************************************************************************************/
                                 /********************************************************************************************************/

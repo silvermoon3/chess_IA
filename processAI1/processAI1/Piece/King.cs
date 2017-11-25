@@ -13,10 +13,14 @@ namespace processAI1.Piece
         {
 
         }
-
-        public override List<Point> getPossibleMoves(Belief belief)
+        public King(String pos, bool _isWhite = true): base(pos, _isWhite)
         {
-            List<Point> legalMoves = new List<Point>();
+
+        }
+
+        public override List<Move> getPossibleMoves(Belief belief)
+        {
+            List<Move> legalMoves = new List<Move>();
 
             // Right and left
            
@@ -27,14 +31,14 @@ namespace processAI1.Piece
             {
                 Point p = new Point(i, position.getY());
                 if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    legalMoves.Add(p);
+                    legalMoves.Add(new Move(position,p));
                 break;
             }
             for (int i = (int)position.getX() + 1; i <= right; i++)
             {
                 Point p = new Point(i, position.getY());
                 if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    legalMoves.Add(p);
+                    legalMoves.Add(new Move(position, p));
                 break;
             }
 
@@ -49,14 +53,14 @@ namespace processAI1.Piece
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
                     {
-                        legalMoves.Add(p);
+                        legalMoves.Add(new Move(position, p));
                         break;
                     }
                     break;
                 }
                 else
                 {
-                    legalMoves.Add(p);
+                    legalMoves.Add(new Move(position, p));
                 }
 
               
@@ -70,14 +74,14 @@ namespace processAI1.Piece
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
                     {
-                        legalMoves.Add(p);
+                        legalMoves.Add(new Move(position, p));
                         break;
                     }
                     break;
                 }
                 else
                 {
-                    legalMoves.Add(p);
+                    legalMoves.Add(new Move(position, p));
                 }
 
             }
@@ -91,22 +95,55 @@ namespace processAI1.Piece
 
             if (rightUp.validPosition() && !belief.isOccupiedWithMyPiece(rightUp, isWhite))
             {
-                legalMoves.Add(rightUp);
+                legalMoves.Add(new Move(position,rightUp));
             }
             if (rightDown.validPosition() && !belief.isOccupiedWithMyPiece(rightDown, isWhite))
             {
-                legalMoves.Add(rightDown);
+                legalMoves.Add(new Move(position, rightDown));
             }
             if (leftUp.validPosition() && !belief.isOccupiedWithMyPiece(leftUp, isWhite))
             {
-                legalMoves.Add(leftUp);
+                legalMoves.Add(new Move(position, leftUp));
             }
             if (leftDown.validPosition() && !belief.isOccupiedWithMyPiece(leftDown, isWhite))
             {
-                legalMoves.Add(leftDown);
+                legalMoves.Add(new Move(position, leftDown));
             }
+            getRoque(belief, ref legalMoves);
 
             return legalMoves;
+        }
+
+        private void getRoque(Belief belief, ref List<Move> legalMoves)
+        {
+            if (isWhite)
+            {
+                //petit roque
+                if (isFirstMove && !belief.isOccupied(5,0) && !belief.isOccupied(6, 0) && belief.getCase(7,0).getPiece() is Rook && belief.getCase(7, 0).getPiece().isFirstMove)
+                {
+                    legalMoves.Add(new Move(position, new Point(6,0)));
+                }
+                //grand roque
+                if (isFirstMove && !belief.isOccupied(1, 0) && !belief.isOccupied(2, 0) && !belief.isOccupied(3, 0) && belief.getCase(1, 0).getPiece() is Rook && belief.getCase(1, 0).getPiece().isFirstMove)
+                {
+                    legalMoves.Add(new Move(position, new Point(2, 0)));
+                }
+            }
+            else
+            {
+                //petit roque
+                if (isFirstMove && !belief.isOccupied(5, 7) && !belief.isOccupied(6, 7) && belief.getCase(7, 7).getPiece() is Rook && belief.getCase(7, 7).getPiece().isFirstMove)
+                {
+                    legalMoves.Add(new Move(position, new Point(6, 7)));
+                }
+                //grand roque
+                if (isFirstMove && !belief.isOccupied(1, 7) && !belief.isOccupied(2, 7) && !belief.isOccupied(3, 7) && belief.getCase(1, 7).getPiece() is Rook && belief.getCase(1, 7).getPiece().isFirstMove)
+                {
+                    legalMoves.Add(new Move(position, new Point(2, 7)));
+                }
+
+            }
+           
         }
         public override String getPiece()
         {

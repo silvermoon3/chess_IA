@@ -9,54 +9,58 @@ namespace processAI1
 {
     public class Belief
     {
-        Cell[,] board;
+        Cell[,] board = new Cell[8, 8];
+        List<Piece.Piece> myPieces = new List<Piece.Piece>();
         
         public Belief()
         {
-            board = new Cell[8, 8];
+            
+        }
+                       
+        public void Update(Cell[,] _board )
+        {
+            board = _board;    
+        }
+        
+        public Boolean isOccupied(Point p)
+        {
+            return board[p.getX(), p.getY()].isOccupied;
         }
 
-        public  Cell getCase(int colonne, int rangee)
+        public Boolean isOccupied(int x, int y)
         {
-            return board[colonne, rangee];
-        }
-        public  Cell getCase(Point position)
-        {
-            return board[position.getX() , position.getY()];
-        }
-               
-        public  void Update(Cell[,] newBoard)
-        {
-            board = newBoard;
+            return board[x,y].isOccupied;
         }
 
-        public  Boolean isOccupied(Point position)
+        public Boolean isOccupiedWithMyPiece(Point p, Boolean isWhite)
         {
-            return board[position.getX(), position.getY()].getPiece() != null;
-        }
-
-        public  Boolean isOccupied(int colonne, int rangee)
-        {
-            return board[colonne, rangee].getPiece() != null;
-        }
-
-        public  Boolean isOccupiedWithMyPiece(int colonne, int rangee, bool isWhite)
-        {
-            if (isOccupied(colonne, rangee))
-                return getCase(colonne, rangee).getPiece().isWhite == isWhite;
-
-            return false;          
-
-        }
-
-        public  Boolean isOccupiedWithMyPiece(Point position, bool isWhite)
-        {
-            if (isOccupied(position))
-                return getCase(position).getPiece().isWhite == isWhite;
-
+            if(isOccupied(p.getX(), p.getY()))
+                 return board[p.getX(), p.getY()].getPiece().isWhite == isWhite;
             return false;
-
-
         }
+
+        public Cell getCase(int x, int y)
+        {
+            return board[x, y];
+        }
+
+        public List<Move> getPossibleMoves()
+        {
+            List<Move> moves = new List<Move>();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                    if (board[i, j].isOccupied)
+                        if (board[i, j].getPiece().isWhite && (board[i, j].getPiece() is Knight || board[i, j].getPiece() is Bishop))
+                            moves.AddRange(board[i, j].getPiece().getPossibleMoves(this));
+            }
+
+            return moves;
+        }
+
+
+
+
+
     }
 }

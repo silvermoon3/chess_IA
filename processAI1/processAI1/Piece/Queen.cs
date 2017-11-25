@@ -12,8 +12,12 @@ namespace processAI1.Piece
         {
 
         }
-    
-        public override List<Point> getPossibleMoves(Belief belief)
+        public Queen(String pos, bool _isWhite = true): base(pos, _isWhite)
+        {
+
+        }
+
+        public override List<Move> getPossibleMoves(Belief belief)
         {
             Rook r = new Rook(position.getX(), position.getY(), isWhite);
             Bishop b = new Bishop(position.getX(), position.getY(), isWhite);

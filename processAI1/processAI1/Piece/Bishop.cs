@@ -12,89 +12,83 @@ namespace processAI1.Piece
         {
 
         }
-        public override List<Point> getPossibleMoves(Belief belief)
+        public Bishop(String pos, bool _isWhite = true): base(pos, _isWhite)
         {
-            List<Point> legalMoves = new List<Point>();
-            for (int i = (int)position.getY() - 1, step = 1; step + position.getX() <= 7 && step <= 8 && i >= 0; step++, i--)
+           
+        }
+        public override List<Move> getPossibleMoves(Belief belief)
+        {
+            List<Move> legalMoves = new List<Move>();
+            if (position.getX() - 2 >= 0)
             {
-                Point p = new Point(position.getX() + step, i);
-                if (belief.isOccupied(p))
+                if (position.getY() < 7)
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    {
-                        legalMoves.Add(p);
-                        break;
-                    }
-                    break;
+                    Point p = new Point(position.getX() - 2, position.getY() + 1);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
                 }
-                else
+                if (position.getY() > 0)
                 {
-                    legalMoves.Add(p);
+                    Point p = new Point(position.getX() - 2, position.getY() - 1);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
                 }
-
-                
-            }
-            for (int i = (int)position.getY() - 1, step = 1; position.getX() - step >= 0 && step <= 8 && i >= 0; step++, i--)
-            {
-                Point p = new Point(position.getX() - step, i);
-                if (belief.isOccupied(p))
-                {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    {
-                        legalMoves.Add(p);
-                        break;
-                    }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(p);
-                }
-
-               
-            }
-            for (int i = (int)position.getY() + 1, step = 1; step + position.getX() <= 7 && step <= 8 && i < 8; step++, i++)
-            {
-                Point p = new Point(position.getX() + step, i);
-                if (belief.isOccupied(p))
-                {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    {
-                        legalMoves.Add(p);
-                        break;
-                    }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(p);
-                }
-
-                
 
             }
-            for (int i = (int)position.getY() + 1, step = 1; position.getX() - step >= 0 && step <= 8 && i < 8; step++, i++)
+            if (position.getX() < 6)
             {
-                Point p = new Point(position.getX() - step, i);
-                if (belief.isOccupied(p))
+                if (position.getY() < 7)
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    {
-                        legalMoves.Add(p);
-                        break;
-                    }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(p);
+                    Point p = new Point(position.getX() + 2, position.getY() + 1);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
                 }
 
-               
+                if (position.getY() > 0)
+                {
+                    Point p = new Point(position.getX() + 2, position.getY() - 1);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
+                }
+
 
             }
+            if (position.getY() - 2 >= 0)
+            {
+                if (position.getX() < 7)
+                {
+                    Point p = new Point(position.getX() + 1, position.getY() - 2);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
+                }
 
+                if (position.getX() > 0)
+                {
+                    Point p = new Point(position.getX() - 1, position.getY() - 2);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
+                }
+
+            }
+            if (position.getY() < 6)
+            {
+                if (position.getX() < 7)
+                {
+                    Point p = new Point(position.getX() + 1, position.getY() + 2);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
+                }
+
+                if (position.getX() > 0)
+                {
+                    Point p = new Point(position.getX() - 1, position.getY() + 2);
+                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
+                }
+
+            }
             return legalMoves;
+
         }
 
         public override String getPiece()

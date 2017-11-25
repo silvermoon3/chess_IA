@@ -11,24 +11,32 @@ namespace processAI1.Piece
         Boolean moved;
 
         public Pawn(int x, int y, bool _isWhite = true):base(x,y,_isWhite){ }
-
-        public override List<Point> getPossibleMoves(Belief belief)
+        public Pawn(String pos, bool _isWhite = true): base(pos, _isWhite)
         {
-            List<Point> legalMoves = new List<Point>();
+
+        }
+        public override List<Move> getPossibleMoves(Belief belief)
+        {
+            List<Move> legalMoves = new List<Move>();
             int oneStep = isWhite ? 1 : -1;
             int twoStep = isWhite ? 2 : -2;
-            if (!belief.isOccupied(position.getX(), position.getY() + oneStep))
+            Point p = new Point(position.getX(), position.getY() + oneStep);
+            if (!belief.isOccupied(p))
             {
-                legalMoves.Add(new Point(position.getX(), position.getY() + oneStep));
+                legalMoves.Add(new Move(position, p));
                 if (isFirstMove && !belief.isOccupied(position.getX(), position.getY() + twoStep))
-                    legalMoves.Add(new Point(position.getX(), position.getY() + twoStep));
+                {                   
+                    legalMoves.Add(new Move(position, new Point(position.getX(), position.getY() + twoStep)));
+
+                }
+                   
             }
 
             getPawnAttack(ref legalMoves, belief);
             return legalMoves;
         }
 
-        private void getPawnAttack(ref List<Point> legalMoves, Belief belief)
+        private void getPawnAttack(ref List<Move> legalMoves, Belief belief)
         {
             int offset = isWhite ? 1 : 1;
             Point right = new Point(position.getX() + 1, position.getY() + offset);
@@ -40,7 +48,7 @@ namespace processAI1.Piece
                     {
                         if (!belief.isOccupiedWithMyPiece(right, isWhite))
                         {
-                            legalMoves.Add(right);
+                            legalMoves.Add(new Move(position, right));
                         }
                     }
                 }
@@ -52,7 +60,7 @@ namespace processAI1.Piece
                     {
                          if (!belief.isOccupiedWithMyPiece(left, isWhite))
                         {
-                        legalMoves.Add(left);
+                        legalMoves.Add(new Move(position, left));
                          }
                     }
                 }
