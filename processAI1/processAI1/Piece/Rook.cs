@@ -1,4 +1,5 @@
-﻿using System;
+﻿using processAI1.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace processAI1.Piece
 
         }
 
-        public override List<Move> getPossibleMoves(Belief belief)
+        public override List<Move> getPossibleMoves(ChessBoard game)
         {
             List<Move> legalMoves = new List<Move>();
             int left = (int)position.getX() - 8 > 0 ? (int)position.getX() - 8 : 0;
@@ -26,9 +27,9 @@ namespace processAI1.Piece
             for (int i = (int)position.getX() - 1; i >= left; i--)
             {
                 Point p = new Point(i, position.getY());
-                if (belief.isOccupied(p))
+                if (game.isOccupied(p))
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    if (!game.isOccupiedWithMyPiece(p, isWhite))
                     {
                         legalMoves.Add(new Move(position, p));
                         break;
@@ -44,9 +45,9 @@ namespace processAI1.Piece
             for (int i = (int)position.getX() + 1; i <= right; i++)
             {
                 Point p = new Point(i, position.getY());
-                if (belief.isOccupied(p))
+                if (game.isOccupied(p))
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    if (!game.isOccupiedWithMyPiece(p, isWhite))
                     {
                         legalMoves.Add(new Move(position, p));
                         break;
@@ -68,9 +69,9 @@ namespace processAI1.Piece
             {
                 
                 Point p = new Point(position.getX(), i);
-                if (belief.isOccupied(p))
+                if (game.isOccupied(p))
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    if (!game.isOccupiedWithMyPiece(p, isWhite))
                     {
                         legalMoves.Add(new Move(position, p));
                         break;
@@ -89,9 +90,9 @@ namespace processAI1.Piece
             {
                 
                 Point p = new Point(position.getX(), i);
-                if (belief.isOccupied(p))
+                if (game.isOccupied(p))
                 {
-                    if(!belief.isOccupiedWithMyPiece(p, isWhite))
+                    if(!game.isOccupiedWithMyPiece(p, isWhite))
                     {
                         legalMoves.Add(new Move(position, p));
                         break;

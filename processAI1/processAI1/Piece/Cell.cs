@@ -29,6 +29,12 @@ namespace processAI1.Piece
             return position;
         }
 
-        
+        public void setPiece(Piece piece)
+        {
+            this.piece = piece;
+            isOccupied = piece != null;
+        }
+
+      
     }
 }

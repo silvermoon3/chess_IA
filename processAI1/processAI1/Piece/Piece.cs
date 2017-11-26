@@ -1,4 +1,5 @@
-﻿using System;
+﻿using processAI1.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,7 @@ namespace processAI1.Piece
             isFirstMove = true;
         }
 
-        public virtual List<Move> getPossibleMoves(Belief belief)
+        public virtual List<Move> getPossibleMoves(ChessBoard game)
         {
             return new List<Move>();
         }
@@ -40,6 +41,11 @@ namespace processAI1.Piece
         public void setPosition(Point _newPosition)
         {
             this.position = _newPosition;
+        }
+
+        public Point getPosition()
+        {
+            return position;
         }
     }
 }

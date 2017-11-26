@@ -1,4 +1,5 @@
-﻿using System;
+﻿using processAI1.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,16 +16,16 @@ namespace processAI1.Piece
         {
 
         }
-        public override List<Move> getPossibleMoves(Belief belief)
+        public override List<Move> getPossibleMoves(ChessBoard game)
         {
             List<Move> legalMoves = new List<Move>();
             int oneStep = isWhite ? 1 : -1;
             int twoStep = isWhite ? 2 : -2;
             Point p = new Point(position.getX(), position.getY() + oneStep);
-            if (!belief.isOccupied(p))
+            if (!game.isOccupied(p))
             {
                 legalMoves.Add(new Move(position, p));
-                if (isFirstMove && !belief.isOccupied(position.getX(), position.getY() + twoStep))
+                if (isFirstMove && !game.isOccupied(position.getX(), position.getY() + twoStep))
                 {                   
                     legalMoves.Add(new Move(position, new Point(position.getX(), position.getY() + twoStep)));
 
@@ -32,11 +33,11 @@ namespace processAI1.Piece
                    
             }
 
-            getPawnAttack(ref legalMoves, belief);
+            getPawnAttack(ref legalMoves, game);
             return legalMoves;
         }
 
-        private void getPawnAttack(ref List<Move> legalMoves, Belief belief)
+        private void getPawnAttack(ref List<Move> legalMoves, ChessBoard belief)
         {
             int offset = isWhite ? 1 : 1;
             Point right = new Point(position.getX() + 1, position.getY() + offset);

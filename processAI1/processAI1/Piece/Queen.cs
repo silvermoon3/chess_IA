@@ -1,4 +1,5 @@
-﻿using System;
+﻿using processAI1.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,11 @@ namespace processAI1.Piece
 
         }
 
-        public override List<Move> getPossibleMoves(Belief belief)
+        public override List<Move> getPossibleMoves(ChessBoard game)
         {
             Rook r = new Rook(position.getX(), position.getY(), isWhite);
             Bishop b = new Bishop(position.getX(), position.getY(), isWhite);
-            return r.getPossibleMoves(belief).Union(b.getPossibleMoves(belief)).ToList();
+            return r.getPossibleMoves(game).Union(b.getPossibleMoves(game)).ToList();
            
         }
         public override String getPiece()

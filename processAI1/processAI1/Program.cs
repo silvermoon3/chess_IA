@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Threading;
 using processAI1.Agent;
+using System.Windows.Forms;
 
 namespace processAI1
 {
@@ -17,6 +18,7 @@ namespace processAI1
        
        static void Main(string[] args)
         {
+            
             try
             {
                 bool stop = false;
@@ -33,8 +35,11 @@ namespace processAI1
                                                    "a1","b1","c1","d1","e1","f1","g1","h1" };
                 Agent.Agent a = new Agent.Agent();
                
+
+              
                 while (!stop)
                 {
+                    
                     using (var mmf = MemoryMappedFile.OpenExisting("plateau"))
                     {
                         using(var mmf2 = MemoryMappedFile.OpenExisting("repAI1"))
@@ -112,6 +117,7 @@ namespace processAI1
                             mutexStartAI1.ReleaseMutex();
                         }
                     }
+
                 }
             }
             catch (FileNotFoundException)
@@ -119,6 +125,8 @@ namespace processAI1
                 Console.WriteLine("Memory-mapped file does not exist. Run Process A first.");
                 Console.ReadLine();
             }
+          
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using processAI1.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace processAI1.Piece
 
         }
 
-        public override List<Move> getPossibleMoves(Belief belief)
+        public override List<Move> getPossibleMoves(ChessBoard game)
         {
             List<Move> legalMoves = new List<Move>();
 
@@ -30,14 +31,14 @@ namespace processAI1.Piece
             for (int i = (int)position.getX() - 1; i >= left; i--)
             {
                 Point p = new Point(i, position.getY());
-                if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                if (!game.isOccupiedWithMyPiece(p, isWhite))
                     legalMoves.Add(new Move(position,p));
                 break;
             }
             for (int i = (int)position.getX() + 1; i <= right; i++)
             {
                 Point p = new Point(i, position.getY());
-                if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                if (!game.isOccupiedWithMyPiece(p, isWhite))
                     legalMoves.Add(new Move(position, p));
                 break;
             }
@@ -49,9 +50,9 @@ namespace processAI1.Piece
             {
 
                 Point p = new Point(position.getX(), i);
-                if (belief.isOccupied(p))
+                if (game.isOccupied(p))
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    if (!game.isOccupiedWithMyPiece(p, isWhite))
                     {
                         legalMoves.Add(new Move(position, p));
                         break;
@@ -70,9 +71,9 @@ namespace processAI1.Piece
             {
 
                 Point p = new Point(position.getX(), i);
-                if (belief.isOccupied(p))
+                if (game.isOccupied(p))
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
+                    if (!game.isOccupiedWithMyPiece(p, isWhite))
                     {
                         legalMoves.Add(new Move(position, p));
                         break;
@@ -93,28 +94,28 @@ namespace processAI1.Piece
             Point leftUp = new Point(position.getX() - 1, position.getY() + 1);
             Point leftDown = new Point(position.getX() - 1, position.getY() - 1);
 
-            if (rightUp.validPosition() && !belief.isOccupiedWithMyPiece(rightUp, isWhite))
+            if (rightUp.validPosition() && !game.isOccupiedWithMyPiece(rightUp, isWhite))
             {
                 legalMoves.Add(new Move(position,rightUp));
             }
-            if (rightDown.validPosition() && !belief.isOccupiedWithMyPiece(rightDown, isWhite))
+            if (rightDown.validPosition() && !game.isOccupiedWithMyPiece(rightDown, isWhite))
             {
                 legalMoves.Add(new Move(position, rightDown));
             }
-            if (leftUp.validPosition() && !belief.isOccupiedWithMyPiece(leftUp, isWhite))
+            if (leftUp.validPosition() && !game.isOccupiedWithMyPiece(leftUp, isWhite))
             {
                 legalMoves.Add(new Move(position, leftUp));
             }
-            if (leftDown.validPosition() && !belief.isOccupiedWithMyPiece(leftDown, isWhite))
+            if (leftDown.validPosition() && !game.isOccupiedWithMyPiece(leftDown, isWhite))
             {
                 legalMoves.Add(new Move(position, leftDown));
             }
-            getRoque(belief, ref legalMoves);
+            getRoque(game, ref legalMoves);
 
             return legalMoves;
         }
 
-        private void getRoque(Belief belief, ref List<Move> legalMoves)
+        private void getRoque(ChessBoard belief, ref List<Move> legalMoves)
         {
             if (isWhite)
             {

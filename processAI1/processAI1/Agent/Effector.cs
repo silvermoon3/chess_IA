@@ -34,15 +34,15 @@ namespace processAI1
                 if (Math.Abs(tabVal[i]) == 21)
                     board[p.getX(), p.getY()] = new Cell(new Rook(p.getX(), p.getY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 31)
-                    board[p.getX(), p.getY()] = new Cell(new Bishop(p.getX(), p.getY(), isWhite), p);
-                else if (Math.Abs(tabVal[i]) == 4)
                     board[p.getX(), p.getY()] = new Cell(new Knight(p.getX(), p.getY(), isWhite), p);
+                else if (Math.Abs(tabVal[i]) == 4)
+                    board[p.getX(), p.getY()] = new Cell(new Bishop(p.getX(), p.getY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 5)
                     board[p.getX(), p.getY()] = new Cell(new Queen(p.getX(), p.getY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 6)
                     board[p.getX(), p.getY()] = new Cell(new King(p.getX(), p.getY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 32)
-                    board[p.getX(), p.getY()] = new Cell(new Bishop(p.getX(), p.getY(), isWhite), p);
+                    board[p.getX(), p.getY()] = new Cell(new Knight(p.getX(), p.getY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 22)
                     board[p.getX(), p.getY()] = new Cell(new Rook(p.getX(), p.getY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 1)
