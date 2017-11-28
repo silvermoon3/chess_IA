@@ -10,7 +10,8 @@ namespace processAI1.Agent
     {
 
         Belief belief;
-        Effector effector;  
+        Effector effector;
+        private Boolean isWhite;
                       
         public Agent()
         {
@@ -21,7 +22,7 @@ namespace processAI1.Agent
         }
         public void doWork()
         {
-            updateBelief(effector.getBoard());
+            updateBelief();
            // belief.getChessBoard().Show();
            // think();
 
@@ -35,9 +36,9 @@ namespace processAI1.Agent
             return effector;
         }
 
-        public void updateBelief(Cell[,] board)
+        public void updateBelief()
         {
-            belief.Update(board);
+            belief.Update(effector);
         }
 
         public void think()
@@ -55,24 +56,41 @@ namespace processAI1.Agent
 
         public String[] getBestMove()
         {
-            //String[] coord = new String[2];
-            //Random rnd = new Random();
-            //// coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
-            //List<Move> moves = belief.getPossibleMoves();
-            //Move randomMove = moves.ElementAt(rnd.Next(moves.Count));
-            //coord[0] = randomMove.getInitialPosition().ToString();
-            //coord[1] = randomMove.getFinalPosition().ToString();
-
-            MiniMax algo = new MiniMax();
-            Move move = algo.getBestMove(belief.getChessBoard(), 3);
             String[] coord = new String[2];
-            coord[0] = move.getInitialPosition().ToString();
-            coord[1] = move.getFinalPosition().ToString();
-            return coord;
+            Random rnd = new Random();
+            //// coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
+            List<Move> moves = belief.getPossibleMoves();
+            if(moves.Count != 0)
+            {
+                Move randomMove = moves.ElementAt(rnd.Next(moves.Count));
+                coord[0] = randomMove.getInitialPosition().ToString();
+                coord[1] = randomMove.getFinalPosition().ToString();
+                Console.WriteLine("coup : " + coord[0] + " " + coord[1]);
+                belief.updatePiecePosition(randomMove.getFinalPosition(), randomMove.getInitialPosition());
+            }
+            
+            //MiniMax algo = new MiniMax();
+            //Move move = algo.getBestMove(belief.getChessBoard(), 3);
+            //String[] coord = new String[2];
+            //if (!move.IWantARoque())
+            //{
+            //    belief.updatePiecePosition(move.getFinalPosition(), move.getInitialPosition());
+            //    coord[0] = move.getInitialPosition().ToString();
+            //    coord[1] = move.getFinalPosition().ToString();
+              
+            //}
+            //else
+            //{
+            //    coord[0] = move.getRoque();
+            //    //Update piece position for a roque
+            //}
+            
+              return coord;
         }
 
-       
-
-
+        public void setColor(Boolean _isWhite)
+        {
+            isWhite = _isWhite;
+        }
     }
 }

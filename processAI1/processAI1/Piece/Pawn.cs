@@ -16,6 +16,13 @@ namespace processAI1.Piece
         {
 
         }
+        public Boolean isFirstMove()
+        {
+            if (isWhite)
+                return position.getY() == 1;
+            else
+                return position.getY() == 6;
+        }
         public override List<Move> getPossibleMoves(ChessBoard game)
         {
             List<Move> legalMoves = new List<Move>();
@@ -25,7 +32,7 @@ namespace processAI1.Piece
             if (!game.isOccupied(p))
             {
                 legalMoves.Add(new Move(position, p));
-                if (isFirstMove && !game.isOccupied(position.getX(), position.getY() + twoStep))
+                if (isFirstMove() && !game.isOccupied(position.getX(), position.getY() + twoStep))
                 {                   
                     legalMoves.Add(new Move(position, new Point(position.getX(), position.getY() + twoStep)));
 

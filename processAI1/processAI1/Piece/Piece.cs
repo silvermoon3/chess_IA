@@ -11,13 +11,16 @@ namespace processAI1.Piece
     {
         public bool isWhite { get; set; }
         public Point position { get; set; }
-        public bool isFirstMove { get; set; }
+        private Boolean isFirstMove;
+     
         
         public Piece(int x, int y, bool _isWhite = true)
         {
             position = new Point(x, y);
             isWhite = _isWhite;
             isFirstMove = true;
+
+
         }
       
 
@@ -46,6 +49,16 @@ namespace processAI1.Piece
         public Point getPosition()
         {
             return position;
+        }
+        
+        public Boolean firstMove()
+        {
+            return isFirstMove;
+        }
+     
+        public void setFirstMove(Boolean _firstMove)
+        {
+            this.isFirstMove = _firstMove;
         }
     }
 }

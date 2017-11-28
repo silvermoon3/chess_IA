@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace processAI1
 {
-    public class Point
+    public class Point 
     {
         int x;
         int y;
@@ -47,7 +47,9 @@ namespace processAI1
         {
             String posX = "";
             int newY = y + 1;
-           
+
+            if (y == 9)
+                Console.WriteLine("stop");
             switch (getX())
             {
                 case 0:
@@ -69,6 +71,12 @@ namespace processAI1
 
             }
             return posX + newY;
+        }
+
+    
+        public Boolean equal(Point p)
+        {
+            return this.x == p.getX() && this.y == p.getY();
         }
 
         public Point getPointFromString(String pos)

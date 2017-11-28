@@ -12,34 +12,24 @@ namespace processAI1
     {
         Board.ChessBoard board;
         List<Piece.Piece> myPieces = new List<Piece.Piece>();
-        
+        List<Piece.Piece> otherPieces = new List<Piece.Piece>();
+
         public Belief()
         {
             board = new ChessBoard();
-        }
-                       
-        public void Update(Cell[,] _board )
-        {
-            board.updateBoard(_board);    
-        }
-        
-        public Boolean isOccupied(Point p)
-        {
-            return board.isOccupied(p); ;
+
         }
 
-        public Boolean isOccupied(int x, int y)
-        {
-            return board.isOccupied(x, y);
-        }
+      
 
-        public Boolean isOccupiedWithMyPiece(Point p, Boolean isWhite)
+        public void Update(Effector effector)
         {
-            if(isOccupied(p.getX(), p.getY()))
-                 return board.getCase(p.getX(), p.getY()).getPiece().isWhite == isWhite;
-            return false;
-        }
+            if (myPieces.Count == 0)
+                myPieces = effector.getMyPieces();
+            otherPieces = effector.getOtherPieces();           
+            board.updateChessBoard(myPieces, otherPieces);
 
+        }
        
         public List<Move> getPossibleMoves()
         {
@@ -48,7 +38,7 @@ namespace processAI1
             {
                 for (int j = 0; j < 8; j++)
                     if (board.getCase(i, j).isOccupied)
-                        if (board.getCase(i, j).getPiece().isWhite)
+                        if (board.getCase(i, j).getPiece().isWhite && board.getCase(i, j).getPiece() is Knight)
                             moves.AddRange(board.getCase(i, j).getPiece().getPossibleMoves(board));
             }
 
@@ -58,9 +48,33 @@ namespace processAI1
         {
             return board.getCase(x, y);
         }
+
+        public Cell getCase(Point p)
+        {
+            return board.getCase(p.getX(), p.getY());
+        }
         public ChessBoard getChessBoard()
         {
             return board;
+        }
+
+        public void updatePiecePosition(Point newPos, Point oldPos)
+        {
+            Piece.Piece pieceToChange = myPieces.Find(piece => piece.getPosition().equal(oldPos));
+            if (pieceToChange.firstMove())
+            {
+                pieceToChange.setFirstMove(false);
+            }
+            pieceToChange.setPosition(newPos);
+
+            board.updateChessBoard(myPieces, otherPieces);
+
+            //remove Piece at oldPos
+            //myPieces.RemoveAll(piece => piece.getPosition().equal(oldPos));
+
+            //add Piece at new Pos
+            // myPieces.Add(pieceToChange);
+
         }
     }
 }

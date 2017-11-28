@@ -9,7 +9,7 @@ namespace processAI1.Piece
 {
     class King : Piece
     {
-        
+       
         public King(int x, int y, Boolean isWhite): base(x,y,isWhite)
         {
 
@@ -44,6 +44,7 @@ namespace processAI1.Piece
             }
 
             // Up and down
+          
             int up = (int)position.getY() + 1 < 7 ? (int)position.getY() + 1 : 7;
             int down = (int)position.getY() - 1 > 0 ? (int)position.getY() - 1 : 0;
             for (int i = (int)position.getY() + 1; i <= up; i++)
@@ -57,7 +58,8 @@ namespace processAI1.Piece
                         legalMoves.Add(new Move(position, p));
                         break;
                     }
-                    break;
+                    else
+                        break;
                 }
                 else
                 {
@@ -78,7 +80,8 @@ namespace processAI1.Piece
                         legalMoves.Add(new Move(position, p));
                         break;
                     }
-                    break;
+                    else
+                        break;
                 }
                 else
                 {
@@ -120,27 +123,31 @@ namespace processAI1.Piece
             if (isWhite)
             {
                 //petit roque
-                if (isFirstMove && !belief.isOccupied(5,0) && !belief.isOccupied(6, 0) && belief.getCase(7,0).getPiece() is Rook && belief.getCase(7, 0).getPiece().isFirstMove)
+                if (firstMove() && !belief.isOccupied(5,0) && !belief.isOccupied(6, 0) && belief.getCase(7,0).getPiece() is Rook && belief.getCase(7, 0).getPiece().firstMove())
                 {
-                    legalMoves.Add(new Move(position, new Point(6,0)));
+                    legalMoves.Add(new Move("petit roque"));
+                   // legalMoves.Add(new Move(position, new Point(6,0)));
                 }
                 //grand roque
-                if (isFirstMove && !belief.isOccupied(1, 0) && !belief.isOccupied(2, 0) && !belief.isOccupied(3, 0) && belief.getCase(1, 0).getPiece() is Rook && belief.getCase(1, 0).getPiece().isFirstMove)
+                if (firstMove() && !belief.isOccupied(1, 0) && !belief.isOccupied(2, 0) && !belief.isOccupied(3, 0) && belief.getCase(1, 0).getPiece() is Rook && belief.getCase(1, 0).getPiece().firstMove())
                 {
-                    legalMoves.Add(new Move(position, new Point(2, 0)));
+                    legalMoves.Add(new Move("grand roque"));
+                    //legalMoves.Add(new Move(position, new Point(2, 0)));
                 }
             }
             else
             {
                 //petit roque
-                if (isFirstMove && !belief.isOccupied(5, 7) && !belief.isOccupied(6, 7) && belief.getCase(7, 7).getPiece() is Rook && belief.getCase(7, 7).getPiece().isFirstMove)
+                if (firstMove() && !belief.isOccupied(5, 7) && !belief.isOccupied(6, 7) && belief.getCase(7, 7).getPiece() is Rook && belief.getCase(7, 7).getPiece().firstMove())
                 {
-                    legalMoves.Add(new Move(position, new Point(6, 7)));
+                    legalMoves.Add(new Move("petit roque"));
+                    //legalMoves.Add(new Move(position, new Point(6, 7)));
                 }
                 //grand roque
-                if (isFirstMove && !belief.isOccupied(1, 7) && !belief.isOccupied(2, 7) && !belief.isOccupied(3, 7) && belief.getCase(1, 7).getPiece() is Rook && belief.getCase(1, 7).getPiece().isFirstMove)
+                if (firstMove() && !belief.isOccupied(1, 7) && !belief.isOccupied(2, 7) && !belief.isOccupied(3, 7) && belief.getCase(1, 7).getPiece() is Rook && belief.getCase(1, 7).getPiece().firstMove())
                 {
-                    legalMoves.Add(new Move(position, new Point(2, 7)));
+                    legalMoves.Add(new Move("grand roque"));
+                    //legalMoves.Add(new Move(position, new Point(2, 7)));
                 }
 
             }

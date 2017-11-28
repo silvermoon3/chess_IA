@@ -12,12 +12,21 @@ namespace processAI1.Piece
     {
         private Point initialPosition;
         private Point finalPosition;
+        private bool makeARoque;
+        private String roque;
 
-      
         public Move(Point _initialPosition, Point _finalPosition)
         {
             initialPosition = _initialPosition;
-            finalPosition = _finalPosition;           
+            finalPosition = _finalPosition;
+            makeARoque = false;
+        }
+
+        public Move(String roque)
+        {
+            makeARoque = true;
+            this.roque = roque;
+
         }
         public Move()
         {
@@ -32,8 +41,18 @@ namespace processAI1.Piece
         {
             return finalPosition;
         }
+        public Boolean IWantARoque()
+        {
+            return makeARoque;
+        }
 
-       
+        public String getRoque()
+        {
+            return roque;
+
+        }
+
+
 
 
 

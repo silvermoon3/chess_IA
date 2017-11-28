@@ -18,6 +18,10 @@ namespace processAI1.Agent
             this.move = _move;
             this.value = _value;
         }
+        public Node()
+        {
+            
+        }
 
         public Move getMove()
         {
@@ -26,6 +30,11 @@ namespace processAI1.Agent
         public int getValue()
         {
             return value;
+        }
+
+        public void setValue(int _value)
+        {
+            value = _value;
         }
 
     }

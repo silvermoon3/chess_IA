@@ -20,84 +20,74 @@ namespace processAI1.Piece
         public override List<Move> getPossibleMoves(ChessBoard game)
         {
             List<Move> legalMoves = new List<Move>();
-            for (int i = (int)position.getY() - 1, step = 1; step + position.getX() <= 7 && step <= 8 && i >= 0; step++, i--)
+            if (position.getX() - 2 >= 0)
             {
-                Point p = new Point(position.getX() + step, i);
-                if (game.isOccupied(p))
+                if (position.getY() < 7)
                 {
-                    if (!game.isOccupiedWithMyPiece(p, isWhite))
-                    {
+                    Point p = new Point(position.getX() - 2, position.getY() + 1);
+                    if (p.validPosition() && !game.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
-                        break;
-                    }
-                    break;
                 }
-                else
+                if (position.getY() > 0)
                 {
-                    legalMoves.Add(new Move(position, p));
+                    Point p = new Point(position.getX() - 2, position.getY() - 1);
+                    if (p.validPosition() && !game.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
+                }
 
+            }
+            if (position.getX() < 6)
+            {
+                if (position.getY() < 7)
+                {
+                    Point p = new Point(position.getX() + 2, position.getY() + 1);
+                    if (p.validPosition() && !game.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
+                }
+
+                if (position.getY() > 0)
+                {
+                    Point p = new Point(position.getX() + 2, position.getY() - 1);
+                    if (p.validPosition() && !game.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
                 }
 
 
             }
-            for (int i = (int)position.getY() - 1, step = 1; position.getX() - step >= 0 && step <= 8 && i >= 0; step++, i--)
+            if (position.getY() - 2 >= 0)
             {
-                Point p = new Point(position.getX() - step, i);
-                if (game.isOccupied(p))
+                if (position.getX() < 7)
                 {
-                    if (!game.isOccupiedWithMyPiece(p, isWhite))
-                    {
+                    Point p = new Point(position.getX() + 1, position.getY() - 2);
+                    if (p.validPosition() && !game.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
-                        break;
-                    }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
                 }
 
+                if (position.getX() > 0)
+                {
+                    Point p = new Point(position.getX() - 1, position.getY() - 2);
+                    if (p.validPosition() && !game.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
+                }
 
             }
-            for (int i = (int)position.getY() + 1, step = 1; step + position.getX() <= 7 && step <= 8 && i < 8; step++, i++)
+            if (position.getY() < 6)
             {
-                Point p = new Point(position.getX() + step, i);
-                if (game.isOccupied(p))
+                if (position.getX() < 7)
                 {
-                    if (!game.isOccupiedWithMyPiece(p, isWhite))
-                    {
+                    Point p = new Point(position.getX() + 1, position.getY() + 2);
+                    if (p.validPosition() && !game.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
-                        break;
-                    }
-                    break;
                 }
-                else
+
+                if (position.getX() > 0)
                 {
-                    legalMoves.Add(new Move(position, p));
+                    Point p = new Point(position.getX() - 1, position.getY() + 2);
+                    if (p.validPosition() && !game.isOccupiedWithMyPiece(p, isWhite))
+                        legalMoves.Add(new Move(position, p));
                 }
-
-
 
             }
-            for (int i = (int)position.getY() + 1, step = 1; position.getX() - step >= 0 && step <= 8 && i < 8; step++, i++)
-            {
-                Point p = new Point(position.getX() - step, i);
-                if (game.isOccupied(p))
-                {
-                    if (!game.isOccupiedWithMyPiece(p, isWhite))
-                    {
-                        legalMoves.Add(new Move(position, p));
-                        break;
-                    }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
-                }
-                
-            }
-
             return legalMoves;
         }
         public override String getPiece()

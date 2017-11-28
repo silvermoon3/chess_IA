@@ -79,14 +79,13 @@ namespace processAI1
                                     if (tabVal[i] > 0) mesPieces.Add(tabCoord[i]);     
                                 }
 
-                                List<String> reste = new List<String>();
-                                List<Piece.Piece> restePieces = new List<Piece.Piece>();
+                                List<String> reste = new List<String>();                               
                                 for (int i = 0; i < tabVal.Length; i++)
                                 {
                                     if (tabVal[i] <= 0) reste.Add(tabCoord[i]);
                                 }
 
-                                a.getEffector().setTabVal(tabVal);
+                                a.getEffector().readBoard(mesPieces, reste, tabVal);
                                 a.doWork();
                                 Random rnd = new Random();
                                 // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
