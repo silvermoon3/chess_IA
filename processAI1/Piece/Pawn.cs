@@ -20,13 +20,13 @@ namespace processAI1.Piece
             List<Move> legalMoves = new List<Move>();
             int oneStep = isWhite ? 1 : -1;
             int twoStep = isWhite ? 2 : -2;
-            Point p = new Point(position.getX(), position.getY() + oneStep);
+            Point p = new Point(position.GetX(), position.GetY() + oneStep);
             if (!belief.isOccupied(p))
             {
                 legalMoves.Add(new Move(position, p));
-                if (isFirstMove && !belief.isOccupied(position.getX(), position.getY() + twoStep))
+                if (isFirstMove && !belief.isOccupied(position.GetX(), position.GetY() + twoStep))
                 {                   
-                    legalMoves.Add(new Move(position, new Point(position.getX(), position.getY() + twoStep)));
+                    legalMoves.Add(new Move(position, new Point(position.GetX(), position.GetY() + twoStep)));
 
                 }
                    
@@ -39,10 +39,10 @@ namespace processAI1.Piece
         private void getPawnAttack(ref List<Move> legalMoves, Belief belief)
         {
             int offset = isWhite ? 1 : 1;
-            Point right = new Point(position.getX() + 1, position.getY() + offset);
-            Point left = new Point(position.getX() - 1, position.getY() + offset);
+            Point right = new Point(position.GetX() + 1, position.GetY() + offset);
+            Point left = new Point(position.GetX() - 1, position.GetY() + offset);
             
-                if (right.validPosition())
+                if (right.ValidPosition())
                 {
                     if (belief.isOccupied(right))
                     {
@@ -54,7 +54,7 @@ namespace processAI1.Piece
                 }
             
            
-                if (left.validPosition())
+                if (left.ValidPosition())
                 {
                     if (belief.isOccupied(left))
                     {

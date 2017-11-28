@@ -24,31 +24,31 @@ namespace processAI1.Piece
 
             // Right and left
            
-            int left = (int)position.getX() - 1 > 0 ? (int)position.getX() - 1 : 0;
-            int right = (int)position.getX() + 1 < 7 ? (int)position.getX() + 1 : 7;
+            int left = (int)position.GetX() - 1 > 0 ? (int)position.GetX() - 1 : 0;
+            int right = (int)position.GetX() + 1 < 7 ? (int)position.GetX() + 1 : 7;
 
-            for (int i = (int)position.getX() - 1; i >= left; i--)
+            for (int i = (int)position.GetX() - 1; i >= left; i--)
             {
-                Point p = new Point(i, position.getY());
+                Point p = new Point(i, position.GetY());
                 if (!belief.isOccupiedWithMyPiece(p, isWhite))
                     legalMoves.Add(new Move(position,p));
                 break;
             }
-            for (int i = (int)position.getX() + 1; i <= right; i++)
+            for (int i = (int)position.GetX() + 1; i <= right; i++)
             {
-                Point p = new Point(i, position.getY());
+                Point p = new Point(i, position.GetY());
                 if (!belief.isOccupiedWithMyPiece(p, isWhite))
                     legalMoves.Add(new Move(position, p));
                 break;
             }
 
             // Up and down
-            int up = (int)position.getY() + 1 < 7 ? (int)position.getY() + 1 : 7;
-            int down = (int)position.getY() - 1 > 0 ? (int)position.getY() - 1 : 0;
-            for (int i = (int)position.getY() + 1; i <= up; i++)
+            int up = (int)position.GetY() + 1 < 7 ? (int)position.GetY() + 1 : 7;
+            int down = (int)position.GetY() - 1 > 0 ? (int)position.GetY() - 1 : 0;
+            for (int i = (int)position.GetY() + 1; i <= up; i++)
             {
 
-                Point p = new Point(position.getX(), i);
+                Point p = new Point(position.GetX(), i);
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
@@ -66,10 +66,10 @@ namespace processAI1.Piece
               
 
             }
-            for (int i = (int)position.getY() - 1; i >= down; i--)
+            for (int i = (int)position.GetY() - 1; i >= down; i--)
             {
 
-                Point p = new Point(position.getX(), i);
+                Point p = new Point(position.GetX(), i);
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
@@ -88,24 +88,24 @@ namespace processAI1.Piece
 
 
             //diagonales
-            Point rightUp = new Point(position.getX() + 1, position.getY() + 1);
-            Point rightDown = new Point(position.getX() + 1, position.getY() - 1);
-            Point leftUp = new Point(position.getX() - 1, position.getY() + 1);
-            Point leftDown = new Point(position.getX() - 1, position.getY() - 1);
+            Point rightUp = new Point(position.GetX() + 1, position.GetY() + 1);
+            Point rightDown = new Point(position.GetX() + 1, position.GetY() - 1);
+            Point leftUp = new Point(position.GetX() - 1, position.GetY() + 1);
+            Point leftDown = new Point(position.GetX() - 1, position.GetY() - 1);
 
-            if (rightUp.validPosition() && !belief.isOccupiedWithMyPiece(rightUp, isWhite))
+            if (rightUp.ValidPosition() && !belief.isOccupiedWithMyPiece(rightUp, isWhite))
             {
                 legalMoves.Add(new Move(position,rightUp));
             }
-            if (rightDown.validPosition() && !belief.isOccupiedWithMyPiece(rightDown, isWhite))
+            if (rightDown.ValidPosition() && !belief.isOccupiedWithMyPiece(rightDown, isWhite))
             {
                 legalMoves.Add(new Move(position, rightDown));
             }
-            if (leftUp.validPosition() && !belief.isOccupiedWithMyPiece(leftUp, isWhite))
+            if (leftUp.ValidPosition() && !belief.isOccupiedWithMyPiece(leftUp, isWhite))
             {
                 legalMoves.Add(new Move(position, leftUp));
             }
-            if (leftDown.validPosition() && !belief.isOccupiedWithMyPiece(leftDown, isWhite))
+            if (leftDown.ValidPosition() && !belief.isOccupiedWithMyPiece(leftDown, isWhite))
             {
                 legalMoves.Add(new Move(position, leftDown));
             }

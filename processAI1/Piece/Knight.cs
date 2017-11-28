@@ -19,9 +19,9 @@ namespace processAI1.Piece
         public override List<Move> getPossibleMoves(Belief belief)
         {
             List<Move> legalMoves = new List<Move>();
-            for (int i = (int)position.getY() - 1, step = 1; step + position.getX() <= 7 && step <= 8 && i >= 0; step++, i--)
+            for (int i = (int)position.GetY() - 1, step = 1; step + position.GetX() <= 7 && step <= 8 && i >= 0; step++, i--)
             {
-                Point p = new Point(position.getX() + step, i);
+                Point p = new Point(position.GetX() + step, i);
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
@@ -39,9 +39,9 @@ namespace processAI1.Piece
 
 
             }
-            for (int i = (int)position.getY() - 1, step = 1; position.getX() - step >= 0 && step <= 8 && i >= 0; step++, i--)
+            for (int i = (int)position.GetY() - 1, step = 1; position.GetX() - step >= 0 && step <= 8 && i >= 0; step++, i--)
             {
-                Point p = new Point(position.getX() - step, i);
+                Point p = new Point(position.GetX() - step, i);
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
@@ -58,9 +58,9 @@ namespace processAI1.Piece
 
 
             }
-            for (int i = (int)position.getY() + 1, step = 1; step + position.getX() <= 7 && step <= 8 && i < 8; step++, i++)
+            for (int i = (int)position.GetY() + 1, step = 1; step + position.GetX() <= 7 && step <= 8 && i < 8; step++, i++)
             {
-                Point p = new Point(position.getX() + step, i);
+                Point p = new Point(position.GetX() + step, i);
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
@@ -78,9 +78,9 @@ namespace processAI1.Piece
 
 
             }
-            for (int i = (int)position.getY() + 1, step = 1; position.getX() - step >= 0 && step <= 8 && i < 8; step++, i++)
+            for (int i = (int)position.GetY() + 1, step = 1; position.GetX() - step >= 0 && step <= 8 && i < 8; step++, i++)
             {
-                Point p = new Point(position.getX() - step, i);
+                Point p = new Point(position.GetX() - step, i);
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
