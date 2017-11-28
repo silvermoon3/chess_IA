@@ -24,14 +24,12 @@ namespace processAI1.Board
         }
 
         public void makeMove(Move _move)
-        {            
+        {
             Piece.Piece currentPiece = board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].getPiece();
             board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].setPiece(currentPiece);
             board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].getPiece().setPosition(_move.getFinalPosition());
             board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()] = new Cell(null, _move.getInitialPosition());
-           
         }
-
 
         public void undoMove(Move _move)
         {
@@ -39,7 +37,6 @@ namespace processAI1.Board
             board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].setPiece(currentPiece);
             board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].getPiece().setPosition(_move.getInitialPosition());
             board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()] = new Cell(null, _move.getFinalPosition());
-          
         }
 
         public void updateChessBoard(List<Piece.Piece> _myPieces , List<Piece.Piece> _otherPieces)
@@ -55,7 +52,6 @@ namespace processAI1.Board
 
         public void updateBoard()
         {
-            
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -71,8 +67,6 @@ namespace processAI1.Board
             {
                 board[piece.getPosition().getX(), piece.getPosition().getY()] = new Cell(piece, piece.getPosition());
             }
-
-          
         }
 
         public Boolean isOccupied(Point p)
@@ -122,6 +116,17 @@ namespace processAI1.Board
             return moves;
         }
 
+        public Boolean amIInCheck()
+        {
+            Point myKingPosition = myPieces.Find(p => p is King).getPosition();
+            foreach(Move move in getAllMovesForCurrentPlayer(false))
+            {
+                if (move.getFinalPosition().equal(myKingPosition))
+                    return true;
+            }
+            return false;
+        }
+
         public void Show()
         {
             Console.Write("\n\n");
@@ -157,10 +162,8 @@ namespace processAI1.Board
         }
 
         public int evaluate(int evaluateOption, Boolean isWhiteTurn)
-        {
-         
+        {        
             int result = 0;
-
             switch (evaluateOption)
             {
                 case 0:
@@ -176,14 +179,11 @@ namespace processAI1.Board
                     result = evaluateMaterial(isWhiteTurn) + evaluatePositions();
                     break;
             }
-
             return result;
-
         }
         private int evaluateMaterial(Boolean isWhiteTurn)
         {
             int result = 0;
-
             int blackScore = 0;
             int whiteScore = 0;
 
@@ -319,6 +319,55 @@ namespace processAI1.Board
             int otherScore = getAllMovesForCurrentPlayer().Count();
             isWhiteTurn = !isWhiteTurn;
             return thisScore - otherScore;
+        }
+
+
+        //Simple evaluation
+        public int EvaluateBoardWithPieceValue()
+        {
+            int score = 0;
+            for (var i = 0; i < 8; i++)
+            {
+                for (var j = 0; j < 8; j++)
+                {                   
+                     score = score + getPieceValue(board[i,j].getPiece());
+                }
+            }
+          
+            return score;
+        }
+        private int getPieceValue(Piece.Piece _piece)
+        {
+            if (_piece == null)
+            {
+                return 0;
+            }
+            else if (_piece is Pawn)
+            {
+                return 10;
+            }
+            else if (_piece is Rook)
+            {
+                return 50;
+            }
+            else if (_piece is Knight)
+            {
+                return 30;
+            }
+            else if (_piece is Bishop)
+            {
+                return 30;
+            }
+            else if (_piece is Queen)
+            {
+                return 90;
+            }
+            else if (_piece is King)
+            {
+                return 900;
+            }
+            
+            return 0;
         }
     }
 }

@@ -49,10 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent\Agent.cs" />
+    <Compile Include="Agent\BDI\Desire.cs" />
+    <Compile Include="Agent\BDI\Intention.cs" />
     <Compile Include="Board\MiniMax.cs" />
     <Compile Include="Board\Node.cs" />
     <Compile Include="Agent\Sensor.cs" />
-    <Compile Include="Agent\TreeSearch.cs" />
     <Compile Include="Board\ChessBoard.cs" />
     <Compile Include="Board\Rating.cs" />
     <Compile Include="Form1.cs">
@@ -62,7 +63,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Piece\Bishop.cs" />
-    <Compile Include="Agent\Belief.cs" />
+    <Compile Include="Agent\BDI\Belief.cs" />
     <Compile Include="Piece\Cell.cs" />
     <Compile Include="Properties\Resource1.Designer.cs">
       <AutoGen>True</AutoGen>

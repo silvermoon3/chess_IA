@@ -29,9 +29,16 @@ namespace processAI1.Piece
             int oneStep = isWhite ? 1 : -1;
             int twoStep = isWhite ? 2 : -2;
             Point p = new Point(position.getX(), position.getY() + oneStep);
-            if (!game.isOccupied(p))
+            if (!game.isOccupied(p) && p.validPosition())
             {
-                legalMoves.Add(new Move(position, p));
+                if (p.getY() == 7 || p.getY() == 0)
+                {
+                    //Promotion
+                }
+                else
+                {
+                    legalMoves.Add(new Move(position, p));
+                }
                 if (isFirstMove() && !game.isOccupied(position.getX(), position.getY() + twoStep))
                 {                   
                     legalMoves.Add(new Move(position, new Point(position.getX(), position.getY() + twoStep)));
@@ -74,6 +81,8 @@ namespace processAI1.Piece
                 }
             
         }
+
+
         public override String getPiece()
         {
             return isWhite ? "p" : "P";

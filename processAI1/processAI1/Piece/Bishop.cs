@@ -23,19 +23,22 @@ namespace processAI1.Piece
             for (int i = (int)position.getY() - 1, step = 1; step + position.getX() <= 7 && step <= 8 && i >= 0; step++, i--)
             {
                 Point p = new Point(position.getX() + step, i);
-                if (game.isOccupied(p))
+                if (p.validPosition())
                 {
-                    if (!game.isOccupiedWithMyPiece(p, isWhite))
+                    if (game.isOccupied(p))
                     {
-                        legalMoves.Add(new Move(position, p));
+                        if (!game.isOccupiedWithMyPiece(p, isWhite))
+                        {
+                            legalMoves.Add(new Move(position, p));
+                            break;
+                        }
                         break;
                     }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
+                    else
+                    {
+                        legalMoves.Add(new Move(position, p));
 
+                    }
                 }
 
 
@@ -43,18 +46,21 @@ namespace processAI1.Piece
             for (int i = (int)position.getY() - 1, step = 1; position.getX() - step >= 0 && step <= 8 && i >= 0; step++, i--)
             {
                 Point p = new Point(position.getX() - step, i);
-                if (game.isOccupied(p))
+                if (p.validPosition())
                 {
-                    if (!game.isOccupiedWithMyPiece(p, isWhite))
+                    if (game.isOccupied(p))
                     {
-                        legalMoves.Add(new Move(position, p));
+                        if (!game.isOccupiedWithMyPiece(p, isWhite))
+                        {
+                            legalMoves.Add(new Move(position, p));
+                            break;
+                        }
                         break;
                     }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
+                    else
+                    {
+                        legalMoves.Add(new Move(position, p));
+                    }
                 }
 
 
@@ -62,18 +68,21 @@ namespace processAI1.Piece
             for (int i = (int)position.getY() + 1, step = 1; step + position.getX() <= 7 && step <= 8 && i < 8; step++, i++)
             {
                 Point p = new Point(position.getX() + step, i);
-                if (game.isOccupied(p))
+                if (p.validPosition())
                 {
-                    if (!game.isOccupiedWithMyPiece(p, isWhite))
+                    if (game.isOccupied(p))
                     {
-                        legalMoves.Add(new Move(position, p));
+                        if (!game.isOccupiedWithMyPiece(p, isWhite))
+                        {
+                            legalMoves.Add(new Move(position, p));
+                            break;
+                        }
                         break;
                     }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
+                    else
+                    {
+                        legalMoves.Add(new Move(position, p));
+                    }
                 }
 
 
@@ -82,18 +91,21 @@ namespace processAI1.Piece
             for (int i = (int)position.getY() + 1, step = 1; position.getX() - step >= 0 && step <= 8 && i < 8; step++, i++)
             {
                 Point p = new Point(position.getX() - step, i);
-                if (game.isOccupied(p))
+                if (p.validPosition())
                 {
-                    if (!game.isOccupiedWithMyPiece(p, isWhite))
+                    if (game.isOccupied(p))
                     {
-                        legalMoves.Add(new Move(position, p));
+                        if (!game.isOccupiedWithMyPiece(p, isWhite))
+                        {
+                            legalMoves.Add(new Move(position, p));
+                            break;
+                        }
                         break;
                     }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
+                    else
+                    {
+                        legalMoves.Add(new Move(position, p));
+                    }
                 }
 
             }

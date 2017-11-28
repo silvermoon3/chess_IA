@@ -123,31 +123,31 @@ namespace processAI1.Piece
             if (isWhite)
             {
                 //petit roque
-                if (firstMove() && !belief.isOccupied(5,0) && !belief.isOccupied(6, 0) && belief.getCase(7,0).getPiece() is Rook && belief.getCase(7, 0).getPiece().firstMove())
+                if (Belief.firstMoveOfKing && !belief.isOccupied(5,0) && !belief.isOccupied(6, 0) && belief.getCase(7,0).getPiece() is Rook && Belief.firstMoveOfRightRook)
                 {
-                    legalMoves.Add(new Move("petit roque"));
-                   // legalMoves.Add(new Move(position, new Point(6,0)));
+                    //legalMoves.Add(new Move("petit roque"));
+                    legalMoves.Add(new Move(position, new Point(6,0)));
                 }
                 //grand roque
-                if (firstMove() && !belief.isOccupied(1, 0) && !belief.isOccupied(2, 0) && !belief.isOccupied(3, 0) && belief.getCase(1, 0).getPiece() is Rook && belief.getCase(1, 0).getPiece().firstMove())
+                if (Belief.firstMoveOfKing && !belief.isOccupied(1, 0) && !belief.isOccupied(2, 0) && !belief.isOccupied(3, 0) && belief.getCase(1, 0).getPiece() is Rook && Belief.firstMoveOfLeftRook)
                 {
-                    legalMoves.Add(new Move("grand roque"));
-                    //legalMoves.Add(new Move(position, new Point(2, 0)));
+                    //legalMoves.Add(new Move("grand roque"));
+                    legalMoves.Add(new Move(position, new Point(2, 0)));
                 }
             }
             else
             {
                 //petit roque
-                if (firstMove() && !belief.isOccupied(5, 7) && !belief.isOccupied(6, 7) && belief.getCase(7, 7).getPiece() is Rook && belief.getCase(7, 7).getPiece().firstMove())
+                if (Belief.firstMoveOfKing && !belief.isOccupied(5, 7) && !belief.isOccupied(6, 7) && belief.getCase(7, 7).getPiece() is Rook && Belief.firstMoveOfRightRook)
                 {
-                    legalMoves.Add(new Move("petit roque"));
-                    //legalMoves.Add(new Move(position, new Point(6, 7)));
+                    //legalMoves.Add(new Move("petit roque"));
+                    legalMoves.Add(new Move(position, new Point(6, 7)));
                 }
                 //grand roque
-                if (firstMove() && !belief.isOccupied(1, 7) && !belief.isOccupied(2, 7) && !belief.isOccupied(3, 7) && belief.getCase(1, 7).getPiece() is Rook && belief.getCase(1, 7).getPiece().firstMove())
+                if (Belief.firstMoveOfKing && !belief.isOccupied(1, 7) && !belief.isOccupied(2, 7) && !belief.isOccupied(3, 7) && belief.getCase(1, 7).getPiece() is Rook && Belief.firstMoveOfLeftRook)
                 {
-                    legalMoves.Add(new Move("grand roque"));
-                    //legalMoves.Add(new Move(position, new Point(2, 7)));
+                    //legalMoves.Add(new Move("grand roque"));
+                    legalMoves.Add(new Move(position, new Point(2, 7)));
                 }
 
             }

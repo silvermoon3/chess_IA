@@ -29,7 +29,7 @@ namespace processAI1.Piece
                 for (int i = position.getX() + 1; i <= 7; i++)
                 {
                     Point p = new Point(i, position.getY());
-                    if (!game.isOccupied(p))
+                    if (!game.isOccupied(p) && p.validPosition())
                         legalMoves.Add(new Move(position, p));
                     else
                     {
@@ -46,7 +46,7 @@ namespace processAI1.Piece
                 for (int i = position.getX() - 1; i >= 0; i--)
                 {
                     Point p = new Point(i, position.getY());
-                    if (!game.isOccupied(p))
+                    if (!game.isOccupied(p) && p.validPosition())
                         legalMoves.Add(new Move(position, p));
                     else
                     {
@@ -62,7 +62,7 @@ namespace processAI1.Piece
                 for (int i = position.getY() + 1; i <= 7; i++)
                 {
                     Point p = new Point(position.getX(), i);
-                    if (!game.isOccupied(p))
+                    if (!game.isOccupied(p) && p.validPosition())
                         legalMoves.Add(new Move(position, p));
                     else
                     {
@@ -77,7 +77,7 @@ namespace processAI1.Piece
                 for (int i = position.getY() - 1; i >= 0; i--)
                 {
                     Point p = new Point(position.getX(), i);
-                    if (!game.isOccupied(p))
+                    if (!game.isOccupied(p) && p.validPosition())
                         legalMoves.Add(new Move(position, p));
                     else
                     {

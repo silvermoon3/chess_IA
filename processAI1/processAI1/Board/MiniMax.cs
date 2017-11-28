@@ -20,13 +20,61 @@ namespace processAI1.Agent
         }
         
         public Move getBestMove(ChessBoard game, int depth)
-        {           
-           
+        {
             this.depth = depth;
             alphaBetaMax(game, new Node(), Int32.MinValue, Int32.MaxValue, depth);
             return bestNode.getMove();
         }
 
+        public Move simpleMiniMaxRoot(ChessBoard fakeBoard, int depth, Boolean isMaximisingPlayer)
+        {
+            Move bestMoveFound = null;
+            int bestScore = Int32.MinValue;
+            List<Move> moves = fakeBoard.getAllPossibleMoves();
+            foreach(Move mv in moves)
+            {
+                fakeBoard.makeMove(mv);
+                int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
+                fakeBoard.undoMove(mv);
+                if(score >= bestScore)
+                {
+                    bestMoveFound = mv;
+                    bestScore = score;
+                }
+            }
+            return bestMoveFound;
+
+        }
+
+        private int simpleMiniMax(ChessBoard fakeBoard, int depth, Boolean isMaximisingPlayer)
+        {
+            if (depth == 0)
+                return -fakeBoard.EvaluateBoardWithPieceValue();
+            List<Move> moves = fakeBoard.getAllPossibleMoves();
+            if (isMaximisingPlayer)
+            {
+                int bestScore = Int32.MinValue;
+                foreach(Move mv in moves)
+                {
+                    fakeBoard.makeMove(mv);
+                    bestScore = Math.Max(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
+                    fakeBoard.undoMove(mv);
+                }
+                return bestScore;
+            }
+            else
+            {
+                int bestScore = Int32.MaxValue;
+                foreach (Move mv in moves)
+                {
+                    fakeBoard.makeMove(mv);
+                    bestScore = Math.Min(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
+                    fakeBoard.undoMove(mv);
+                }
+                return bestScore;
+
+            }
+        }
 
         private int alphaBetaMax(ChessBoard game, Node node, int alpha, int beta, int depthLeft)
         {
@@ -63,16 +111,13 @@ namespace processAI1.Agent
 
             }
             return alpha;
-
-
         }
 
         private int alphaBetaMin(ChessBoard game, Node node, int alpha, int beta, int depth)
         {
             List<Move> possibleMoves = game.getAllPossibleMoves();
             if (depth == 0 || possibleMoves.Count == 0)
-                return game.evaluate(evaluateOption, false);
-
+                return -game.EvaluateBoardWithPieceValue();
 
             //sorting 
             foreach (Move mv in possibleMoves)
@@ -93,8 +138,5 @@ namespace processAI1.Agent
             }
             return beta;
         }
-
-
-                
     }
 }
