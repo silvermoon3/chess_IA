@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using processAI1.Util;
 
 namespace processAI1.Agent
 {
@@ -78,8 +77,8 @@ namespace processAI1.Agent
             // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
             List<Move> moves = belief.getPossibleMoves();
             Move randomMove = moves.ElementAt(rnd.Next(moves.Count));
-            coord[0] = randomMove.getInitialPosition().ToString();
-            coord[1] = randomMove.getFinalPosition().ToString();
+            coord[0] = randomMove.GetInitialPosition().ToString();
+            coord[1] = randomMove.GetFinalPosition().ToString();
 
             return coord;
         }
@@ -93,7 +92,6 @@ namespace processAI1.Agent
             {
                 
             }
-
             return bestMoveFound;
         }
 
@@ -102,6 +100,9 @@ namespace processAI1.Agent
 
             return null;
         }
+
+
+     
 
 
     }

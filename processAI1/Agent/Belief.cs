@@ -24,7 +24,7 @@ namespace processAI1
         
         public Boolean isOccupied(Point p)
         {
-            return board[p.getX(), p.getY()].isOccupied;
+            return board[p.GetX(), p.GetY()].isOccupied;
         }
 
         public Boolean isOccupied(int x, int y)
@@ -34,8 +34,8 @@ namespace processAI1
 
         public Boolean isOccupiedWithMyPiece(Point p, Boolean isWhite)
         {
-            if(isOccupied(p.getX(), p.getY()))
-                 return board[p.getX(), p.getY()].getPiece().isWhite == isWhite;
+            if(isOccupied(p.GetX(), p.GetY()))
+                 return board[p.GetX(), p.GetY()].getPiece().isWhite == isWhite;
             return false;
         }
 
@@ -58,6 +58,9 @@ namespace processAI1
             return moves;
         }
 
+
+
+        
 
 
 

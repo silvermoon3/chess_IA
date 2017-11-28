@@ -19,70 +19,70 @@ namespace processAI1.Piece
         public override List<Move> getPossibleMoves(Belief belief)
         {
             List<Move> legalMoves = new List<Move>();
-            if (position.getX() - 2 >= 0)
+            if (position.GetX() - 2 >= 0)
             {
-                if (position.getY() < 7)
+                if (position.GetY() < 7)
                 {
-                    Point p = new Point(position.getX() - 2, position.getY() + 1);
-                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                    Point p = new Point(position.GetX() - 2, position.GetY() + 1);
+                    if (p.ValidPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
                 }
-                if (position.getY() > 0)
+                if (position.GetY() > 0)
                 {
-                    Point p = new Point(position.getX() - 2, position.getY() - 1);
-                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                    Point p = new Point(position.GetX() - 2, position.GetY() - 1);
+                    if (p.ValidPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
                 }
 
             }
-            if (position.getX() < 6)
+            if (position.GetX() < 6)
             {
-                if (position.getY() < 7)
+                if (position.GetY() < 7)
                 {
-                    Point p = new Point(position.getX() + 2, position.getY() + 1);
-                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                    Point p = new Point(position.GetX() + 2, position.GetY() + 1);
+                    if (p.ValidPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
                 }
 
-                if (position.getY() > 0)
+                if (position.GetY() > 0)
                 {
-                    Point p = new Point(position.getX() + 2, position.getY() - 1);
-                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                    Point p = new Point(position.GetX() + 2, position.GetY() - 1);
+                    if (p.ValidPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
                 }
 
 
             }
-            if (position.getY() - 2 >= 0)
+            if (position.GetY() - 2 >= 0)
             {
-                if (position.getX() < 7)
+                if (position.GetX() < 7)
                 {
-                    Point p = new Point(position.getX() + 1, position.getY() - 2);
-                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                    Point p = new Point(position.GetX() + 1, position.GetY() - 2);
+                    if (p.ValidPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
                 }
 
-                if (position.getX() > 0)
+                if (position.GetX() > 0)
                 {
-                    Point p = new Point(position.getX() - 1, position.getY() - 2);
-                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                    Point p = new Point(position.GetX() - 1, position.GetY() - 2);
+                    if (p.ValidPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
                 }
 
             }
-            if (position.getY() < 6)
+            if (position.GetY() < 6)
             {
-                if (position.getX() < 7)
+                if (position.GetX() < 7)
                 {
-                    Point p = new Point(position.getX() + 1, position.getY() + 2);
-                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                    Point p = new Point(position.GetX() + 1, position.GetY() + 2);
+                    if (p.ValidPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
                 }
 
-                if (position.getX() > 0)
+                if (position.GetX() > 0)
                 {
-                    Point p = new Point(position.getX() - 1, position.getY() + 2);
-                    if (p.validPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
+                    Point p = new Point(position.GetX() - 1, position.GetY() + 2);
+                    if (p.ValidPosition() && !belief.isOccupiedWithMyPiece(p, isWhite))
                         legalMoves.Add(new Move(position, p));
                 }
 

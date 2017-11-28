@@ -20,12 +20,12 @@ namespace processAI1.Piece
         public override List<Move> getPossibleMoves(Belief belief)
         {
             List<Move> legalMoves = new List<Move>();
-            int left = (int)position.getX() - 8 > 0 ? (int)position.getX() - 8 : 0;
-            int right = (int)position.getX() + 8 < 7 ? (int)position.getX() + 8 : 7;
+            int left = (int)position.GetX() - 8 > 0 ? (int)position.GetX() - 8 : 0;
+            int right = (int)position.GetX() + 8 < 7 ? (int)position.GetX() + 8 : 7;
                         
-            for (int i = (int)position.getX() - 1; i >= left; i--)
+            for (int i = (int)position.GetX() - 1; i >= left; i--)
             {
-                Point p = new Point(i, position.getY());
+                Point p = new Point(i, position.GetY());
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
@@ -41,9 +41,9 @@ namespace processAI1.Piece
                 }
 
             }
-            for (int i = (int)position.getX() + 1; i <= right; i++)
+            for (int i = (int)position.GetX() + 1; i <= right; i++)
             {
-                Point p = new Point(i, position.getY());
+                Point p = new Point(i, position.GetY());
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
@@ -62,12 +62,12 @@ namespace processAI1.Piece
             }
 
             // Up and down
-            int up = (int)position.getY() + 8 < 7 ? (int)position.getY() + 8 : 7;
-            int down = (int)position.getY() - 8 > 0 ? (int)position.getY() - 8 : 0;
-            for (int i = (int)position.getY() + 1; i <= up; i++)
+            int up = (int)position.GetY() + 8 < 7 ? (int)position.GetY() + 8 : 7;
+            int down = (int)position.GetY() - 8 > 0 ? (int)position.GetY() - 8 : 0;
+            for (int i = (int)position.GetY() + 1; i <= up; i++)
             {
                 
-                Point p = new Point(position.getX(), i);
+                Point p = new Point(position.GetX(), i);
                 if (belief.isOccupied(p))
                 {
                     if (!belief.isOccupiedWithMyPiece(p, isWhite))
@@ -85,10 +85,10 @@ namespace processAI1.Piece
 
 
             }
-            for (int i = (int)position.getY() - 1; i >= down; i--)
+            for (int i = (int)position.GetY() - 1; i >= down; i--)
             {
                 
-                Point p = new Point(position.getX(), i);
+                Point p = new Point(position.GetX(), i);
                 if (belief.isOccupied(p))
                 {
                     if(!belief.isOccupiedWithMyPiece(p, isWhite))

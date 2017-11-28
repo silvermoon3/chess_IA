@@ -8,47 +8,47 @@ namespace processAI1
 {
     public class Point
     {
-        int x;
-        int y;
+        int _x;
+        int _y;
 
-        public Point(int _x, int _y)
+        public Point(int x, int y)
         {
-            this.x = _x;
-            this.y = _y;
+            this._x = x;
+            this._y = y;
         }
         public Point(String pos)
         {
-            this.x = getPointFromString(pos).getX();
-            this.y = getPointFromString(pos).getY();
+            this._x = GetPointFromString(pos).GetX();
+            this._y = GetPointFromString(pos).GetY();
         }
         public Point()
         {
-            this.x = 0;
-            this.y = 0;
+            this._x = 0;
+            this._y = 0;
         }
 
-        public int getX()
+        public int GetX()
         {
-            return this.x;        
+            return this._x;        
         }
 
-        public int getY()
+        public int GetY()
         {
-            return this.y;
+            return this._y;
         }
 
-        public Boolean validPosition()
+        public Boolean ValidPosition()
         {
-            return this.x >= 0 && this.x <= 7 && this.y >= 0 && this.y <= 7;
+            return this._x >= 0 && this._x <= 7 && this._y >= 0 && this._y <= 7;
         }
 
         override
         public string ToString()
         {
             String posX = "";
-            int newY = y + 1;
+            int newY = _y + 1;
            
-            switch (getX())
+            switch (GetX())
             {
                 case 0:
                     posX = "a";break;
@@ -71,7 +71,7 @@ namespace processAI1
             return posX + newY;
         }
 
-        public Point getPointFromString(String pos)
+        public Point GetPointFromString(String pos)
         {
             int x = 0;
             int y = Int32.Parse(pos.Substring(1));

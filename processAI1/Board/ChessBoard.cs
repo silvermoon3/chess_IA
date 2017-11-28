@@ -9,14 +9,14 @@ namespace processAI1.Board
 {
     class ChessBoard
     {
-        Cell[,] board = new Cell[8, 8];
+        Cell[,] _board = new Cell[8, 8];
 
-        public void makeMove()
+        public void MakeMove()
         {
 
         }
 
-        public void undoMove()
+        public void UndoMove()
         {
 
         }

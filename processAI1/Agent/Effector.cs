@@ -32,24 +32,24 @@ namespace processAI1
                 Point p = new Point(tabCoord[i]);
                 Boolean isWhite = tabVal[i] > 0;
                 if (Math.Abs(tabVal[i]) == 21)
-                    board[p.getX(), p.getY()] = new Cell(new Rook(p.getX(), p.getY(), isWhite), p);
+                    board[p.GetX(), p.GetY()] = new Cell(new Rook(p.GetX(), p.GetY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 31)
-                    board[p.getX(), p.getY()] = new Cell(new Bishop(p.getX(), p.getY(), isWhite), p);
+                    board[p.GetX(), p.GetY()] = new Cell(new Bishop(p.GetX(), p.GetY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 4)
-                    board[p.getX(), p.getY()] = new Cell(new Knight(p.getX(), p.getY(), isWhite), p);
+                    board[p.GetX(), p.GetY()] = new Cell(new Knight(p.GetX(), p.GetY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 5)
-                    board[p.getX(), p.getY()] = new Cell(new Queen(p.getX(), p.getY(), isWhite), p);
+                    board[p.GetX(), p.GetY()] = new Cell(new Queen(p.GetX(), p.GetY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 6)
-                    board[p.getX(), p.getY()] = new Cell(new King(p.getX(), p.getY(), isWhite), p);
+                    board[p.GetX(), p.GetY()] = new Cell(new King(p.GetX(), p.GetY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 32)
-                    board[p.getX(), p.getY()] = new Cell(new Bishop(p.getX(), p.getY(), isWhite), p);
+                    board[p.GetX(), p.GetY()] = new Cell(new Bishop(p.GetX(), p.GetY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 22)
-                    board[p.getX(), p.getY()] = new Cell(new Rook(p.getX(), p.getY(), isWhite), p);
+                    board[p.GetX(), p.GetY()] = new Cell(new Rook(p.GetX(), p.GetY(), isWhite), p);
                 else if (Math.Abs(tabVal[i]) == 1)
-                    board[p.getX(), p.getY()] = new Cell(new Pawn(p.getX(), p.getY(), isWhite), p);
+                    board[p.GetX(), p.GetY()] = new Cell(new Pawn(p.GetX(), p.GetY(), isWhite), p);
                 else
                 {
-                    board[p.getX(), p.getY()] = new Cell(null, p);
+                    board[p.GetX(), p.GetY()] = new Cell(null, p);
                 }
                   
             }

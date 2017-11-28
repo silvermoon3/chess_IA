@@ -19,8 +19,8 @@ namespace processAI1.Piece
 
         public override List<Move> getPossibleMoves(Belief belief)
         {
-            Rook r = new Rook(position.getX(), position.getY(), isWhite);
-            Bishop b = new Bishop(position.getX(), position.getY(), isWhite);
+            Rook r = new Rook(position.GetX(), position.GetY(), isWhite);
+            Bishop b = new Bishop(position.GetX(), position.GetY(), isWhite);
             return r.getPossibleMoves(belief).Union(b.getPossibleMoves(belief)).ToList();
            
         }

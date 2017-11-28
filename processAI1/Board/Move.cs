@@ -10,28 +10,28 @@ namespace processAI1.Piece
 {
     public class Move
     {
-        private Point initialPosition { get; set; }
-        private Point finalPosition { get; set; }
+        private Point InitialPosition { get; set; }
+        private Point FinalPosition { get; set; }
 
        
 
-        public Move(Point _initialPosition, Point _finalPosition)
+        public Move(Point initialPosition, Point finalPosition)
         {
-            initialPosition = _initialPosition;
-            finalPosition = _finalPosition;           
+            InitialPosition = initialPosition;
+            FinalPosition = finalPosition;           
         }
         public Move()
         {
-            initialPosition = new Point();
-            finalPosition = new Point();
+            InitialPosition = new Point();
+            FinalPosition = new Point();
         }
-        public Point getInitialPosition()
+        public Point GetInitialPosition()
         {
-            return initialPosition;
+            return InitialPosition;
         }
-        public Point getFinalPosition()
+        public Point GetFinalPosition()
         {
-            return finalPosition;
+            return FinalPosition;
         }
 
 
