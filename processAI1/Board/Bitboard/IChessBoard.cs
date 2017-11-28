@@ -1,8 +1,4 @@
-﻿using System;
-using System.Management.Instrumentation;
-using processAI1.Piece;
-
-namespace processAI1.Board
+﻿namespace processAI1.Board.Bitboard
 {
     public interface IChessBoard
     {

@@ -51,7 +51,7 @@
     <Compile Include="Board\Bitboard\BitMove.cs" />
     <Compile Include="Board\Bitboard\ChessBoardConverter.cs" />
     <Compile Include="Board\ChessBoard.cs" />
-    <Compile Include="Board\IChessBoard.cs" />
+    <Compile Include="Board\Bitboard\IChessBoard.cs" />
     <Compile Include="Board\Bitboard\BitBoard.cs" />
     <Compile Include="Board\Move.cs" />
     <Compile Include="Board\Node.cs" />
