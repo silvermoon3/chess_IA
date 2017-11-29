@@ -344,29 +344,29 @@ namespace processAI1.Board
             }
             else if (_piece is Pawn)
             {
-                return 10;
+                return _piece.isWhite ? -10 : 10;
             }
             else if (_piece is Rook)
             {
-                return 50;
+                return _piece.isWhite ? -50 : 50;
             }
             else if (_piece is Knight)
             {
-                return 30;
+                return _piece.isWhite ? -30 : 30;
             }
             else if (_piece is Bishop)
             {
-                return 30;
+                return _piece.isWhite ? -30 : 30;
             }
             else if (_piece is Queen)
             {
-                return 90;
+                return _piece.isWhite ? -90 : 90;
             }
             else if (_piece is King)
             {
-                return 900;
+                return _piece.isWhite ? -900 : 900;
             }
-            
+
             return 0;
         }
     }
