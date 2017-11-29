@@ -1,4 +1,5 @@
-﻿using System;
+﻿using processAI1.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,24 +11,22 @@ namespace processAI1.Piece
     {
         public bool isWhite { get; set; }
         public Point position { get; set; }
-        public bool isFirstMove { get; set; }
         
         public Piece(int x, int y, bool _isWhite = true)
         {
             position = new Point(x, y);
             isWhite = _isWhite;
-            isFirstMove = true;
+
         }
       
 
         public Piece(String pos, bool _isWhite = true)
         {
             position = new Point(pos);
-            isWhite = _isWhite;
-            isFirstMove = true;
+            isWhite = _isWhite;            
         }
 
-        public virtual List<Move> getPossibleMoves(Belief belief)
+        public virtual List<Move> getPossibleMoves(ChessBoard game)
         {
             return new List<Move>();
         }
@@ -41,5 +40,12 @@ namespace processAI1.Piece
         {
             this.position = _newPosition;
         }
+
+        public Point getPosition()
+        {
+            return position;
+        }
+        
+     
     }
 }

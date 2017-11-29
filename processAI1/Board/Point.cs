@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace processAI1
 {
-    public class Point
+    public class Point 
     {
         int _x;
         int _y;
@@ -46,9 +46,17 @@ namespace processAI1
         public string ToString()
         {
             String posX = "";
+<<<<<<< HEAD:processAI1/Board/Point.cs
             int newY = _y + 1;
            
             switch (GetX())
+=======
+            int newY = y + 1;
+
+            if (y == 9)
+                Console.WriteLine("stop");
+            switch (getX())
+>>>>>>> MiniMax:processAI1/Board/Point.cs
             {
                 case 0:
                     posX = "a";break;
@@ -71,7 +79,17 @@ namespace processAI1
             return posX + newY;
         }
 
+<<<<<<< HEAD:processAI1/Board/Point.cs
         public Point GetPointFromString(String pos)
+=======
+    
+        public Boolean equal(Point p)
+        {
+            return this.x == p.getX() && this.y == p.getY();
+        }
+
+        public Point getPointFromString(String pos)
+>>>>>>> MiniMax:processAI1/Board/Point.cs
         {
             int x = 0;
             int y = Int32.Parse(pos.Substring(1));

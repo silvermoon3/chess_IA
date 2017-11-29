@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,7 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent\Agent.cs" />
+    <Compile Include="Agent\BDI\Desire.cs" />
+    <Compile Include="Agent\BDI\Intention.cs" />
+    <Compile Include="Board\MiniMax.cs" />
+    <Compile Include="Board\Node.cs" />
     <Compile Include="Agent\Sensor.cs" />
+<<<<<<< HEAD:processAI1/processAI1.csproj
     <Compile Include="Board\Bitboard\BitBoardUtil.cs" />
     <Compile Include="Board\Bitboard\BitMove.cs" />
     <Compile Include="Board\Bitboard\ChessBoardConverter.cs" />
@@ -57,8 +65,18 @@
     <Compile Include="Board\Node.cs" />
     <Compile Include="CustomProtocol.cs" />
     <Compile Include="IComunicationProtocol.cs" />
+=======
+    <Compile Include="Board\ChessBoard.cs" />
+    <Compile Include="Board\Rating.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+>>>>>>> MiniMax:processAI1/processAI1.csproj
     <Compile Include="Piece\Bishop.cs" />
-    <Compile Include="Agent\Belief.cs" />
+    <Compile Include="Agent\BDI\Belief.cs" />
     <Compile Include="Piece\Cell.cs" />
     <Compile Include="Board\Point.cs" />
     <Compile Include="Properties\Resource1.Designer.cs">
@@ -66,11 +84,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+<<<<<<< HEAD:processAI1/processAI1.csproj
+=======
+    <Compile Include="Board\Move.cs" />
+>>>>>>> MiniMax:processAI1/processAI1.csproj
     <Compile Include="Agent\Effector.cs" />
     <Compile Include="Piece\King.cs" />
     <Compile Include="Piece\Knight.cs" />
     <Compile Include="Piece\Pawn.cs" />
     <Compile Include="Piece\Piece.cs" />
+<<<<<<< HEAD:processAI1/processAI1.csproj
+=======
+    <Compile Include="Board\Point.cs" />
+>>>>>>> MiniMax:processAI1/processAI1.csproj
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Piece\Queen.cs" />
@@ -81,12 +107,51 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Bishop_Black.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bishop_White.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\King_Black.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\King_White.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Knight_Black.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Knight_White.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pawn_Black.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pawn_White.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Queen_Black.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Queen_White.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rook_Black.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rook_White.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

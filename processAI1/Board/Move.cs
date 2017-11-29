@@ -10,29 +10,48 @@ namespace processAI1.Piece
 {
     public class Move
     {
-        private Point InitialPosition { get; set; }
-        private Point FinalPosition { get; set; }
+        private Point initialPosition;
+        private Point finalPosition;
+        private bool makeARoque;
+        private String roque;
 
-       
-
-        public Move(Point initialPosition, Point finalPosition)
+        public Move(Point _initialPosition, Point _finalPosition)
         {
-            InitialPosition = initialPosition;
-            FinalPosition = finalPosition;           
+            initialPosition = _initialPosition;
+            finalPosition = _finalPosition;
+            makeARoque = false;
+        }
+
+        public Move(String roque)
+        {
+            makeARoque = true;
+            this.roque = roque;
+
         }
         public Move()
         {
-            InitialPosition = new Point();
-            FinalPosition = new Point();
+            initialPosition = new Point();
+            finalPosition = new Point();
         }
-        public Point GetInitialPosition()
+        public Point getInitialPosition()
         {
-            return InitialPosition;
+            return initialPosition;
         }
-        public Point GetFinalPosition()
+        public Point getFinalPosition()
         {
-            return FinalPosition;
+            return finalPosition;
         }
+        public Boolean IWantARoque()
+        {
+            return makeARoque;
+        }
+
+        public String getRoque()
+        {
+            return roque;
+
+        }
+
 
 
 
