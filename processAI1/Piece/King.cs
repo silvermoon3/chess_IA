@@ -25,44 +25,25 @@ namespace processAI1.Piece
 
             // Right and left
            
-            int left = (int)position.GetX() - 1 > 0 ? (int)position.GetX() - 1 : 0;
-            int right = (int)position.GetX() + 1 < 7 ? (int)position.GetX() + 1 : 7;
+            int left = (int)position.getX() - 1 > 0 ? (int)position.getX() - 1 : 0;
+            int right = (int)position.getX() + 1 < 7 ? (int)position.getX() + 1 : 7;
 
-            for (int i = (int)position.GetX() - 1; i >= left; i--)
+            for (int i = (int)position.getX() - 1; i >= left; i--)
             {
-<<<<<<< HEAD:processAI1/Piece/King.cs
-                Point p = new Point(i, position.GetY());
-                if (!belief.isOccupiedWithMyPiece(p, isWhite))
-=======
                 Point p = new Point(i, position.getY());
                 if (!game.isOccupiedWithMyPiece(p, isWhite))
->>>>>>> MiniMax:processAI1/Piece/King.cs
                     legalMoves.Add(new Move(position,p));
                 break;
             }
-            for (int i = (int)position.GetX() + 1; i <= right; i++)
+            for (int i = (int)position.getX() + 1; i <= right; i++)
             {
-<<<<<<< HEAD:processAI1/Piece/King.cs
-                Point p = new Point(i, position.GetY());
-                if (!belief.isOccupiedWithMyPiece(p, isWhite))
-=======
                 Point p = new Point(i, position.getY());
                 if (!game.isOccupiedWithMyPiece(p, isWhite))
->>>>>>> MiniMax:processAI1/Piece/King.cs
                     legalMoves.Add(new Move(position, p));
                 break;
             }
 
             // Up and down
-<<<<<<< HEAD:processAI1/Piece/King.cs
-            int up = (int)position.GetY() + 1 < 7 ? (int)position.GetY() + 1 : 7;
-            int down = (int)position.GetY() - 1 > 0 ? (int)position.GetY() - 1 : 0;
-            for (int i = (int)position.GetY() + 1; i <= up; i++)
-            {
-
-                Point p = new Point(position.GetX(), i);
-                if (belief.isOccupied(p))
-=======
           
             int up = (int)position.getY() + 1 < 7 ? (int)position.getY() + 1 : 7;
             int down = (int)position.getY() - 1 > 0 ? (int)position.getY() - 1 : 0;
@@ -71,7 +52,6 @@ namespace processAI1.Piece
 
                 Point p = new Point(position.getX(), i);
                 if (game.isOccupied(p))
->>>>>>> MiniMax:processAI1/Piece/King.cs
                 {
                     if (!game.isOccupiedWithMyPiece(p, isWhite))
                     {
@@ -89,16 +69,11 @@ namespace processAI1.Piece
               
 
             }
-            for (int i = (int)position.GetY() - 1; i >= down; i--)
+            for (int i = (int)position.getY() - 1; i >= down; i--)
             {
 
-<<<<<<< HEAD:processAI1/Piece/King.cs
-                Point p = new Point(position.GetX(), i);
-                if (belief.isOccupied(p))
-=======
                 Point p = new Point(position.getX(), i);
                 if (game.isOccupied(p))
->>>>>>> MiniMax:processAI1/Piece/King.cs
                 {
                     if (!game.isOccupiedWithMyPiece(p, isWhite))
                     {
@@ -117,26 +92,11 @@ namespace processAI1.Piece
 
 
             //diagonales
-            Point rightUp = new Point(position.GetX() + 1, position.GetY() + 1);
-            Point rightDown = new Point(position.GetX() + 1, position.GetY() - 1);
-            Point leftUp = new Point(position.GetX() - 1, position.GetY() + 1);
-            Point leftDown = new Point(position.GetX() - 1, position.GetY() - 1);
+            Point rightUp = new Point(position.getX() + 1, position.getY() + 1);
+            Point rightDown = new Point(position.getX() + 1, position.getY() - 1);
+            Point leftUp = new Point(position.getX() - 1, position.getY() + 1);
+            Point leftDown = new Point(position.getX() - 1, position.getY() - 1);
 
-<<<<<<< HEAD:processAI1/Piece/King.cs
-            if (rightUp.ValidPosition() && !belief.isOccupiedWithMyPiece(rightUp, isWhite))
-            {
-                legalMoves.Add(new Move(position,rightUp));
-            }
-            if (rightDown.ValidPosition() && !belief.isOccupiedWithMyPiece(rightDown, isWhite))
-            {
-                legalMoves.Add(new Move(position, rightDown));
-            }
-            if (leftUp.ValidPosition() && !belief.isOccupiedWithMyPiece(leftUp, isWhite))
-            {
-                legalMoves.Add(new Move(position, leftUp));
-            }
-            if (leftDown.ValidPosition() && !belief.isOccupiedWithMyPiece(leftDown, isWhite))
-=======
             if (rightUp.validPosition() && !game.isOccupiedWithMyPiece(rightUp, isWhite))
             {
                 legalMoves.Add(new Move(position,rightUp));
@@ -150,7 +110,6 @@ namespace processAI1.Piece
                 legalMoves.Add(new Move(position, leftUp));
             }
             if (leftDown.validPosition() && !game.isOccupiedWithMyPiece(leftDown, isWhite))
->>>>>>> MiniMax:processAI1/Piece/King.cs
             {
                 legalMoves.Add(new Move(position, leftDown));
             }

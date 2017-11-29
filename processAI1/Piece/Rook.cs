@@ -1,4 +1,5 @@
-﻿using System;
+﻿using processAI1.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,96 +18,77 @@ namespace processAI1.Piece
 
         }
 
-        public override List<Move> getPossibleMoves(Belief belief)
+        public override List<Move> getPossibleMoves(ChessBoard game)
         {
             List<Move> legalMoves = new List<Move>();
-            int left = (int)position.GetX() - 8 > 0 ? (int)position.GetX() - 8 : 0;
-            int right = (int)position.GetX() + 8 < 7 ? (int)position.GetX() + 8 : 7;
-                        
-            for (int i = (int)position.GetX() - 1; i >= left; i--)
+            int left = (int)position.getX() - 8 > 0 ? (int)position.getX() - 8 : 0;
+            int right = (int)position.getX() + 8 < 7 ? (int)position.getX() + 8 : 7;
+            //vers la droite
+            if(position.getX() < 7)
             {
-                Point p = new Point(i, position.GetY());
-                if (belief.isOccupied(p))
+                for (int i = position.getX() + 1; i <= 7; i++)
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    {
+                    Point p = new Point(i, position.getY());
+                    if (!game.isOccupied(p) && p.validPosition())
                         legalMoves.Add(new Move(position, p));
+                    else
+                    {
+                        if (!game.isOccupiedWithMyPiece(p, isWhite) && p.validPosition())
+                            legalMoves.Add(new Move(position, p));
                         break;
                     }
-                    break;
                 }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
-                }
-
             }
-            for (int i = (int)position.GetX() + 1; i <= right; i++)
+            //vers la gauche 
+            if (position.getX() > 0)
             {
-                Point p = new Point(i, position.GetY());
-                if (belief.isOccupied(p))
+
+                for (int i = position.getX() - 1; i >= 0; i--)
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    {
+                    Point p = new Point(i, position.getY());
+                    if (!game.isOccupied(p) && p.validPosition())
                         legalMoves.Add(new Move(position, p));
+                    else
+                    {
+                        if (!game.isOccupiedWithMyPiece(p, isWhite) && p.validPosition())
+                            legalMoves.Add(new Move(position, p));
                         break;
-
                     }
-                    break;
                 }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
-                }
-
             }
 
-            // Up and down
-            int up = (int)position.GetY() + 8 < 7 ? (int)position.GetY() + 8 : 7;
-            int down = (int)position.GetY() - 8 > 0 ? (int)position.GetY() - 8 : 0;
-            for (int i = (int)position.GetY() + 1; i <= up; i++)
-            {
-                
-                Point p = new Point(position.GetX(), i);
-                if (belief.isOccupied(p))
+            //En haut 
+            if (position.getY() < 7)
+                for (int i = position.getY() + 1; i <= 7; i++)
                 {
-                    if (!belief.isOccupiedWithMyPiece(p, isWhite))
-                    {
+                    Point p = new Point(position.getX(), i);
+                    if (!game.isOccupied(p) && p.validPosition())
                         legalMoves.Add(new Move(position, p));
-                        break;
-
-                    }
-                    break;
-                }
-                else
-                {
-                    legalMoves.Add(new Move(position, p));
-                }
-
-
-            }
-            for (int i = (int)position.GetY() - 1; i >= down; i--)
-            {
-                
-                Point p = new Point(position.GetX(), i);
-                if (belief.isOccupied(p))
-                {
-                    if(!belief.isOccupiedWithMyPiece(p, isWhite))
+                    else
                     {
-                        legalMoves.Add(new Move(position, p));
+                        if (!game.isOccupiedWithMyPiece(p, isWhite) && p.validPosition())
+                            legalMoves.Add(new Move(position, p));
                         break;
-
                     }
-                    break;
+                }
 
-                }
-                else
+            //En bas 
+            if (position.getY() > 0)
+                for (int i = position.getY() - 1; i >= 0; i--)
                 {
-                    legalMoves.Add(new Move(position, p));
+                    Point p = new Point(position.getX(), i);
+                    if (!game.isOccupied(p) && p.validPosition())
+                        legalMoves.Add(new Move(position, p));
+                    else
+                    {
+                        if (!game.isOccupiedWithMyPiece(p, isWhite) && p.validPosition())
+                            legalMoves.Add(new Move(position, p));
+                        break;
+                    }
                 }
+          
                 
-                
-            }
+           
             return legalMoves;
         }
 

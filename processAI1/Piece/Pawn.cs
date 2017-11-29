@@ -28,13 +28,6 @@ namespace processAI1.Piece
             List<Move> legalMoves = new List<Move>();
             int oneStep = isWhite ? 1 : -1;
             int twoStep = isWhite ? 2 : -2;
-<<<<<<< HEAD:processAI1/Piece/Pawn.cs
-            Point p = new Point(position.GetX(), position.GetY() + oneStep);
-            if (!belief.isOccupied(p))
-            {
-                legalMoves.Add(new Move(position, p));
-                if (isFirstMove && !belief.isOccupied(position.GetX(), position.GetY() + twoStep))
-=======
             Point p = new Point(position.getX(), position.getY() + oneStep);
             if (!game.isOccupied(p) && p.validPosition())
             {
@@ -47,9 +40,8 @@ namespace processAI1.Piece
                     legalMoves.Add(new Move(position, p));
                 }
                 if (isFirstMove() && !game.isOccupied(position.getX(), position.getY() + twoStep))
->>>>>>> MiniMax:processAI1/Piece/Pawn.cs
                 {                   
-                    legalMoves.Add(new Move(position, new Point(position.GetX(), position.GetY() + twoStep)));
+                    legalMoves.Add(new Move(position, new Point(position.getX(), position.getY() + twoStep)));
 
                 }
                    
@@ -62,10 +54,10 @@ namespace processAI1.Piece
         private void getPawnAttack(ref List<Move> legalMoves, ChessBoard belief)
         {
             int offset = isWhite ? 1 : 1;
-            Point right = new Point(position.GetX() + 1, position.GetY() + offset);
-            Point left = new Point(position.GetX() - 1, position.GetY() + offset);
+            Point right = new Point(position.getX() + 1, position.getY() + offset);
+            Point left = new Point(position.getX() - 1, position.getY() + offset);
             
-                if (right.ValidPosition())
+                if (right.validPosition())
                 {
                     if (belief.isOccupied(right))
                     {
@@ -77,7 +69,7 @@ namespace processAI1.Piece
                 }
             
            
-                if (left.ValidPosition())
+                if (left.validPosition())
                 {
                     if (belief.isOccupied(left))
                     {

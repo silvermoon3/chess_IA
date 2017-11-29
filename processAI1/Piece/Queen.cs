@@ -20,15 +20,9 @@ namespace processAI1.Piece
 
         public override List<Move> getPossibleMoves(ChessBoard game)
         {
-<<<<<<< HEAD:processAI1/Piece/Queen.cs
-            Rook r = new Rook(position.GetX(), position.GetY(), isWhite);
-            Bishop b = new Bishop(position.GetX(), position.GetY(), isWhite);
-            return r.getPossibleMoves(belief).Union(b.getPossibleMoves(belief)).ToList();
-=======
             Rook r = new Rook(position.getX(), position.getY(), isWhite);
             Bishop b = new Bishop(position.getX(), position.getY(), isWhite);
             return r.getPossibleMoves(game).Union(b.getPossibleMoves(game)).ToList();
->>>>>>> MiniMax:processAI1/Piece/Queen.cs
            
         }
         public override String getPiece()

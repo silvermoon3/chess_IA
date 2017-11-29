@@ -1,109 +1,165 @@
-﻿using processAI1.Piece;
+﻿using processAI1.Agent.BDI;
+using processAI1.Board;
+using processAI1.Piece;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 
 namespace processAI1.Agent
 {
     class Agent
     {
-
         Belief belief;
-        Effector effector;  
+        Sensor sensor;
+        Intention intention;
+        Desire desire;
+            
+        private Boolean isWhite;
                       
         public Agent()
         {
-          
-           effector = new Effector();
-           belief = new Belief();     
-           
+           sensor = new Sensor();
+           belief = new Belief();
+           desire = new Desire();
+           intention = new Intention();
         }
         public void doWork()
         {
-            updateBelief(effector.getBoard());
-            
-
-            //Afficher le Board
-            for (int i = 7; i >= 0; i--)
-            {
-                switch (i)
-                {
-                    case 0: Console.Write("8"); break;
-                    case 1: Console.Write("7"); break;
-                    case 2: Console.Write("6"); break;
-                    case 3: Console.Write("5"); break;
-                    case 4: Console.Write("4"); break;
-                    case 5: Console.Write("3"); break;
-                    case 6: Console.Write("2"); break;
-                    case 7: Console.Write("1"); break;
-                }
-                Console.Write("|");
-                for (int j = 7; j >= 0; j--)
-                {
-                    if(belief.isOccupied(i,j))
-                     Console.Write(belief.getCase(i, j).getPiece().getPiece());
-                    else
-                    
-                        Console.Write("x");
-                    
-                    if(j == 0)
-                    {
-                        Console.Write("\n");
-                        //retour à la ligne
-                    }
-                }
-            }          
+            updateBelief();
+              
         }
 
-        public Effector getEffector()
+        public Sensor getEffector()
         {
-            return effector;
+            return sensor;
         }
 
-        public void updateBelief(Cell[,] board)
+        public void updateBelief()
         {
-            belief.Update(board);
+            belief.Update(sensor);
         }
 
         public void think()
         {
             //Look for the best move
+            Random rnd = new Random();
+            // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
+            List<Move> moves = belief.getPossibleMoves();
+            if (moves.Count != 0)
+            {
+                Move randomMove = moves.ElementAt(rnd.Next(moves.Count));
+                belief.getChessBoard().makeMove(randomMove);
+            }
         }
 
         public String[] getBestMove()
         {
-            String[] coord = new String[2];
-            Random rnd = new Random();
-            // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
-            List<Move> moves = belief.getPossibleMoves();
-            Move randomMove = moves.ElementAt(rnd.Next(moves.Count));
-            coord[0] = randomMove.GetInitialPosition().ToString();
-            coord[1] = randomMove.GetFinalPosition().ToString();
-
-            return coord;
-        }
-
-        private Move bestMove(int depth, Boolean isMaximisingPlayer)
-        {            
-            List<Move> moves = belief.getPossibleMoves();
-            int[] bestresults = new int[moves.Count];
-            Move bestMoveFound = new Move();
-            foreach(Move mv in moves)
+            if (!desire.isOtherPlayerInChess(belief))
             {
-                
+                /************************************************************************/
+                /************************ RANDOM MOVE ************************/
+                /************************************************************************/
+                //String[] coord = new String[2];
+                //Random rnd = new Random();
+                ////// coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
+                //List<Move> moves = belief.getPossibleMoves();
+                //if (moves.Count != 0)
+                //{
+                //    Move randomMove = moves.ElementAt(rnd.Next(moves.Count));
+                //    coord[0] = randomMove.getInitialPosition().ToString();
+                //    coord[1] = randomMove.getFinalPosition().ToString();
+                //    Console.WriteLine("coup : " + coord[0] + " " + coord[1]);
+                //    //Update first move of Rook or King
+                //    belief.updateFirstMove(randomMove.getInitialPosition());
+                //    return coord;
+                //}
+
+                /************************************************************************/
+                /************************ BEST MOVE WITH ONLY PIECE VALUE ************************/
+                /************************************************************************/
+
+                //String[] coord = new String[2];
+                //Move move = getBestMoveWithPieceValue(belief.getFakeChessBoard());
+                //coord[0] = move.getInitialPosition().ToString();
+                //coord[1] = move.getFinalPosition().ToString();
+                //Console.WriteLine("coup : " + coord[0] + " " + coord[1]);
+                ////Update first move of Rook or King
+                //belief.updateFirstMove(move.getInitialPosition());
+                //return coord;
+
+                /************************************************************************/
+                /************************ Simple MiniMax Without alpha beta ************************/
+                /************************************************************************/
+
+                String[] coord = new String[2];
+                Move move = getBestMoveWithSimpleMinMax(belief.getFakeChessBoard());
+                coord[0] = move.getInitialPosition().ToString();
+                coord[1] = move.getFinalPosition().ToString();
+                Console.WriteLine("coup : " + coord[0] + " " + coord[1]);
+                //Update first move of Rook or King
+                belief.updateFirstMove(move.getInitialPosition());
+                return coord;
+
             }
-            return bestMoveFound;
-        }
+            //if (!desire.isOtherPlayerInChess(belief))
+            //{
+            //    MiniMax algo = new MiniMax();
+            //    Move move = algo.getBestMove(belief.getFakeChessBoard(), 3);
+            //    String[] coord = new String[2];
+            //    if (!move.IWantARoque())
+            //    {
+            //        if (!intention.willIBeInCheck(belief, move))
+            //        {
+            //            belief.updateFirstMove(move.getInitialPosition());
+            //            coord[0] = move.getInitialPosition().ToString();
+            //            coord[1] = move.getFinalPosition().ToString();
+            //        }
 
-        private Move MiniMax(int depth, int alpha, int beta, Boolean isMaximisingPlayer)
-        {
+            //    }
+            //else
+            //{
+            //    coord[0] = move.getRoque();
+            //    //Update piece position for a roque
+            //}
 
+            //    return coord;
+            //}
             return null;
         }
 
+        public void setColor(Boolean _isWhite)
+        {
+            isWhite = _isWhite;
+        }
 
-     
 
+        //Best Move with only value for a piece 
+        public Move getBestMoveWithPieceValue(ChessBoard fakeBoard)
+        {
+            Move bestMove = null;
+            List<Move> moves = fakeBoard.getAllPossibleMoves();
+            int bestValue = Int32.MinValue;
+            foreach(Move mv in moves)
+            {
+                fakeBoard.makeMove(mv);
+                int score = -fakeBoard.EvaluateBoardWithPieceValue();
+                fakeBoard.undoMove(mv);
+                if (score > bestValue)
+                {
+                    bestValue = score;
+                    bestMove = mv;
+                }
+                    
+             }
+            return bestMove;
+        }
 
+        public Move getBestMoveWithSimpleMinMax(ChessBoard fakeBoard)
+        {
+            MiniMax algo = new MiniMax();
+            return algo.simpleMiniMaxRoot(fakeBoard, 3, true);
+        }
+       
     }
 }

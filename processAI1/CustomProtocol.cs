@@ -27,8 +27,11 @@ namespace processAI1
                                                    "a1","b1","c1","d1","e1","f1","g1","h1" };
                 Agent.Agent a = new Agent.Agent();
 
+
+
                 while (!stop)
                 {
+
                     using (var mmf = MemoryMappedFile.OpenExisting("plateau"))
                     {
                         using (var mmf2 = MemoryMappedFile.OpenExisting("repAI1"))
@@ -69,13 +72,12 @@ namespace processAI1
                                 }
 
                                 List<String> reste = new List<String>();
-                                List<Piece.Piece> restePieces = new List<Piece.Piece>();
                                 for (int i = 0; i < tabVal.Length; i++)
                                 {
                                     if (tabVal[i] <= 0) reste.Add(tabCoord[i]);
                                 }
 
-                                a.getEffector().setTabVal(tabVal);
+                                a.getEffector().readBoard(mesPieces, reste, tabVal);
                                 a.doWork();
                                 Random rnd = new Random();
                                 // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
@@ -106,6 +108,7 @@ namespace processAI1
                             mutexStartAI1.ReleaseMutex();
                         }
                     }
+
                 }
             }
             catch (FileNotFoundException)

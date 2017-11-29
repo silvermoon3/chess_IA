@@ -8,55 +8,49 @@ namespace processAI1
 {
     public class Point 
     {
-        int _x;
-        int _y;
+        int x;
+        int y;
 
-        public Point(int x, int y)
+        public Point(int _x, int _y)
         {
-            this._x = x;
-            this._y = y;
+            this.x = _x;
+            this.y = _y;
         }
         public Point(String pos)
         {
-            this._x = GetPointFromString(pos).GetX();
-            this._y = GetPointFromString(pos).GetY();
+            this.x = getPointFromString(pos).getX();
+            this.y = getPointFromString(pos).getY();
         }
         public Point()
         {
-            this._x = 0;
-            this._y = 0;
+            this.x = 0;
+            this.y = 0;
         }
 
-        public int GetX()
+        public int getX()
         {
-            return this._x;        
+            return this.x;        
         }
 
-        public int GetY()
+        public int getY()
         {
-            return this._y;
+            return this.y;
         }
 
-        public Boolean ValidPosition()
+        public Boolean validPosition()
         {
-            return this._x >= 0 && this._x <= 7 && this._y >= 0 && this._y <= 7;
+            return this.x >= 0 && this.x <= 7 && this.y >= 0 && this.y <= 7;
         }
 
         override
         public string ToString()
         {
             String posX = "";
-<<<<<<< HEAD:processAI1/Board/Point.cs
-            int newY = _y + 1;
-           
-            switch (GetX())
-=======
             int newY = y + 1;
 
             if (y == 9)
                 Console.WriteLine("stop");
             switch (getX())
->>>>>>> MiniMax:processAI1/Board/Point.cs
             {
                 case 0:
                     posX = "a";break;
@@ -79,9 +73,6 @@ namespace processAI1
             return posX + newY;
         }
 
-<<<<<<< HEAD:processAI1/Board/Point.cs
-        public Point GetPointFromString(String pos)
-=======
     
         public Boolean equal(Point p)
         {
@@ -89,7 +80,6 @@ namespace processAI1
         }
 
         public Point getPointFromString(String pos)
->>>>>>> MiniMax:processAI1/Board/Point.cs
         {
             int x = 0;
             int y = Int32.Parse(pos.Substring(1));

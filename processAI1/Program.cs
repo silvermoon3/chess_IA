@@ -7,16 +7,21 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Threading;
 using processAI1.Agent;
+using System.Windows.Forms;
 
-namespace processAI1 
+namespace processAI1
 {
     public enum colorPlayer { White, Black };
     class Program
     {
+
+       
        static void Main(string[] args)
-       {
-           IComunicationProtocol protocol = new UciProtocol();
-           protocol.Run();
+        {
+            
+            IComunicationProtocol protocol = new UciProtocol();
+            protocol.Run();
+          
 
         }
     }

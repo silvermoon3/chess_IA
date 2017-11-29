@@ -52,29 +52,17 @@
     <Compile Include="Agent\BDI\Desire.cs" />
     <Compile Include="Agent\BDI\Intention.cs" />
     <Compile Include="Board\MiniMax.cs" />
-    <Compile Include="Board\Node.cs" />
     <Compile Include="Agent\Sensor.cs" />
-<<<<<<< HEAD:processAI1/processAI1.csproj
     <Compile Include="Board\Bitboard\BitBoardUtil.cs" />
     <Compile Include="Board\Bitboard\BitMove.cs" />
     <Compile Include="Board\Bitboard\ChessBoardConverter.cs" />
-    <Compile Include="Board\ChessBoard.cs" />
     <Compile Include="Board\Bitboard\IChessBoard.cs" />
     <Compile Include="Board\Bitboard\BitBoard.cs" />
-    <Compile Include="Board\Move.cs" />
     <Compile Include="Board\Node.cs" />
     <Compile Include="CustomProtocol.cs" />
     <Compile Include="IComunicationProtocol.cs" />
-=======
     <Compile Include="Board\ChessBoard.cs" />
     <Compile Include="Board\Rating.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
->>>>>>> MiniMax:processAI1/processAI1.csproj
     <Compile Include="Piece\Bishop.cs" />
     <Compile Include="Agent\BDI\Belief.cs" />
     <Compile Include="Piece\Cell.cs" />
@@ -84,19 +72,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
-<<<<<<< HEAD:processAI1/processAI1.csproj
-=======
     <Compile Include="Board\Move.cs" />
->>>>>>> MiniMax:processAI1/processAI1.csproj
     <Compile Include="Agent\Effector.cs" />
     <Compile Include="Piece\King.cs" />
     <Compile Include="Piece\Knight.cs" />
     <Compile Include="Piece\Pawn.cs" />
     <Compile Include="Piece\Piece.cs" />
-<<<<<<< HEAD:processAI1/processAI1.csproj
-=======
-    <Compile Include="Board\Point.cs" />
->>>>>>> MiniMax:processAI1/processAI1.csproj
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Piece\Queen.cs" />
@@ -107,10 +88,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
