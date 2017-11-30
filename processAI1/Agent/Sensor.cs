@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using processAI1.Piece;
+using processAI1.Board.Bitboard;
+using processAI1.Board.Chessboard.Piece;
 
 namespace processAI1.Agent
 {
+    public enum Color { Black,White}
+
     public class Sensor
     {
-        int[] tabVal = new int[64];
-        String[] tabCoord = new string[] { "a8","b8","c8","d8","e8","f8","g8","h8",
+        int[] _tabVal = new int[64];
+        String[] _tabCoord = new string[] { "a8","b8","c8","d8","e8","f8","g8","h8",
                                            "a7","b7","c7","d7","e7","f7","g7","h7",
                                            "a6","b6","c6","d6","e6","f6","g6","h6",
                                            "a5","b5","c5","d5","e5","f5","g5","h5",
@@ -19,95 +22,96 @@ namespace processAI1.Agent
                                            "a2","b2","c2","d2","e2","f2","g2","h2",
                                            "a1","b1","c1","d1","e1","f1","g1","h1" };
 
-        List<Piece.Piece> myPieces = new List<Piece.Piece>();
-        List<Piece.Piece> otherPieces = new List<Piece.Piece>();
-        List<String> reste = new List<String>();
+        List<Board.Chessboard.Piece.Piece> _whitePieces = new List<Board.Chessboard.Piece.Piece>();
+        List<Board.Chessboard.Piece.Piece> _blackPieces = new List<Board.Chessboard.Piece.Piece>();
+        List<String> _reste = new List<String>();
+
+        internal List<Board.Chessboard.Piece.Piece> GetPieces(Boolean isWhite)
+        {
+            if (isWhite)
+                return _whitePieces;
+            else
+                return _blackPieces;
+        }
+
+        public Color Color = Color.White;
         public Sensor()
         {
 
         }
 
-        public List<Piece.Piece> getMyPieces()
-        {
-            return myPieces;
-        }
-
-        public List<Piece.Piece> getOtherPieces()
-        {
-            return otherPieces;
-        }
 
 
-        public void readBoard(List<String> mesPieces, List<String> reste, int[] _tabVal)
+        public void ReadBoard(List<String> mesPieces, List<String> reste, int[] tabVal)
         {
-            tabVal = _tabVal;
+            this._tabVal = tabVal;
             //first update of my pieces 
-            //if (myPieces.Count == 0)
+            //if (whitePieces.Count == 0)
             //{
-            myPieces = new List<Piece.Piece>();
-                for (int i = 0; i < tabVal.Length; i++)
+            _whitePieces = new List<Board.Chessboard.Piece.Piece>();
+                for (int i = 0; i < this._tabVal.Length; i++) 
                 {
-                    Point p = new Point(tabCoord[i]);
-                    Boolean isWhite = tabVal[i] > 0;
-                    if (tabVal[i] == 21)
-                        myPieces.Add(new Rook(p.getX(), p.getY(), isWhite));
-                    else if (tabVal[i] == 31)
-                        myPieces.Add(new Knight(p.getX(), p.getY(), isWhite));
-                    else if (tabVal[i] == 4)
-                        myPieces.Add(new Bishop(p.getX(), p.getY(), isWhite));
-                    else if (tabVal[i] == 5)
-                        myPieces.Add(new Queen(p.getX(), p.getY(), isWhite));
-                    else if (tabVal[i] == 6)
-                        myPieces.Add(new King(p.getX(), p.getY(), isWhite));
-                    else if (tabVal[i] == 32)
-                        myPieces.Add(new Knight(p.getX(), p.getY(), isWhite));
-                    else if (tabVal[i] == 22)
-                        myPieces.Add(new Rook(p.getX(), p.getY(), isWhite));
-                    else if (tabVal[i] == 1)
-                        myPieces.Add(new Pawn(p.getX(), p.getY(), isWhite));
+                    Point p = new Point(_tabCoord[i]);
+                    Boolean isWhite = this._tabVal[i] > 0;
+                    if (this._tabVal[i] == 21)
+                        _whitePieces.Add(new Rook(p.GetX(), p.GetY(), isWhite));
+                    else if (this._tabVal[i] == 31)
+                        _whitePieces.Add(new Knight(p.GetX(), p.GetY(), isWhite));
+                    else if (this._tabVal[i] == 4)
+                        _whitePieces.Add(new Bishop(p.GetX(), p.GetY(), isWhite));
+                    else if (this._tabVal[i] == 5)
+                        _whitePieces.Add(new Queen(p.GetX(), p.GetY(), isWhite));
+                    else if (this._tabVal[i] == 6)
+                        _whitePieces.Add(new King(p.GetX(), p.GetY(), isWhite));
+                    else if (this._tabVal[i] == 32)
+                        _whitePieces.Add(new Knight(p.GetX(), p.GetY(), isWhite));
+                    else if (this._tabVal[i] == 22)
+                        _whitePieces.Add(new Rook(p.GetX(), p.GetY(), isWhite));
+                    else if (this._tabVal[i] == 1)
+                        _whitePieces.Add(new Pawn(p.GetX(), p.GetY(), isWhite));
                 }
             //}
-            //else if (mesPieces.Count != myPieces.Count)
+            //else if (mesPieces.Count != whitePieces.Count)
             //{
             //    Boolean somethingToRemove = false;
             //    Piece.Piece toRemove = null;
             //    //enlever pièces qui a été mangée 
-            //    foreach (Piece.Piece piece in myPieces)
+            //    foreach (Piece.Piece piece in whitePieces)
             //    {
-            //        if (!mesPieces.Contains(myPieces.Find(p => p.getPosition().equal(piece.getPosition())).getPosition().ToString()))
+            //        if (!mesPieces.Contains(whitePieces.Find(p => p.getPosition().equal(piece.getPosition())).getPosition().ToString()))
             //        {
             //            somethingToRemove = true;
             //            toRemove = piece;
             //        }
             //    }
             //    if (somethingToRemove)
-            //        myPieces.Remove(toRemove);
+            //        whitePieces.Remove(toRemove);
 
             //}
             //Other piece 
-            //if (otherPieces.Count == 0)
+            //if (blackPieces.Count == 0)
             //  {
-            otherPieces = new List<Piece.Piece>();
-            for (int i = 0; i < tabVal.Length; i++)
+            _blackPieces = new List<Board.Chessboard.Piece.Piece>();
+            for (int i = 0; i < this._tabVal.Length; i++)
             {
-                Point p = new Point(tabCoord[i]);
-                Boolean isWhite = tabVal[i] > 0;
-                if (tabVal[i] == -21)
-                    otherPieces.Add(new Rook(p.getX(), p.getY(), isWhite));
-                else if (tabVal[i] == -31)
-                    otherPieces.Add(new Knight(p.getX(), p.getY(), isWhite));
-                else if (tabVal[i] == -4)
-                    otherPieces.Add(new Bishop(p.getX(), p.getY(), isWhite));
-                else if (tabVal[i] == -5)
-                    otherPieces.Add(new Queen(p.getX(), p.getY(), isWhite));
-                else if (tabVal[i] == -6)
-                    otherPieces.Add(new King(p.getX(), p.getY(), isWhite));
-                else if (tabVal[i] == -32)
-                    otherPieces.Add(new Knight(p.getX(), p.getY(), isWhite));
-                else if (tabVal[i] == -22)
-                    otherPieces.Add(new Rook(p.getX(), p.getY(), isWhite));
-                else if (tabVal[i] == -1)
-                    otherPieces.Add(new Pawn(p.getX(), p.getY(), isWhite));
+                Point p = new Point(_tabCoord[i]);
+                Boolean isWhite = this._tabVal[i] > 0;
+                if (this._tabVal[i] == -21)
+                    _blackPieces.Add(new Rook(p.GetX(), p.GetY(), isWhite));
+                else if (this._tabVal[i] == -31)
+                    _blackPieces.Add(new Knight(p.GetX(), p.GetY(), isWhite));
+                else if (this._tabVal[i] == -4)
+                    _blackPieces.Add(new Bishop(p.GetX(), p.GetY(), isWhite));
+                else if (this._tabVal[i] == -5)
+                    _blackPieces.Add(new Queen(p.GetX(), p.GetY(), isWhite));
+                else if (this._tabVal[i] == -6)
+                    _blackPieces.Add(new King(p.GetX(), p.GetY(), isWhite));
+                else if (this._tabVal[i] == -32)
+                    _blackPieces.Add(new Knight(p.GetX(), p.GetY(), isWhite));
+                else if (this._tabVal[i] == -22)
+                    _blackPieces.Add(new Rook(p.GetX(), p.GetY(), isWhite));
+                else if (this._tabVal[i] == -1)
+                    _blackPieces.Add(new Pawn(p.GetX(), p.GetY(), isWhite));
 
             }
             //}
@@ -117,8 +121,116 @@ namespace processAI1.Agent
             //}
             //Update of other pieces 
         }
+        /*
+        public void importFEN(string fenString)
+        {
+            int charIndex = 0;
+            whitePieces = new List<Board.Chessboard.Piece.Piece>();
+            blackPieces = new List<Board.Chessboard.Piece.Piece>();
+            int boardIndex = 0;
+            KeyValuePair<int, int> pair;
+            Point p;
+            while (fenString[charIndex] != ' ')
+            {
+                switch (fenString[charIndex++])
+                {
+                     
+                    case 'P':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key,pair.Value);
+                        blackPieces.Add(new Pawn(p.getX(), p.getY(), false));
+                        break;
+                    case 'p':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        whitePieces.Add(new Pawn(p.getX(), p.getY(), true));
+                        break;
+                    case 'N':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        blackPieces.Add(new Knight(p.getX(), p.getY(), false));
+                        break;
+                    case 'n':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        whitePieces.Add(new Knight(p.getX(), p.getY(), true));
+                        break;
+                    case 'B':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        blackPieces.Add(new Bishop(p.getX(), p.getY(), false));
+                        break;
+                    case 'b':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        whitePieces.Add(new Bishop(p.getX(), p.getY(), true));
+                        break;
+                    case 'R':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        blackPieces.Add(new Rook(p.getX(), p.getY(), false));
+                        break;
+                    case 'r':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        whitePieces.Add(new Rook(p.getX(), p.getY(), true));
+                        break;
+                    case 'Q':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        blackPieces.Add(new Queen(p.getX(), p.getY(), false));
+                        break;
+                    case 'q':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        whitePieces.Add(new Queen(p.getX(), p.getY(), true));
+                        break;
+                    case 'K':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        blackPieces.Add(new King(p.getX(), p.getY(), false));
+                        break;
+                    case 'k':
+                        pair = ChessBoardConverter.CoordBitBoardToArray(boardIndex++);
+                        p = new Point(pair.Key, pair.Value);
+                        whitePieces.Add(new King(p.getX(), p.getY(), true));
+                        break;
+                    case '/':
+                        break;
+                    case '1':
+                        boardIndex++;
+                        break;
+                    case '2':
+                        boardIndex += 2;
+                        break;
+                    case '3':
+                        boardIndex += 3;
+                        break;
+                    case '4':
+                        boardIndex += 4;
+                        break;
+                    case '5':
+                        boardIndex += 5;
+                        break;
+                    case '6':
+                        boardIndex += 6;
+                        break;
+                    case '7':
+                        boardIndex += 7;
+                        break;
+                    case '8':
+                        boardIndex += 8;
+                        break;
+                    default:
+                        break;
 
-        public void getNewBelief()
+                }   
+            }
+            _color = (fenString[++charIndex] == 'w') ? Color.White : Color.Black;
+
+        }
+        */
+        public void GetNewBelief()
         {
             //New other piece 
 

@@ -3,105 +3,107 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using processAI1.Piece;
 using processAI1.Board;
 using processAI1.Agent;
+using processAI1.Board.Chessboard;
+using processAI1.Board.Chessboard.Piece;
 
 namespace processAI1
 {
     public class Belief
     {
-        Board.ChessBoard board;
-        Board.ChessBoard fakeBoard;
-        List<Piece.Piece> myPieces = new List<Piece.Piece>();
-        List<Piece.Piece> otherPieces = new List<Piece.Piece>();
-        Boolean isWhite;
+        ChessBoard _board;
+        ChessBoard _fakeBoard;
+        List<Board.Chessboard.Piece.Piece> _myPieces = new List<Board.Chessboard.Piece.Piece>();
+        List<Board.Chessboard.Piece.Piece> _otherPieces = new List<Board.Chessboard.Piece.Piece>();
+        public Boolean IsWhite;
 
         //Bolean for move
-        public static Boolean firstMoveOfKing;
-        public static Boolean firstMoveOfRightRook;
-        public static Boolean firstMoveOfLeftRook;
+        public static Boolean FirstMoveOfKing;
+        public static Boolean FirstMoveOfRightRook;
+        public static Boolean FirstMoveOfLeftRook;
 
         public Belief()
         {
-            board = new ChessBoard();
-            fakeBoard = new ChessBoard();
-            firstMoveOfKing = true;
-            firstMoveOfRightRook = true;
-            firstMoveOfLeftRook = true;
+            _board = new ChessBoard();
+            _fakeBoard = new ChessBoard();
+            FirstMoveOfKing = true;
+            FirstMoveOfRightRook = true;
+            FirstMoveOfLeftRook = true;
             //this.isWhite = _isWhite;
         }
         
         public void Update(Sensor sensor)
         {
+            IsWhite = sensor.Color == Color.White ? true : false;
             //Update of the board           
-            myPieces = sensor.getMyPieces();
-            otherPieces = sensor.getOtherPieces();           
-            board.updateChessBoard(myPieces, otherPieces);
+            _myPieces = sensor.GetPieces(IsWhite);
+            _otherPieces = sensor.GetPieces(!IsWhite);           
+            _board.UpdateChessBoard(_myPieces, _otherPieces);
             //Update of FakeBoard for MiniMax 
-            fakeBoard.updateChessBoard(myPieces, otherPieces);
+            _fakeBoard.UpdateChessBoard(_myPieces, _otherPieces);
 
         }
        
-        public List<Move> getPossibleMoves()
+        public List<Move> GetPossibleMoves()
         {
             List<Move> moves = new List<Move>();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
-                    if (board.getCase(i, j).isOccupied)
-                        if (board.getCase(i, j).getPiece().isWhite /*&& board.getCase(i, j).getPiece() is Pawn*/)
-                            moves.AddRange(board.getCase(i, j).getPiece().getPossibleMoves(board));
+                    if (_board.GetCase(i, j).IsOccupied)
+                        if (_board.GetCase(i, j).GetPiece().IsWhite /*&& board.getCase(i, j).ToString() is Pawn*/)
+                            moves.AddRange(_board.GetCase(i, j).GetPiece().GetPossibleMoves(_board));
             }
             return moves;
         }
-        public List<Move> getPossibleMovesForAPlayer(Boolean isWhite)
+        public List<Move> GetPossibleMovesForAPlayer(Boolean isWhite)
         {
             List<Move> moves = new List<Move>();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
-                    if (board.getCase(i, j).isOccupied)
-                        if (board.getCase(i, j).getPiece().isWhite == isWhite)
-                            moves.AddRange(board.getCase(i, j).getPiece().getPossibleMoves(board));
+                    if (_board.GetCase(i, j).IsOccupied)
+                        if (_board.GetCase(i, j).GetPiece().IsWhite == isWhite)
+                            moves.AddRange(_board.GetCase(i, j).GetPiece().GetPossibleMoves(_board));
             }
             return moves;
         }
 
-        public Cell getCase(int x, int y)
+        public Cell GetCase(int x, int y)
         {
-            return board.getCase(x, y);
+            return _board.GetCase(x, y);
         }
 
-        public Cell getCase(Point p)
+        public Cell GetCase(Point p)
         {
-            return board.getCase(p.getX(), p.getY());
+            return _board.GetCase(p.GetX(), p.GetY());
         }
-        public ChessBoard getChessBoard()
+        public ChessBoard GetChessBoard()
         {
-            return board;
+            return _board;
         }
-        public ChessBoard getFakeChessBoard()
+        public ChessBoard GetFakeChessBoard()
         {
-            return fakeBoard;
+            return _fakeBoard;
         }
 
-        public void updateFirstMove(Point oldPos)
+        public void UpdateFirstMove(Point oldPos)
         {
 
-           if(getCase(oldPos).getPiece() is Rook)
+           if(GetCase(oldPos).GetPiece() is Rook)
             {
                 //Right rook
-                if (oldPos.getX() == 0 && firstMoveOfLeftRook)
-                    firstMoveOfLeftRook = false;
+                if (oldPos.GetX() == 0 && FirstMoveOfLeftRook)
+                    FirstMoveOfLeftRook = false;
 
                 //Left rook
-                if (oldPos.getX() == 7 && firstMoveOfLeftRook)
-                    firstMoveOfLeftRook = false;
+                if (oldPos.GetX() == 7 && FirstMoveOfLeftRook)
+                    FirstMoveOfLeftRook = false;
             }
 
-            if (getCase(oldPos).getPiece() is King && firstMoveOfKing)
-                  firstMoveOfKing = false;
+            if (GetCase(oldPos).GetPiece() is King && FirstMoveOfKing)
+                  FirstMoveOfKing = false;
 
 
 

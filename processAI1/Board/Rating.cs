@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using processAI1.Board.Chessboard;
+using processAI1.Board.Chessboard.Piece;
 
 namespace processAI1.Board
 {
     class Rating
     {
        
-        static int[][] pawnBoard= {  //attribute to http://chessprogramming.wikispaces.com/Simplified+evaluation+function
+        static int[][] _pawnBoard= {  //attribute to http://chessprogramming.wikispaces.com/Simplified+evaluation+function
             new int[]{ 0,  0,  0,  0,  0,  0,  0,  0},
             new int[]{50, 50, 50, 50, 50, 50, 50, 50},
             new int[]{10, 10, 20, 30, 30, 20, 10, 10},
@@ -19,7 +21,7 @@ namespace processAI1.Board
             new int[]{ 5, 10, 10,-20,-20, 10, 10,  5},
             new int[]{ 0,  0,  0,  0,  0,  0,  0,  0}};
 
-    static int[][] rookBoard = {
+    static int[][] _rookBoard = {
             new int[]{ 0,  0,  0,  0,  0,  0,  0,  0},
             new int[]{ 5, 10, 10, 10, 10, 10, 10,  5},
             new int[] {-5,  0,  0,  0,  0,  0,  0, -5},
@@ -29,7 +31,7 @@ namespace processAI1.Board
             new int[]{-5,  0,  0,  0,  0,  0,  0, -5},
             new int[]{ 0,  0,  0,  5,  5,  0,  0,  0}};
 
-    static int[][] knightBoard={
+    static int[][] _knightBoard={
             new int[]{-50,-40,-30,-30,-30,-30,-40,-50},
             new int[]{-40,-20,  0,  0,  0,  0,-20,-40},
             new int[]{-30,  0, 10, 15, 15, 10,  0,-30},
@@ -39,7 +41,7 @@ namespace processAI1.Board
             new int[]{-40,-20,  0,  5,  5,  0,-20,-40},
             new int[]{-50,-40,-30,-30,-30,-30,-40,-50}};
 
-    static int[][] bishopBoard ={
+    static int[][] _bishopBoard ={
             new int[]{-20,-10,-10,-10,-10,-10,-10,-20},
             new int[]{-10,  0,  0,  0,  0,  0,  0,-10},
             new int[]{-10,  0,  5, 10, 10,  5,  0,-10},
@@ -49,7 +51,7 @@ namespace processAI1.Board
             new int[]{-10,  5,  0,  0,  0,  0,  5,-10},
             new int[]{-20,-10,-10,-10,-10,-10,-10,-20}};
 
-    static int[][] queenBoard ={
+    static int[][] _queenBoard ={
             new int[]{-20,-10,-10, -5, -5,-10,-10,-20},
             new int[]{-10,  0,  0,  0,  0,  0,  0,-10},
             new int[]{-10,  0,  5,  5,  5,  5,  0,-10},
@@ -59,7 +61,7 @@ namespace processAI1.Board
             new int[]{-10,  0,  5,  0,  0,  0,  0,-10},
             new int[]{-20,-10,-10, -5, -5,-10,-10,-20}};
 
-    static int[][] kingMidBoard ={
+    static int[][] _kingMidBoard ={
             new int[]{-30,-40,-40,-50,-50,-40,-40,-30},
             new int[]{-30,-40,-40,-50,-50,-40,-40,-30},
             new int[]{-30,-40,-40,-50,-50,-40,-40,-30},
@@ -69,7 +71,7 @@ namespace processAI1.Board
             new int[]{ 20, 20,  0,  0,  0,  0, 20, 20},
             new int[]{ 20, 30, 10,  0,  0, 10, 30, 20}};
 
-    static int[][] kingEndBoard ={
+    static int[][] _kingEndBoard ={
             new int[]{-50,-40,-30,-20,-20,-30,-40,-50},
             new int[]{-30,-20,-10,  0,  0,-10,-20,-30},
             new int[]{-30,-10, 20, 30, 30, 20,-10,-30},
@@ -79,7 +81,7 @@ namespace processAI1.Board
             new int[]{-30,-30,  0,  0,  0,  0,-30,-30},
             new int[]{-50,-30,-30,-30,-30,-30,-30,-50}};
 
-    public static int rateBoard(ChessBoard b, Boolean isWhiteTurn)
+    public static int RateBoard(ChessBoard b, Boolean isWhiteTurn)
         {
             int result = 0;
 
@@ -89,68 +91,68 @@ namespace processAI1.Board
                 {
                     if (isWhiteTurn)
                     {
-                        if (b.isOccupied(i, j))
+                        if (b.IsOccupied(i, j))
                         { //checks if board square has a piece
-                            Piece.Piece p = b.getCase(i, j).getPiece();
-                            if (p.isWhite)
+                            Chessboard.Piece.Piece p = b.GetCase(i, j).GetPiece();
+                            if (p.IsWhite)
                             {
-                                if (p is Piece.Pawn)
+                                if (p is Pawn)
                                 {
-                                    result += pawnBoard[i][j];
+                                    result += _pawnBoard[i][j];
                                 }
-                                else if (p is Piece.Rook)
+                                else if (p is Rook)
                                 {
-                                    result += rookBoard[i][j];
+                                    result += _rookBoard[i][j];
                                 }
-                                else if (p is Piece.Bishop)
+                                else if (p is Bishop)
                                 {
-                                    result += bishopBoard[i][j];
+                                    result += _bishopBoard[i][j];
                                 }
-                                else if (p is Piece.Knight)
+                                else if (p is Knight)
                                 {
-                                    result += knightBoard[i][j];
+                                    result += _knightBoard[i][j];
                                 }
-                                else if (p is Piece.Queen)
+                                else if (p is Queen)
                                 {
-                                    result += queenBoard[i][j];
+                                    result += _queenBoard[i][j];
                                 }
-                                else if (p is Piece.King)
+                                else if (p is King)
                                 {
-                                    result += kingMidBoard[i][j];
+                                    result += _kingMidBoard[i][j];
                                 }
                             }
                         }
                     }
                     else
                     {
-                        if (b.isOccupied(i, j))
+                        if (b.IsOccupied(i, j))
                         { //checks if board square has a piece
-                            Piece.Piece p = b.getCase(i, j).getPiece();
-                            if (!p.isWhite)
+                            Chessboard.Piece.Piece p = b.GetCase(i, j).GetPiece();
+                            if (!p.IsWhite)
                             {
-                                if (p is Piece.Pawn)
+                                if (p is Pawn)
                                 {
-                                    result += pawnBoard[7 - i][7 - j];
+                                    result += _pawnBoard[7 - i][7 - j];
                                 }
-                                else if (p is Piece.Rook)
+                                else if (p is Rook)
                                 {
-                                    result += rookBoard[7 - i][7 - j];
+                                    result += _rookBoard[7 - i][7 - j];
                                 }
-                                else if (p is Piece.Bishop)
+                                else if (p is Bishop)
                                 {
-                                    result += bishopBoard[7 - i][7 - j];
+                                    result += _bishopBoard[7 - i][7 - j];
                                 }
-                                else if (p is Piece.Knight)
+                                else if (p is Knight)
                                 {
-                                    result += knightBoard[7 - i][7 - j];
+                                    result += _knightBoard[7 - i][7 - j];
                                 }
-                                else if (p is Piece.Queen)
+                                else if (p is Queen)
                                 {
-                                    result += queenBoard[7 - i][7 - j];
+                                    result += _queenBoard[7 - i][7 - j];
                                 }
-                                else if (p is Piece.King)
+                                else if (p is King)
                                 {
-                                    result += kingMidBoard[7 - i][7 - j];
+                                    result += _kingMidBoard[7 - i][7 - j];
                                 }
                             }
                         }

@@ -6,52 +6,56 @@ using System.Threading.Tasks;
 using System.Windows;
 
 
-namespace processAI1.Piece
+namespace processAI1.Board
 {
     public class Move
     {
-        private Point initialPosition;
-        private Point finalPosition;
-        private bool makeARoque;
-        private String roque;
+        private Point _initialPosition;
+        private Point _finalPosition;
+        private bool _makeARoque;
+        private String _roque;
 
-        public Move(Point _initialPosition, Point _finalPosition)
+        public Move(Point initialPosition, Point finalPosition)
         {
-            initialPosition = _initialPosition;
-            finalPosition = _finalPosition;
-            makeARoque = false;
+            this._initialPosition = initialPosition;
+            this._finalPosition = finalPosition;
+            _makeARoque = false;
         }
 
         public Move(String roque)
         {
-            makeARoque = true;
-            this.roque = roque;
+            _makeARoque = true;
+            this._roque = roque;
 
         }
         public Move()
         {
-            initialPosition = new Point();
-            finalPosition = new Point();
+            _initialPosition = new Point();
+            _finalPosition = new Point();
         }
-        public Point getInitialPosition()
+        public Point GetInitialPosition()
         {
-            return initialPosition;
+            return _initialPosition;
         }
-        public Point getFinalPosition()
+        public Point GetFinalPosition()
         {
-            return finalPosition;
+            return _finalPosition;
         }
-        public Boolean IWantARoque()
+        public Boolean WantARoque()
         {
-            return makeARoque;
+            return _makeARoque;
         }
 
-        public String getRoque()
+        public String GetRoque()
         {
-            return roque;
+            return _roque;
 
         }
 
+        public override string ToString()
+        {
+            return "" + _initialPosition + _finalPosition;
+        }
 
 
 

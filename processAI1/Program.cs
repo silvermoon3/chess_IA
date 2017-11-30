@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace processAI1
 {
-    public enum colorPlayer { White, Black };
+    public enum ColorPlayer { White, Black };
     class Program
     {
 

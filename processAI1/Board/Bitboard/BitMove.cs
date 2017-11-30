@@ -1,14 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace processAI1.Board.Bitboard
 {
-    class BitMove
+    public enum Direction
+    {
+        N, NE, E, SE, S, SW, W, NW
+    }
+
+    public static class DirectionMethods
+    {
+        public static Direction addSubDir(this Direction d,Direction sd)
+        {
+            Direction newdir;
+            if (d.ToString().Length == 1 && sd.ToString().Length == 1) 
+                Direction.TryParse(d.ToString() + sd.ToString(),out newdir);
+            else
+                throw new Exception("invalide direction pour jointure");
+
+            return newdir;
+        }
+
+        private static char invert(char d)
+        {
+            char inverseDir;
+            switch (d)
+            {
+                case 'N':
+                    inverseDir = 'S';
+                    break;
+                case 'S':
+                    inverseDir = 'N';
+                    break;
+                case 'E':
+                    inverseDir = 'W';
+                    break;
+                case 'W':
+                    inverseDir = 'E';
+                    break;
+                default:
+                    throw new Exception("dir invalide");
+            }
+            return inverseDir;
+
+        }
+        public static Direction InverseOf(this Direction d)
+        {
+            string inverseDir = "" + invert(d.ToString()[0]);
+
+            if (d.ToString().Length == 2)
+            {
+                inverseDir += invert(d.ToString()[1]);
+            }
+            Direction.TryParse(inverseDir,out Direction dir);
+
+            return dir;
+
+        }
+    }
+
+    public abstract class BitMove
     {
 
+        public BitBoard BitBoard;
         public const UInt64 AFile = 0x0101010101010101;
         public const UInt64 HFile = 0x8080808080808080;
         public const UInt64 Rank1 = 0x00000000000000FF;
@@ -24,91 +83,59 @@ namespace processAI1.Board.Bitboard
         public const UInt64 LightSquares = 0x55AA55AA55AA55AA;
         public const UInt64 DarkSquares = 0xAA55AA55AA55AA55;
 
-        public enum direction
+       
+
+        public BitMove(BitBoard bitBoard)
         {
-            N, NE, E, SE, S, SW, W, NW
+            BitBoard = bitBoard;
         }
 
-        public UInt64 WSinglePushTargets(UInt64 wpawns, UInt64 empty)
+      
+        public abstract List<Move> PossibleMoves(Boolean isWhite);
+
+        public List<Move> ListFromTargetPos(ulong targetPosBitboard, int startoffSetX, int startoffSetY)
         {
-            return MoveOne(wpawns,direction.N) & empty;
+            List<Move> list = new List<Move>();
+            ulong possibility = targetPosBitboard & ~(targetPosBitboard - 1);
+
+            while (possibility != 0)
+            {
+                int index = BitBoardUtil.BitScanForward(possibility);
+
+                list.Add(
+                    new Move(
+                        new Point(BitBoard.GetCoord[index].X + startoffSetX, (BitBoard.GetCoord[index].Y + startoffSetY)),
+                        new Point(BitBoard.GetCoord[index].X, (BitBoard.GetCoord[index].Y))
+                    ));
+
+                targetPosBitboard &= ~possibility;
+                possibility = targetPosBitboard & ~(targetPosBitboard - 1);
+            }
+            return list;
         }
-
-        public UInt64 WDblPushTargets(UInt64 wpawns, UInt64 empty)
-        {
-            UInt64 singlePushs = WSinglePushTargets(wpawns, empty);
-            return MoveOne(singlePushs,direction.N) & empty & Rank4;
-        }
-
-        public UInt64 WPawnsAble2Push(UInt64 wpawns, UInt64 empty)
-        {
-            return MoveOne(empty,direction.S) & wpawns;
-        }
-
-        public UInt64 WPawnsAble2DblPush(UInt64 wpawns, UInt64 empty)
-        {
-            UInt64 emptyRank3 = MoveOne(empty & Rank4,direction.S) & empty;
-            return WPawnsAble2Push(wpawns, emptyRank3);
-        }
-
-        // Black pawns
-        public UInt64 BSinglePushTargets(UInt64 bpawns, UInt64 empty)
-        {
-            return MoveOne(bpawns,direction.S) & empty;
-        }
-
-        public UInt64 BDoublePushTargets(UInt64 bpawns, UInt64 empty)
-        {
-            
-            UInt64 singlePushs = BSinglePushTargets(bpawns, empty);
-            return MoveOne(singlePushs,direction.S) & empty & Rank5;
-        }
-
-        public UInt64 BPawnsAble2Push(UInt64 bpawns, UInt64 empty)
-        {
-            return MoveOne(empty, direction.N) & bpawns;
-        }
-
-        public UInt64 BPawnsAble2DblPush(UInt64 bpawns, UInt64 empty)
-        {
-            UInt64 emptyRank3 = MoveOne(empty & Rank5, direction.N) & empty;
-            return BPawnsAble2Push(bpawns, emptyRank3);
-        }
-
-
-
         //Compass Rose
-        public static UInt64 MoveOne(UInt64 bitboard, direction d)
+        public static UInt64 MoveOne(UInt64 bitboard, Direction d)
         {
             switch (d)
             {
-                case direction.N:
+                case Direction.N:
                     return bitboard << 8;
-                    break;
-                case direction.NE:
+                case Direction.NE:
                     return (bitboard << 9) & ~AFile;
-                    break;
-                case direction.E:
+                case Direction.E:
                     return (bitboard << 1) & ~AFile;
-                    break;
-                case direction.SE:
+                case Direction.SE:
                     return (bitboard >> 7) & ~AFile;
-                    break;
-                case direction.S:
+                case Direction.S:
                     return bitboard >> 8;
-                    break;
-                case direction.SW:
+                case Direction.SW:
                     return (bitboard >> 9) & ~HFile;
-                    break;
-                case direction.W:
+                case Direction.W:
                     return (bitboard >> 1) & ~HFile;
-                    break;
-                case direction.NW:
+                case Direction.NW:
                     return (bitboard << 7) & ~HFile;
-                    break;
                 default:
                     throw new Exception("direction invalide");
-                    break;
             }
         }
     }

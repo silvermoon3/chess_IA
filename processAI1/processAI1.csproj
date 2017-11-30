@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,21 +52,21 @@
     <Compile Include="Agent\Agent.cs" />
     <Compile Include="Agent\BDI\Desire.cs" />
     <Compile Include="Agent\BDI\Intention.cs" />
+    <Compile Include="Board\Bitboard\MoveType\PawnsMove.cs" />
     <Compile Include="Board\MiniMax.cs" />
     <Compile Include="Agent\Sensor.cs" />
     <Compile Include="Board\Bitboard\BitBoardUtil.cs" />
     <Compile Include="Board\Bitboard\BitMove.cs" />
-    <Compile Include="Board\Bitboard\ChessBoardConverter.cs" />
-    <Compile Include="Board\Bitboard\IChessBoard.cs" />
+    <Compile Include="Board\IChessBoard.cs" />
     <Compile Include="Board\Bitboard\BitBoard.cs" />
     <Compile Include="Board\Node.cs" />
     <Compile Include="CustomProtocol.cs" />
     <Compile Include="IComunicationProtocol.cs" />
-    <Compile Include="Board\ChessBoard.cs" />
+    <Compile Include="Board\Chessboard\ChessBoard.cs" />
     <Compile Include="Board\Rating.cs" />
-    <Compile Include="Piece\Bishop.cs" />
+    <Compile Include="Board\Chessboard\Piece\Bishop.cs" />
     <Compile Include="Agent\BDI\Belief.cs" />
-    <Compile Include="Piece\Cell.cs" />
+    <Compile Include="Board\Chessboard\Cell.cs" />
     <Compile Include="Board\Point.cs" />
     <Compile Include="Properties\Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -74,14 +75,14 @@
     </Compile>
     <Compile Include="Board\Move.cs" />
     <Compile Include="Agent\Effector.cs" />
-    <Compile Include="Piece\King.cs" />
-    <Compile Include="Piece\Knight.cs" />
-    <Compile Include="Piece\Pawn.cs" />
-    <Compile Include="Piece\Piece.cs" />
+    <Compile Include="Board\Chessboard\Piece\King.cs" />
+    <Compile Include="Board\Chessboard\Piece\Knight.cs" />
+    <Compile Include="Board\Chessboard\Piece\Pawn.cs" />
+    <Compile Include="Board\Chessboard\Piece\Piece.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Piece\Queen.cs" />
-    <Compile Include="Piece\Rook.cs" />
+    <Compile Include="Board\Chessboard\Piece\Queen.cs" />
+    <Compile Include="Board\Chessboard\Piece\Rook.cs" />
     <Compile Include="UciProtocol.cs" />
   </ItemGroup>
   <ItemGroup>

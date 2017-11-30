@@ -1,9 +1,10 @@
-﻿using processAI1.Piece;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using processAI1.Board;
 
 namespace processAI1.Agent.BDI
 {
@@ -16,12 +17,12 @@ namespace processAI1.Agent.BDI
         }
 
         //Check if I will be in check if I do this move 
-        public Boolean willIBeInCheck(Belief belief, Move mv)
+        public Boolean WillIBeInCheck(Belief belief, Move mv)
         {
             //Is my king in check if I do this move ? 
-            belief.getFakeChessBoard().makeMove(mv);
-            belief.getFakeChessBoard().amIInCheck();
-            belief.getFakeChessBoard().undoMove(mv);
+            belief.GetFakeChessBoard().MakeMove(mv);
+            belief.GetFakeChessBoard().AmIInCheck();
+            belief.GetFakeChessBoard().UndoMove(mv);
             return false;
         }
         

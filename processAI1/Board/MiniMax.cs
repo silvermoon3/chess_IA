@@ -1,41 +1,41 @@
 ﻿using processAI1.Board;
-using processAI1.Piece;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using processAI1.Board.Chessboard;
 
 namespace processAI1.Agent
 {
     class MiniMax
     {
-        private int evaluateOption;
-        private Node bestNode = null;
-        private int depth = -1;     
+        private int _evaluateOption;
+        private Node _bestNode = null;
+        private int _depth = -1;     
         // Minimax AI constructor
         public MiniMax()
         {
-            this.evaluateOption = 1;
+            this._evaluateOption = 1;
         }
         
-        public Move getBestMove(ChessBoard game, int depth)
+        public Move GetBestMove(ChessBoard game, int depth)
         {
-            this.depth = depth;
-            alphaBetaMax(game, new Node(), Int32.MinValue, Int32.MaxValue, depth);
-            return bestNode.getMove();
+            this._depth = depth;
+            AlphaBetaMax(game, new Node(), Int32.MinValue, Int32.MaxValue, depth);
+            return _bestNode.GetMove();
         }
 
-        public Move simpleMiniMaxRoot(ChessBoard fakeBoard, int depth, Boolean isMaximisingPlayer)
+        public Move SimpleMiniMaxRoot(ChessBoard fakeBoard, int depth, Boolean isMaximisingPlayer)
         {
             Move bestMoveFound = null;
             int bestScore = Int32.MinValue;
-            List<Move> moves = fakeBoard.getAllPossibleMoves();
+            List<Move> moves = fakeBoard.GetAllPossibleMoves(isMaximisingPlayer);
             foreach(Move mv in moves)
             {
-                fakeBoard.makeMove(mv);
-                int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
-                fakeBoard.undoMove(mv);
+                fakeBoard.MakeMove(mv);
+                int score = SimpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
+                fakeBoard.UndoMove(mv);
                 if(score >= bestScore)
                 {
                     bestMoveFound = mv;
@@ -46,19 +46,19 @@ namespace processAI1.Agent
 
         }
 
-        private int simpleMiniMax(ChessBoard fakeBoard, int depth, Boolean isMaximisingPlayer)
+        private int SimpleMiniMax(ChessBoard fakeBoard, int depth, Boolean isMaximisingPlayer)
         {
             if (depth == 0)
                 return -fakeBoard.EvaluateBoardWithPieceValue();
-            List<Move> moves = fakeBoard.getAllPossibleMoves();
+            List<Move> moves = fakeBoard.GetAllPossibleMoves();
             if (isMaximisingPlayer)
             {
                 int bestScore = Int32.MinValue;
                 foreach(Move mv in moves)
                 {
-                    fakeBoard.makeMove(mv);
-                    bestScore = Math.Max(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
-                    fakeBoard.undoMove(mv);
+                    fakeBoard.MakeMove(mv);
+                    bestScore = Math.Max(bestScore, SimpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
+                    fakeBoard.UndoMove(mv);
                 }
                 return bestScore;
             }
@@ -67,38 +67,38 @@ namespace processAI1.Agent
                 int bestScore = Int32.MaxValue;
                 foreach (Move mv in moves)
                 {
-                    fakeBoard.makeMove(mv);
-                    bestScore = Math.Min(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
-                    fakeBoard.undoMove(mv);
+                    fakeBoard.MakeMove(mv);
+                    bestScore = Math.Min(bestScore, SimpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
+                    fakeBoard.UndoMove(mv);
                 }
                 return bestScore;
 
             }
         }
 
-        private int alphaBetaMax(ChessBoard game, Node node, int alpha, int beta, int depthLeft)
+        private int AlphaBetaMax(ChessBoard game, Node node, int alpha, int beta, int depthLeft)
         {
-            List<Move> possibleMoves = game.getAllPossibleMoves();
+            List<Move> possibleMoves = game.GetAllPossibleMoves();
             if (depthLeft == 0 || possibleMoves.Count == 0)
-                return game.evaluate(evaluateOption, true);
+                return game.Evaluate(_evaluateOption, true);
 
             foreach (Move mv in possibleMoves)
             {
-                game.makeMove(mv);
+                game.MakeMove(mv);
                 Node n = new Node(mv, 0);
-                int score = alphaBetaMin(game, n, alpha, beta, depthLeft - 1);
-                n.setValue(score);
-                game.undoMove(mv);
+                int score = AlphaBetaMin(game, n, alpha, beta, depthLeft - 1);
+                n.SetValue(score);
+                game.UndoMove(mv);
                
-                if (depthLeft == depth)
+                if (depthLeft == _depth)
                 {
-                    if (bestNode != null)
+                    if (_bestNode != null)
                     {
-                        if (n.getValue() > bestNode.getValue())
-                            bestNode = n;
+                        if (n.GetValue() > _bestNode.GetValue())
+                            _bestNode = n;
                     }
                     else
-                        bestNode = n;
+                        _bestNode = n;
                 }
                 if (score >= beta)
                 {
@@ -113,20 +113,20 @@ namespace processAI1.Agent
             return alpha;
         }
 
-        private int alphaBetaMin(ChessBoard game, Node node, int alpha, int beta, int depth)
+        private int AlphaBetaMin(ChessBoard game, Node node, int alpha, int beta, int depth)
         {
-            List<Move> possibleMoves = game.getAllPossibleMoves();
+            List<Move> possibleMoves = game.GetAllPossibleMoves();
             if (depth == 0 || possibleMoves.Count == 0)
                 return -game.EvaluateBoardWithPieceValue();
 
             //sorting 
             foreach (Move mv in possibleMoves)
             {
-                game.makeMove(mv);
+                game.MakeMove(mv);
                 Node n = new Node(mv, 0);
-                int score = alphaBetaMax(game, node, alpha, beta, depth - 1);
-                n.setValue(score);
-                game.undoMove(mv);
+                int score = AlphaBetaMax(game, node, alpha, beta, depth - 1);
+                n.SetValue(score);
+                game.UndoMove(mv);
                 if (score <= alpha)
                 {
                     return alpha;

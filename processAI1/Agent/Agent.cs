@@ -1,61 +1,60 @@
 ﻿using processAI1.Agent.BDI;
 using processAI1.Board;
-using processAI1.Piece;
+using processAI1.Board.Chessboard.Piece;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using processAI1.Board.Chessboard;
 
 
 namespace processAI1.Agent
 {
     class Agent
     {
-        Belief belief;
-        Sensor sensor;
-        Intention intention;
-        Desire desire;
-            
-        private Boolean isWhite;
+        Belief _belief;
+        Sensor _sensor;
+        Intention _intention;
+        Desire _desire;
                       
         public Agent()
         {
-           sensor = new Sensor();
-           belief = new Belief();
-           desire = new Desire();
-           intention = new Intention();
+           _sensor = new Sensor();
+           _belief = new Belief();
+           _desire = new Desire();
+           _intention = new Intention();
         }
-        public void doWork()
+        public void DoWork()
         {
-            updateBelief();
+            UpdateBelief();
               
         }
 
-        public Sensor getEffector()
+        public Sensor GetEffector()
         {
-            return sensor;
+            return _sensor;
         }
 
-        public void updateBelief()
+        public void UpdateBelief()
         {
-            belief.Update(sensor);
+            _belief.Update(_sensor);
         }
 
-        public void think()
+        public void Think()
         {
             //Look for the best move
             Random rnd = new Random();
             // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
-            List<Move> moves = belief.getPossibleMoves();
+            List<Move> moves = _belief.GetPossibleMoves();
             if (moves.Count != 0)
             {
                 Move randomMove = moves.ElementAt(rnd.Next(moves.Count));
-                belief.getChessBoard().makeMove(randomMove);
+                _belief.GetChessBoard().MakeMove(randomMove);
             }
         }
 
-        public String[] getBestMove()
+        public String[] GetBestMove()
         {
-            if (!desire.isOtherPlayerInChess(belief))
+            if (!_desire.IsOtherPlayerInChess(_belief))
             {
                 /************************************************************************/
                 /************************ RANDOM MOVE ************************/
@@ -93,12 +92,12 @@ namespace processAI1.Agent
                 /************************************************************************/
 
                 String[] coord = new String[2];
-                Move move = getBestMoveWithSimpleMinMax(belief.getFakeChessBoard());
-                coord[0] = move.getInitialPosition().ToString();
-                coord[1] = move.getFinalPosition().ToString();
-                Console.WriteLine("coup : " + coord[0] + " " + coord[1]);
+                Move move = GetBestMoveWithSimpleMinMax();
+                coord[0] = move.GetInitialPosition().ToString();
+                coord[1] = move.GetFinalPosition().ToString();
+                //Console.WriteLine("coup : " + coord[0] + " " + coord[1]);
                 //Update first move of Rook or King
-                belief.updateFirstMove(move.getInitialPosition());
+                _belief.UpdateFirstMove(move.GetInitialPosition());
                 return coord;
 
             }
@@ -127,24 +126,20 @@ namespace processAI1.Agent
             //}
             return null;
         }
-
-        public void setColor(Boolean _isWhite)
-        {
-            isWhite = _isWhite;
-        }
+        
 
 
         //Best Move with only value for a piece 
-        public Move getBestMoveWithPieceValue(ChessBoard fakeBoard)
+        public Move GetBestMoveWithPieceValue(ChessBoard fakeBoard)
         {
             Move bestMove = null;
-            List<Move> moves = fakeBoard.getAllPossibleMoves();
+            List<Move> moves = fakeBoard.GetAllPossibleMoves();
             int bestValue = Int32.MinValue;
             foreach(Move mv in moves)
             {
-                fakeBoard.makeMove(mv);
+                fakeBoard.MakeMove(mv);
                 int score = -fakeBoard.EvaluateBoardWithPieceValue();
-                fakeBoard.undoMove(mv);
+                fakeBoard.UndoMove(mv);
                 if (score > bestValue)
                 {
                     bestValue = score;
@@ -155,11 +150,22 @@ namespace processAI1.Agent
             return bestMove;
         }
 
-        public Move getBestMoveWithSimpleMinMax(ChessBoard fakeBoard)
+        public Move GetBestMoveWithSimpleMinMax()
         {
+            ChessBoard fakeBoard = _belief.GetFakeChessBoard();
             MiniMax algo = new MiniMax();
-            return algo.simpleMiniMaxRoot(fakeBoard, 3, true);
+            return algo.SimpleMiniMaxRoot(fakeBoard, 3, _belief.IsWhite);
         }
-       
+
+        public void DrawBelief()
+        {
+            _belief.GetChessBoard().DrawBoard();
+        }
+
+        public void ImportFen(string input)
+        {
+            //sensor.importFEN(input);
+            this.UpdateBelief();
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace processAI1.Agent.BDI
 
         }
 
-        public Boolean isOtherPlayerInChess(Belief belief)
+        public Boolean IsOtherPlayerInChess(Belief belief)
         {
            
             return false;

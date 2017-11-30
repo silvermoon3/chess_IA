@@ -9,16 +9,21 @@ namespace processAI1
     public class UciProtocol : IComunicationProtocol
     {
         const string Enginename = "Deep Elie";
-        IChessBoard chessBoard = new BitBoard();
-        Thread agentThread;
-        Agent.Agent agent;
+        BitBoard _chessBoard = new BitBoard();
+        Thread _agentThread;
+        Agent.Agent _agent;
         public void Run()
         {
             string inputString;
             // Déclaration du thread
             
-            agent = new Agent.Agent();
-            chessBoard.InitStartingBoard();
+            _agent = new Agent.Agent();
+            _chessBoard.InitStartingBoard();
+            foreach (Move m in _chessBoard.Move.PossibleMoves(false))
+            {
+                Console.WriteLine(m);
+            }
+            
             do
             {
                 inputString = Console.ReadLine() ?? "";
@@ -40,6 +45,7 @@ namespace processAI1
                     InputUciNewGame();
                 }
                 else if (inputString.StartsWith("position"))
+
                 {
                     InputPosition(inputString);
                 }
@@ -84,13 +90,14 @@ namespace processAI1
             if (input.Contains("startpos "))
             {
                 input = input.Substring(9);
+                _agent.ImportFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ");
                 
             }
             else if (input.Contains("fen"))
             {
                 input = input.Substring(4);
                 //TODO board generation implementation
-                //agent.ImportFen(input);
+                _agent.ImportFen(input);
             }
             if (input.Contains("moves"))
             {
@@ -106,7 +113,8 @@ namespace processAI1
         }
         public void InputGo()
         {
-            //TODO go command
+            string[] move = _agent.GetBestMove();
+            Console.WriteLine("bestmove " + move[0]+move[1]);
         }
         public String MoveToAlgebra(String move)
         {
@@ -121,7 +129,7 @@ namespace processAI1
 
         public void InputPrint()
         {
-            //TODO InputPrint
+            Console.WriteLine(_chessBoard.ToString());
         }
     }
 }

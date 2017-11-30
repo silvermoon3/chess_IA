@@ -1,40 +1,41 @@
-﻿using processAI1.Piece;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using processAI1.Board;
 
 namespace processAI1.Agent
 {
     class Node
     {
-        private Move move;
-        private int value;
+        private Move _move;
+        private int _value;
 
 
-        public Node(Move _move, int _value)
+        public Node(Move move, int value)
         {
-            this.move = _move;
-            this.value = _value;
+            this._move = move;
+            this._value = value;
         }
         public Node()
         {
             
         }
 
-        public Move getMove()
+        public Move GetMove()
         {
-            return move;
+            return _move;
         }
-        public int getValue()
+        public int GetValue()
         {
-            return value;
+            return _value;
         }
 
-        public void setValue(int _value)
+        public void SetValue(int value)
         {
-            value = _value;
+            this._value = value;
         }
 
     }

@@ -36,19 +36,19 @@ namespace processAI1
                     {
                         using (var mmf2 = MemoryMappedFile.OpenExisting("repAI1"))
                         {
-                            Mutex mutexStartAI1 = Mutex.OpenExisting("mutexStartAI1");
-                            Mutex mutexAI1 = Mutex.OpenExisting("mutexAI1");
-                            mutexAI1.WaitOne();
-                            mutexStartAI1.WaitOne();
+                            Mutex mutexStartAi1 = Mutex.OpenExisting("mutexStartAI1");
+                            Mutex mutexAi1 = Mutex.OpenExisting("mutexAI1");
+                            mutexAi1.WaitOne();
+                            mutexStartAi1.WaitOne();
 
 
                             using (var accessor = mmf.CreateViewAccessor())
                             {
-                                ushort Size = accessor.ReadUInt16(0);
-                                byte[] Buffer = new byte[Size];
-                                accessor.ReadArray(0 + 2, Buffer, 0, Buffer.Length);
+                                ushort size = accessor.ReadUInt16(0);
+                                byte[] buffer = new byte[size];
+                                accessor.ReadArray(0 + 2, buffer, 0, buffer.Length);
 
-                                value = ASCIIEncoding.ASCII.GetString(Buffer);
+                                value = ASCIIEncoding.ASCII.GetString(buffer);
                                 if (value == "stop") stop = true;
                                 else
                                 {
@@ -77,11 +77,11 @@ namespace processAI1
                                     if (tabVal[i] <= 0) reste.Add(tabCoord[i]);
                                 }
 
-                                a.getEffector().readBoard(mesPieces, reste, tabVal);
-                                a.doWork();
+                                a.GetEffector().ReadBoard(mesPieces, reste, tabVal);
+                                a.DoWork();
                                 Random rnd = new Random();
                                 // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
-                                String[] result = a.getBestMove();
+                                String[] result = a.GetBestMove();
                                 coord[0] = result[0];
                                 coord[1] = result[1];
                                 //coord[1] = tabCoord[rnd.Next(reste.Count)];
@@ -99,13 +99,13 @@ namespace processAI1
                                     {
                                         value += "," + coord[i];
                                     }
-                                    byte[] Buffer = ASCIIEncoding.ASCII.GetBytes(value);
-                                    accessor.Write(0, (ushort)Buffer.Length);
-                                    accessor.WriteArray(0 + 2, Buffer, 0, Buffer.Length);
+                                    byte[] buffer = ASCIIEncoding.ASCII.GetBytes(value);
+                                    accessor.Write(0, (ushort)buffer.Length);
+                                    accessor.WriteArray(0 + 2, buffer, 0, buffer.Length);
                                 }
                             }
-                            mutexAI1.ReleaseMutex();
-                            mutexStartAI1.ReleaseMutex();
+                            mutexAi1.ReleaseMutex();
+                            mutexStartAi1.ReleaseMutex();
                         }
                     }
 

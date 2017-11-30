@@ -1,127 +1,125 @@
-﻿using processAI1.Piece;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using processAI1.Board.Chessboard.Piece;
 
-namespace processAI1.Board
+namespace processAI1.Board.Chessboard
 {
-    public class ChessBoard
+    public class ChessBoard : IChessBoard
     {
-        List<Piece.Piece> myPieces = new List<Piece.Piece>();
-        List<Piece.Piece> otherPieces = new List<Piece.Piece>();
-        public Cell[,] board = new Cell[8, 8];
+        List<Chessboard.Piece.Piece> _myPieces = new List<Chessboard.Piece.Piece>();
+        List<Chessboard.Piece.Piece> _otherPieces = new List<Chessboard.Piece.Piece>();
+        public Cell[,] Board = new Cell[8, 8];
 
         public ChessBoard()
         {
             //init cell
         }
 
-        public ChessBoard(Cell[,] _board)
+        public ChessBoard(Cell[,] board)
         {
             
         }
 
-        public void makeMove(Move _move)
+        public void MakeMove(Move move)
         {
-            Piece.Piece currentPiece = board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].getPiece();
-            board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].setPiece(currentPiece);
-            board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].getPiece().setPosition(_move.getFinalPosition());
-            board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()] = new Cell(null, _move.getInitialPosition());
+            Chessboard.Piece.Piece currentPiece = Board[move.GetInitialPosition().GetX(), move.GetInitialPosition().GetY()].GetPiece();
+            Board[move.GetFinalPosition().GetX(), move.GetFinalPosition().GetY()].SetPiece(currentPiece);
+            Board[move.GetFinalPosition().GetX(), move.GetFinalPosition().GetY()].GetPiece().SetPosition(move.GetFinalPosition());
+            Board[move.GetInitialPosition().GetX(), move.GetInitialPosition().GetY()] = new Cell(null, move.GetInitialPosition());
         }
 
-        public void undoMove(Move _move)
+        public void UndoMove(Move move)
         {
-            Piece.Piece currentPiece = board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].getPiece();
-            board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].setPiece(currentPiece);
-            board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].getPiece().setPosition(_move.getInitialPosition());
-            board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()] = new Cell(null, _move.getFinalPosition());
+            Chessboard.Piece.Piece currentPiece = Board[move.GetFinalPosition().GetX(), move.GetFinalPosition().GetY()].GetPiece();
+            Board[move.GetInitialPosition().GetX(), move.GetInitialPosition().GetY()].SetPiece(currentPiece);
+            Board[move.GetInitialPosition().GetX(), move.GetInitialPosition().GetY()].GetPiece().SetPosition(move.GetInitialPosition());
+            Board[move.GetFinalPosition().GetX(), move.GetFinalPosition().GetY()] = new Cell(null, move.GetFinalPosition());
         }
 
-        public void updateChessBoard(List<Piece.Piece> _myPieces , List<Piece.Piece> _otherPieces)
+        public void UpdateChessBoard(List<Chessboard.Piece.Piece> myPieces , List<Chessboard.Piece.Piece> otherPieces)
         {
-            myPieces = _myPieces;
-            otherPieces = _otherPieces;
-            updateBoard();
+            this._myPieces = myPieces;
+            this._otherPieces = otherPieces;
+            UpdateBoard();
         }
-        public Cell getCase(int x, int y)
+        public Cell GetCase(int x, int y)
         {
-            return board[x, y];
+            return Board[x, y];
         }
 
-        public void updateBoard()
+        public void UpdateBoard()
         {
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
-                    board[i, j] = new Cell(null, new Point(i, j));
+                    Board[i, j] = new Cell(null, new Point(i, j));
             }
 
-            foreach (Piece.Piece piece in myPieces)
+            foreach (Chessboard.Piece.Piece piece in _myPieces)
             {
-                board[piece.getPosition().getX(), piece.getPosition().getY()] = new Cell(piece, piece.getPosition());
+                Board[piece.GetPosition().GetX(), piece.GetPosition().GetY()] = new Cell(piece, piece.GetPosition());
             }
 
-            foreach (Piece.Piece piece in otherPieces)
+            foreach (Chessboard.Piece.Piece piece in _otherPieces)
             {
-                board[piece.getPosition().getX(), piece.getPosition().getY()] = new Cell(piece, piece.getPosition());
+                Board[piece.GetPosition().GetX(), piece.GetPosition().GetY()] = new Cell(piece, piece.GetPosition());
             }
         }
 
-        public Boolean isOccupied(Point p)
+        public Boolean IsOccupied(Point p)
         {
-            if(p.validPosition())
-                return board[p.getX(), p.getY()].isOccupied;
+            if(p.ValidPosition())
+                return Board[p.GetX(), p.GetY()].IsOccupied;
             return false;
         }
 
-        public Boolean isOccupied(int x, int y)
+        public Boolean IsOccupied(int x, int y)
         {
          
-            return board[x, y].isOccupied;
+            return Board[x, y].IsOccupied;
         }
 
-        public Boolean isOccupiedWithMyPiece(Point p, Boolean isWhite)
+        public Boolean IsOccupiedWithMyPiece(Point p, Boolean isWhite)
         {
-            if (isOccupied(p.getX(), p.getY()))
-                return board[p.getX(), p.getY()].getPiece().isWhite == isWhite;
+            if (IsOccupied(p.GetX(), p.GetY()))
+                return Board[p.GetX(), p.GetY()].GetPiece().IsWhite == isWhite;
             return false;
         }
 
-        public List<Move> getAllPossibleMoves(Boolean _isWhite = true)
+        public List<Move> GetAllPossibleMoves(Boolean isWhite = true)
         {
             List<Move> moves = new List<Move>();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
-                    if (getCase(i, j).isOccupied)
-                        if (getCase(i, j).getPiece().isWhite == _isWhite)
-                            moves.AddRange(getCase(i, j).getPiece().getPossibleMoves(this));
+                    if (GetCase(i, j).IsOccupied)
+                        if (GetCase(i, j).GetPiece().IsWhite == isWhite)
+                            moves.AddRange(GetCase(i, j).GetPiece().GetPossibleMoves(this));
             }
 
             return moves;
         }
-        public List<Move> getAllMovesForCurrentPlayer(Boolean _isWhite = true)
+        public List<Move> GetAllMovesForCurrentPlayer(Boolean isWhite = true)
         {
             List<Move> moves = new List<Move>();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
-                    if (getCase(i, j).isOccupied)
-                        if (getCase(i, j).getPiece().isWhite == _isWhite)
-                            moves.AddRange(getCase(i, j).getPiece().getPossibleMoves(this));
+                    if (GetCase(i, j).IsOccupied)
+                        if (GetCase(i, j).GetPiece().IsWhite == isWhite)
+                            moves.AddRange(GetCase(i, j).GetPiece().GetPossibleMoves(this));
             }
 
             return moves;
         }
 
-        public Boolean amIInCheck()
+        public Boolean AmIInCheck()
         {
-            Point myKingPosition = myPieces.Find(p => p is King).getPosition();
-            foreach(Move move in getAllMovesForCurrentPlayer(false))
+            Point myKingPosition = _myPieces.Find(p => p is King).GetPosition();
+            foreach(Move move in GetAllMovesForCurrentPlayer(false))
             {
-                if (move.getFinalPosition().equal(myKingPosition))
+                if (move.GetFinalPosition().Equal(myKingPosition))
                     return true;
             }
             return false;
@@ -148,8 +146,8 @@ namespace processAI1.Board
                 Console.Write("|");
                 for (int i = 0; i < 8; ++i)
                 {
-                    if (isOccupied(i, j))
-                        Console.Write(getCase(i, j).getPiece().getPiece());
+                    if (IsOccupied(i, j))
+                        Console.Write(GetCase(i, j).GetPiece().ToString());
                     else
                         Console.Write("x");
 
@@ -161,27 +159,27 @@ namespace processAI1.Board
 
         }
 
-        public int evaluate(int evaluateOption, Boolean isWhiteTurn)
+        public int Evaluate(int evaluateOption, Boolean isWhiteTurn)
         {        
             int result = 0;
             switch (evaluateOption)
             {
                 case 0:
-                    result = evaluateMovability(isWhiteTurn);
+                    result = EvaluateMovability(isWhiteTurn);
                     break;
                 case 1:
-                    result = evaluatePositions();
+                    result = EvaluatePositions();
                     break;
                 case 2:
-                    result = evaluateMaterial(isWhiteTurn) + evaluateMovability(isWhiteTurn);
+                    result = EvaluateMaterial(isWhiteTurn) + EvaluateMovability(isWhiteTurn);
                     break;
                 case 3:
-                    result = evaluateMaterial(isWhiteTurn) + evaluatePositions();
+                    result = EvaluateMaterial(isWhiteTurn) + EvaluatePositions();
                     break;
             }
             return result;
         }
-        private int evaluateMaterial(Boolean isWhiteTurn)
+        private int EvaluateMaterial(Boolean isWhiteTurn)
         {
             int result = 0;
             int blackScore = 0;
@@ -196,15 +194,15 @@ namespace processAI1.Board
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (isOccupied(i, j))
+                    if (IsOccupied(i, j))
                     {
 
-                        Piece.Piece pieceToCheck = getCase(i, j).getPiece();
+                        Chessboard.Piece.Piece pieceToCheck = GetCase(i, j).GetPiece();
 
-                        if (pieceToCheck is Piece.Pawn)
+                        if (pieceToCheck is Pawn)
                         {
                             score = 100;
-                            if (pieceToCheck.isWhite)
+                            if (pieceToCheck.IsWhite)
                             {
                                 whiteScore += score;
                              
@@ -215,10 +213,10 @@ namespace processAI1.Board
                             }
                            
                         }
-                        else if (pieceToCheck is Piece.Rook)
+                        else if (pieceToCheck is Rook)
                         {
                             score = 500;
-                            if (pieceToCheck.isWhite)
+                            if (pieceToCheck.IsWhite)
                             {
                                 whiteScore += score;
                                
@@ -229,10 +227,10 @@ namespace processAI1.Board
                             }
                             
                         }
-                        else if (pieceToCheck is Piece.Bishop)
+                        else if (pieceToCheck is Bishop)
                         {
                             score = 330;
-                            if (pieceToCheck.isWhite)
+                            if (pieceToCheck.IsWhite)
                             {
                                 whiteScore += score;
                             }
@@ -242,10 +240,10 @@ namespace processAI1.Board
                             }
                             
                         }
-                        else if (pieceToCheck is Piece.Knight)
+                        else if (pieceToCheck is Knight)
                         {
                             score = 320;
-                            if (pieceToCheck.isWhite)
+                            if (pieceToCheck.IsWhite)
                             {
                                 whiteScore += score;
                             }
@@ -255,10 +253,10 @@ namespace processAI1.Board
                             }
                            
                         }
-                        else if (pieceToCheck is Piece.Queen)
+                        else if (pieceToCheck is Queen)
                         {
                             score = 900;
-                            if (pieceToCheck.isWhite)
+                            if (pieceToCheck.IsWhite)
                             {
                                 whiteScore += score;
                             }
@@ -268,10 +266,10 @@ namespace processAI1.Board
                             }
                            
                         }
-                        else if (pieceToCheck is Piece.King)
+                        else if (pieceToCheck is King)
                         {
                             score = 20000;
-                            if (pieceToCheck.isWhite)
+                            if (pieceToCheck.IsWhite)
                             {
                                 isWhiteKing = true;
                                 whiteScore += score;
@@ -304,19 +302,19 @@ namespace processAI1.Board
             return result;
         }
 
-        private int evaluatePositions()
+        private int EvaluatePositions()
         {
-            int thisScore = Rating.rateBoard(this, true);
-            int otherScore = Rating.rateBoard(this, false);
+            int thisScore = Rating.RateBoard(this, true);
+            int otherScore = Rating.RateBoard(this, false);
 
             return thisScore - otherScore;
         }
 
-        private int evaluateMovability(Boolean isWhiteTurn)
+        private int EvaluateMovability(Boolean isWhiteTurn)
         {
-            int thisScore = getAllMovesForCurrentPlayer().Count();
+            int thisScore = GetAllMovesForCurrentPlayer().Count();
             isWhiteTurn = !isWhiteTurn;
-            int otherScore = getAllMovesForCurrentPlayer().Count();
+            int otherScore = GetAllMovesForCurrentPlayer().Count();
             isWhiteTurn = !isWhiteTurn;
             return thisScore - otherScore;
         }
@@ -330,44 +328,67 @@ namespace processAI1.Board
             {
                 for (var j = 0; j < 8; j++)
                 {                   
-                     score = score + getPieceValue(board[i,j].getPiece());
+                     score = score + GetPieceValue(Board[i,j].GetPiece());
                 }
             }
           
             return score;
         }
-        private int getPieceValue(Piece.Piece _piece)
+        private int GetPieceValue(Chessboard.Piece.Piece piece)
         {
-            if (_piece == null)
+            if (piece == null)
             {
                 return 0;
             }
-            else if (_piece is Pawn)
+            else if (piece is Pawn)
             {
-                return _piece.isWhite ? -10 : 10;
+                return piece.IsWhite ? -10 : 10;
             }
-            else if (_piece is Rook)
+            else if (piece is Rook)
             {
-                return _piece.isWhite ? -50 : 50;
+                return piece.IsWhite ? -50 : 50;
             }
-            else if (_piece is Knight)
+            else if (piece is Knight)
             {
-                return _piece.isWhite ? -30 : 30;
+                return piece.IsWhite ? -30 : 30;
             }
-            else if (_piece is Bishop)
+            else if (piece is Bishop)
             {
-                return _piece.isWhite ? -30 : 30;
+                return piece.IsWhite ? -30 : 30;
             }
-            else if (_piece is Queen)
+            else if (piece is Queen)
             {
-                return _piece.isWhite ? -90 : 90;
+                return piece.IsWhite ? -90 : 90;
             }
-            else if (_piece is King)
+            else if (piece is King)
             {
-                return _piece.isWhite ? -900 : 900;
+                return piece.IsWhite ? -900 : 900;
             }
 
             return 0;
+        }
+
+        public void  DrawBoard()
+        {
+            for (int x = 0; x < Board.GetLength(0); x++)
+            {
+                for (int y = 0; y < Board.GetLength(1); y++)
+                {
+                    if (Board[x, y] != null)
+                    {
+                        Chessboard.Piece.Piece p = Board[y, x].GetPiece();
+
+                        Console.Write(p != null ? p.ToString() : "_");
+                    }
+                        
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public void InitStartingBoard()
+        {
+            throw new NotImplementedException();
         }
     }
 }
