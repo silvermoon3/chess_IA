@@ -48,9 +48,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitboardTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DirectionTest.cs" />
+    <Compile Include="BitTest.cs" />
+    <Compile Include="SquareTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -77,13 +77,13 @@ namespace processAI1
                                     if (tabVal[i] <= 0) reste.Add(tabCoord[i]);
                                 }
 
-                                a.GetEffector().ReadBoard(mesPieces, reste, tabVal);
+                                //a.GetEffector().ReadBoard(mesPieces, reste, tabVal);
                                 a.DoWork();
                                 Random rnd = new Random();
                                 // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
-                                String[] result = a.GetBestMove();
-                                coord[0] = result[0];
-                                coord[1] = result[1];
+                                //String[] result = a.GetBestMove();
+                                //coord[0] = result[0];
+                                //coord[1] = result[1];
                                 //coord[1] = tabCoord[rnd.Next(reste.Count)];
                                 //coord[2] = "P";
 

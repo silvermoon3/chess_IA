@@ -38,12 +38,12 @@ C:\Users\jookeo\Documents\github\chess_IA\processAI1\processAI1\obj\Debug\proces
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\processAI1\bin\Debug\processAI1.exe.config
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\processAI1\bin\Debug\processAI1.exe
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\processAI1\bin\Debug\processAI1.pdb
-C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.Properties.Resource1.resources
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.csproj.GenerateResource.Cache
-C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.csproj.CoreCompileInputs.cache
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\bin\Debug\processAI1.exe.config
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\bin\Debug\processAI1.exe
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\bin\Debug\processAI1.pdb
+C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.Properties.Resource1.resources
+C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.csproj.CoreCompileInputs.cache
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.exe
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.pdb
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.csprojResolveAssemblyReference.cache

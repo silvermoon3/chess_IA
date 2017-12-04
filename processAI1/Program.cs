@@ -8,20 +8,29 @@ using System.IO.MemoryMappedFiles;
 using System.Threading;
 using processAI1.Agent;
 using System.Windows.Forms;
+using processAI1.Board;
+using processAI1.Board.Bitboard;
 
 namespace processAI1
 {
+    
     public enum ColorPlayer { White, Black };
     class Program
     {
-
-       
-       static void Main(string[] args)
+        
+        static void Main(string[] args)
         {
+            Bit.Init();
+            Material.init();
+            Hash.Init();
+            Castling.init();
+            Attack.init();
+
+           
+           
             
-            IComunicationProtocol protocol = new UciProtocol();
+           IComunicationProtocol protocol = new UciProtocol();
             protocol.Run();
-          
 
         }
     }

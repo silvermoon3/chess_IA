@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using processAI1.Board;
@@ -9,21 +10,14 @@ namespace processAI1
     public class UciProtocol : IComunicationProtocol
     {
         const string Enginename = "Deep Elie";
-        BitBoard _chessBoard = new BitBoard();
-        Thread _agentThread;
-        Agent.Agent _agent;
+        public Board.Board b;
         public void Run()
         {
             string inputString;
             // Déclaration du thread
-            
-            _agent = new Agent.Agent();
-            _chessBoard.InitStartingBoard();
-            foreach (Move m in _chessBoard.Move.PossibleMoves(false))
-            {
-                Console.WriteLine(m);
-            }
-            
+            b = new Board.Board();
+            b.init_fen(ref Board.Board.start_fen);
+
             do
             {
                 inputString = Console.ReadLine() ?? "";
@@ -90,22 +84,26 @@ namespace processAI1
             if (input.Contains("startpos "))
             {
                 input = input.Substring(9);
-                _agent.ImportFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ");
-                
+                b.init_fen(ref Board.Board.start_fen);
             }
             else if (input.Contains("fen"))
             {
                 input = input.Substring(4);
-                //TODO board generation implementation
-                _agent.ImportFen(input);
+                b.init_fen(ref input);
             }
             if (input.Contains("moves"))
             {
+                
                 input = input.Substring(input.IndexOf("moves") + 6);
                 while (input.Length > 0)
                 {
-                    string moves;
+                    
+                    string moves = input.Substring(0,4);
+                    Move m = Move.from_string(ref moves, ref b);
+                    b.move(m);
+                    input = input.Substring(input.IndexOf(' ') + 1);
 
+                    
                     //TODO player to move list all possibles moves
 
                 }
@@ -113,11 +111,15 @@ namespace processAI1
         }
         public void InputGo()
         {
-            string[] move = _agent.GetBestMove();
-            Console.WriteLine("bestmove " + move[0]+move[1]);
+            InputPrint();
+            List<Move> m = new List<Move>();
+            Gen.gen_legals(ref m, ref b);
+            Console.WriteLine("bestmove " + m[0]);
+            //Console.WriteLine("bestmove " + move.GetInitialPosition().ToString()+move.GetFinalPosition().ToString());
         }
         public String MoveToAlgebra(String move)
         {
+
             //TODO convert UCI Protocol string move to move of AI
             return null;
         }
@@ -129,7 +131,9 @@ namespace processAI1
 
         public void InputPrint()
         {
-            Console.WriteLine(_chessBoard.ToString());
+            Console.WriteLine(b.turn());
+            Console.WriteLine(b);
+            
         }
     }
 }
