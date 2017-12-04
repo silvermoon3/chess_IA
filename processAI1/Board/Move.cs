@@ -14,11 +14,14 @@ namespace processAI1.Piece
         private Point finalPosition;
         private bool makeARoque;
         private String roque;
+        public bool promotion;
+        public bool pieceCapturee;
 
         public Move(Point _initialPosition, Point _finalPosition)
         {
             initialPosition = _initialPosition;
             finalPosition = _finalPosition;
+            
             makeARoque = false;
         }
 
@@ -51,6 +54,7 @@ namespace processAI1.Piece
             return roque;
 
         }
+      
 
 
 

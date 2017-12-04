@@ -33,13 +33,13 @@ namespace processAI1.Agent
             List<Move> moves = fakeBoard.getAllPossibleMoves();
             foreach(Move mv in moves)
             {
-                fakeBoard.makeMove(mv);
+                fakeBoard.makeMove(mv, fakeBoard.getPiece(mv.getInitialPosition()));
                 int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
-                fakeBoard.undoMove(mv);
-                if(score >= bestScore)
+                fakeBoard.undoMove(mv, fakeBoard.getPiece(mv.getFinalPosition()));
+                if (score >= bestScore)
                 {
-                    bestMoveFound = mv;
                     bestScore = score;
+                    bestMoveFound = mv;
                 }
             }
             return bestMoveFound;
@@ -56,9 +56,9 @@ namespace processAI1.Agent
                 int bestScore = Int32.MinValue;
                 foreach(Move mv in moves)
                 {
-                    fakeBoard.makeMove(mv);
+                    fakeBoard.makeMove(mv, fakeBoard.getPiece(mv.getInitialPosition()));
                     bestScore = Math.Max(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
-                    fakeBoard.undoMove(mv);
+                    fakeBoard.undoMove(mv, fakeBoard.getPiece(mv.getFinalPosition()));
                 }
                 return bestScore;
             }
@@ -67,9 +67,9 @@ namespace processAI1.Agent
                 int bestScore = Int32.MaxValue;
                 foreach (Move mv in moves)
                 {
-                    fakeBoard.makeMove(mv);
+                    fakeBoard.makeMove(mv, fakeBoard.getPiece(mv.getInitialPosition()));
                     bestScore = Math.Min(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
-                    fakeBoard.undoMove(mv);
+                    fakeBoard.undoMove(mv, fakeBoard.getPiece(mv.getFinalPosition()));
                 }
                 return bestScore;
 
@@ -94,7 +94,7 @@ namespace processAI1.Agent
                 {
                     if (bestNode != null)
                     {
-                        if (n.getValue() > bestNode.getValue())
+                        if (n.getValue() >= bestNode.getValue())
                             bestNode = n;
                     }
                     else

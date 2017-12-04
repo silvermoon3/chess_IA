@@ -45,7 +45,16 @@ namespace processAI1.Piece
         {
             return position;
         }
-        
-     
+
+        public void bougerPiece(int x, int y)
+        {
+            this.position = new Point(x, y);
+        }
+
+        public void bougerPiece(Point _newPos)
+        {
+            this.position = _newPos;
+        }
+
     }
 }

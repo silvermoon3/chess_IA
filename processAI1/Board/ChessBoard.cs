@@ -23,20 +23,58 @@ namespace processAI1.Board
             
         }
 
-        public void makeMove(Move _move)
+        public void makeMove(Move _move, Piece.Piece _piece = null)
         {
-            Piece.Piece currentPiece = board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].getPiece();
-            board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].setPiece(currentPiece);
-            board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].getPiece().setPosition(_move.getFinalPosition());
-            board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()] = new Cell(null, _move.getInitialPosition());
+            enleverPiece(_move.getInitialPosition());
+            _piece.bougerPiece(_move.getFinalPosition());
+            placerPiece(_piece);
+
+            //Piece.Piece currentPiece = board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].getPiece();
+            //board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].setPiece(currentPiece);
+            //board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].getPiece().setPosition(_move.getFinalPosition());
+            //board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()] = new Cell(null, _move.getInitialPosition());
+            
         }
 
-        public void undoMove(Move _move)
+        public void undoMove(Move _move, Piece.Piece _piece = null)
         {
-            Piece.Piece currentPiece = board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].getPiece();
-            board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].setPiece(currentPiece);
-            board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].getPiece().setPosition(_move.getInitialPosition());
-            board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()] = new Cell(null, _move.getFinalPosition());
+            enleverPiece(_move.getFinalPosition());
+            _piece.bougerPiece(_move.getInitialPosition());
+            placerPiece(_piece);
+
+            //Piece.Piece currentPiece = board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()].getPiece();
+            //board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].setPiece(currentPiece);
+            //board[_move.getInitialPosition().getX(), _move.getInitialPosition().getY()].getPiece().setPosition(_move.getInitialPosition());
+            //board[_move.getFinalPosition().getX(), _move.getFinalPosition().getY()] = new Cell(null, _move.getFinalPosition());
+
+        }
+
+        private void placerPiece(Piece.Piece _piece)
+        {
+            if (_piece != null)
+            {
+                if ((_piece.getPosition().getX() >= 0) && (_piece.getPosition().getX() <= 7) && (_piece.getPosition().getY() >= 0) && (_piece.getPosition().getY() <= 7))
+                    board[_piece.getPosition().getX(), _piece.getPosition().getY()].setPiece(_piece);
+            }
+        }
+
+       
+        private void enleverPiece(int x, int y)
+        {
+            if ((x >= 0) && (x <= 7) && (y >= 0) && (y <= 7) && getPiece(x, y) != null)
+            {
+                Piece.Piece piece_tmp = getPiece(x,y);
+                board[x,y].setPiece(null);
+            }
+        }
+
+        private void enleverPiece(Point pos)
+        {
+            if ((pos.getX() >= 0) && (pos.getX() <= 7) && (pos.getY() >= 0) && (pos.getY() <= 7) && getPiece(pos) != null)
+            {
+                Piece.Piece piece_tmp = getPiece(pos);
+                board[pos.getX(), pos.getY()].setPiece(null);
+            }
         }
 
         public void updateChessBoard(List<Piece.Piece> _myPieces , List<Piece.Piece> _otherPieces)
@@ -45,6 +83,7 @@ namespace processAI1.Board
             otherPieces = _otherPieces;
             updateBoard();
         }
+
         public Cell getCase(int x, int y)
         {
             return board[x, y];
@@ -89,6 +128,20 @@ namespace processAI1.Board
             return false;
         }
 
+        public Piece.Piece getPiece(int x, int y)
+        {
+            if (isOccupied(x, y))
+                return board[x, y].getPiece();
+            return null;
+        }
+
+        public Piece.Piece getPiece(Point pos)
+        {
+            if (isOccupied(pos))
+                return board[pos.getX(), pos.getY()].getPiece();
+            return null;
+        }
+
         public List<Move> getAllPossibleMoves(Boolean _isWhite = true)
         {
             List<Move> moves = new List<Move>();
@@ -102,6 +155,7 @@ namespace processAI1.Board
 
             return moves;
         }
+
         public List<Move> getAllMovesForCurrentPlayer(Boolean _isWhite = true)
         {
             List<Move> moves = new List<Move>();
@@ -321,7 +375,6 @@ namespace processAI1.Board
             return thisScore - otherScore;
         }
 
-
         //Simple evaluation
         public int EvaluateBoardWithPieceValue()
         {
@@ -336,6 +389,7 @@ namespace processAI1.Board
           
             return score;
         }
+
         private int getPieceValue(Piece.Piece _piece)
         {
             if (_piece == null)

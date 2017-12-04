@@ -142,16 +142,16 @@ namespace processAI1.Agent
             int bestValue = Int32.MinValue;
             foreach(Move mv in moves)
             {
-                fakeBoard.makeMove(mv);
+                fakeBoard.makeMove(mv, fakeBoard.getPiece(mv.getInitialPosition()));
                 int score = -fakeBoard.EvaluateBoardWithPieceValue();
-                fakeBoard.undoMove(mv);
+                fakeBoard.undoMove(mv, fakeBoard.getPiece(mv.getFinalPosition()));
                 if (score > bestValue)
                 {
                     bestValue = score;
                     bestMove = mv;
                 }
                     
-             }
+            }
             return bestMove;
         }
 
