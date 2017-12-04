@@ -42,6 +42,10 @@ namespace processAI1.Agent
             //Look for the best move
             Random rnd = new Random();
             // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
+
+            /*    Exploration      */
+            Search search = new Search();
+
         }
 
       

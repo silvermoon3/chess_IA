@@ -47,3 +47,11 @@ C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.csproj
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.exe
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.pdb
 C:\Users\jookeo\Documents\github\chess_IA\processAI1\obj\Debug\processAI1.csprojResolveAssemblyReference.cache
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\bin\Debug\processAI1.exe.config
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\bin\Debug\processAI1.exe
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\bin\Debug\processAI1.pdb
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\obj\Debug\processAI1.csprojResolveAssemblyReference.cache
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\obj\Debug\processAI1.Properties.Resource1.resources
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\obj\Debug\processAI1.csproj.GenerateResource.Cache
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\obj\Debug\processAI1.exe
+D:\UQAC\IA\Plateforme de base\chess_IA\processAI1\obj\Debug\processAI1.pdb
