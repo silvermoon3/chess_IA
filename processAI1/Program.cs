@@ -25,9 +25,7 @@ namespace processAI1
             Hash.Init();
             Castling.init();
             Attack.init();
-
-           
-           
+            
             
            IComunicationProtocol protocol = new UciProtocol();
             protocol.Run();
