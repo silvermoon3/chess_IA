@@ -5,7 +5,6 @@ namespace processAI1.Board
 {
     public static class Hash
     {
-
         const int TURN = Piece.SIDE_SIZE * Square.SIZE;
         const int CASTLE = TURN + 1;
         const int EN_PASSANT = CASTLE + 4;
@@ -15,12 +14,11 @@ namespace processAI1.Board
 
         public static UInt64 Rand64()
         {
-
             UInt64 rand = 0;
 
             for (int i = 0; i < 4; i++)
             {
-                rand = (rand << 16) | (UInt64)Util.rand_int(1 << 16);
+                rand = (rand << 16) | (UInt64) Util.rand_int(1 << 16);
             }
 
             return rand;
@@ -33,14 +31,14 @@ namespace processAI1.Board
             return p_rand[index];
         }
 
-        public static UInt64 PieceKey(int p12, int sq)
+        public static UInt64 PieceKey(int p12, square sq)
         {
-            return RandKey(p12 * Square.SIZE + sq);
+            return RandKey(p12 * Square.SIZE + (int) sq);
         }
 
-        public static UInt64 TurnKey(int turn)
+        public static UInt64 TurnKey(side turn)
         {
-            return (turn == Side.WHITE) ? 0 : RandKey(TURN);
+            return (turn == (int) side.WHITE) ? 0 : RandKey(TURN);
         }
 
         public static UInt64 TurnFlip()
@@ -55,18 +53,19 @@ namespace processAI1.Board
             return RandKey(CASTLE + flag);
         }
 
-        public static UInt64 EnPassantKey(int sq)
+        public static UInt64 EnPassantKey(square sq)
         {
-            return (sq == (int)Square.square.NONE) ? 0 : RandKey(EN_PASSANT + Square.File(sq));
+            return (sq == square.NONE) ? 0 : RandKey(EN_PASSANT + (int)Square.File(sq));
         }
 
         public static Int64 Index(UInt64 key)
         {
-            return (Int64)key;
+            return (Int64) key;
         }
 
-        public static UInt32 Lock(UInt64 key) {
-            return (UInt32)(key >> 32);
+        public static UInt32 Lock(UInt64 key)
+        {
+            return (UInt32) (key >> 32);
         }
 
         public static void Init()
@@ -76,5 +75,5 @@ namespace processAI1.Board
                 p_rand[i] = Rand64();
             }
         }
-}
+    }
 }

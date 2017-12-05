@@ -5,15 +5,15 @@ namespace processAI1.Board.Bitboard
     public static class Bit
     {
         private static readonly int[] index = {
-       0,  1,  2,  7,  3, 13,  8, 19,
-       4, 25, 14, 28,  9, 34, 20, 40,
-       5, 17, 26, 38, 15, 46, 29, 48,
-      10, 31, 35, 54, 21, 50, 41, 57,
-      63,  6, 12, 18, 24, 27, 33, 39,
-      16, 37, 45, 47, 30, 53, 49, 56,
-      62, 11, 23, 32, 36, 44, 52, 55,
-      61, 22, 43, 51, 60, 42, 59, 58,
-   };
+           0,  1,  2,  7,  3, 13,  8, 19,
+           4, 25, 14, 28,  9, 34, 20, 40,
+           5, 17, 26, 38, 15, 46, 29, 48,
+          10, 31, 35, 54, 21, 50, 41, 57,
+          63,  6, 12, 18, 24, 27, 33, 39,
+          16, 37, 45, 47, 30, 53, 49, 56,
+          62, 11, 23, 32, 36, 44, 52, 55,
+          61, 22, 43, 51, 60, 42, 59, 58,
+       };
 
         //8
         private static UInt64[] _pLeft = new UInt64[8];
@@ -27,11 +27,9 @@ namespace processAI1.Board.Bitboard
 
         private static UInt64[][] _pSideRear = new UInt64[Side.SIZE][];
 
-        public static UInt64 MakeBit(int pos)
+        public static UInt64 MakeBit(square pos)
         {
-            if (!(pos < 64))
-                throw new Exception("!(pos < 64)");
-            return 1UL << pos;
+            return 1UL << (int)pos;
         }
 
 
@@ -47,8 +45,8 @@ namespace processAI1.Board.Bitboard
                 {
                     _pLeft[i] = bf;
                     _pRear[i] = br;
-                    bf |= File(i);
-                    br |= Rank(i);
+                    bf |= File((file)i);
+                    br |= Rank((rank)i);
                 }
             }
 
@@ -60,37 +58,37 @@ namespace processAI1.Board.Bitboard
                 {
                     _pRight[i] = bf;
                     _pFront[i] = br;
-                    bf |= File(i);
-                    br |= Rank(i);
+                    bf |= File((file)i);
+                    br |= Rank((rank)i);
                 }
             }
-            _pSideFront[Side.WHITE] = new UInt64[8];
-            _pSideFront[Side.BLACK] = new UInt64[8];
-            _pSideRear[Side.WHITE] = new UInt64[8];
-            _pSideRear[Side.BLACK] = new UInt64[8];
+            _pSideFront[(int)side.WHITE] = new UInt64[8];
+            _pSideFront[(int)side.BLACK] = new UInt64[8];
+            _pSideRear[(int)side.WHITE] = new UInt64[8];
+            _pSideRear[(int)side.BLACK] = new UInt64[8];
 
             for (int rk = 0; rk < 8; rk++)
             {
-                _pSideFront[Side.WHITE][rk] = Front(rk);
-                _pSideFront[Side.BLACK][rk] = Rear(rk);
-                _pSideRear[Side.WHITE][rk] = Rear(rk);
-                _pSideRear[Side.BLACK][rk] = Front(rk);
+                _pSideFront[(int)side.WHITE][(int)rk] = Front((rank)rk);
+                _pSideFront[(int)side.BLACK][(int)rk] = Rear((rank)rk);
+                _pSideRear[(int)side.WHITE][(int)rk] = Rear((rank)rk);
+                _pSideRear[(int)side.BLACK][(int)rk] = Front((rank)rk);
             }
         }
 
 
-        public static void Set(ref UInt64 b, int pos)
+        public static void Set(ref UInt64 b, square pos)
         {
             b |= MakeBit(pos);
         }
 
 
-        public static void Clear(ref UInt64 b, int pos)
+        public static void Clear(ref UInt64 b, square pos)
         {
             b &= ~MakeBit(pos);
         }
 
-        public static bool IsSet(UInt64 b, int pos)
+        public static bool IsSet(UInt64 b, square pos)
         {
             return (b & MakeBit(pos)) != 0;
         }
@@ -126,68 +124,54 @@ namespace processAI1.Board.Bitboard
             return Rest(b) == 0;
         }
 
-        public static UInt64 File(int fl)
+        public static UInt64 File(file fl)
         {
-            if (fl >= 8)
-                throw new Exception("fl >= 8");
 
-            return 0xFFUL << (fl * 8);
+            return 0xFFUL << ((int)fl * 8);
         }
 
-        public static UInt64 Rank(int rk)
+        public static UInt64 Rank(rank rk)
         {
-            if (rk >= 8)
-                throw new Exception("rk >= 8");
-            return 0x0101010101010101UL << rk;
+            return 0x0101010101010101UL << (int)rk;
         }
 
 
-        public static UInt64 Files(int fl)
+        public static UInt64 Files(file fl)
         {
-            if (fl >= 8)
-                throw new Exception("fl >= 8");
             UInt64 file = Bit.File(fl);
             return (file << 8) | file | (file >> 8);
         }
 
-        public static UInt64 Left(int fl)
+        public static UInt64 Left(file fl)
         {
-            if (fl >= 8)
-                throw new Exception("fl >= 8");
-            return _pLeft[fl];
+            return _pLeft[(int)fl];
         }
 
-        public static UInt64 Right(int fl)
+        public static UInt64 Right(file fl)
         {
-            if (fl >= 8)
-                throw new Exception("fl >= 8");
-            return _pRight[fl];
+            return _pRight[(int)fl];
         }
 
-        public static UInt64 Front(int rk)
+        public static UInt64 Front(rank rk)
         {
-            if (rk >= 8)
-                throw new Exception("rk >= 8");
-            return _pFront[rk];
+            return _pFront[(int)rk];
         }
 
-        public static UInt64 Rear(int rk)
+        public static UInt64 Rear(rank rk)
         {
-            if (rk >= 8)
-                throw new Exception("rk >= 8");
-            return _pRear[rk];
+            return _pRear[(int)rk];
         }
 
-        public static UInt64 Front(int sq, int sd)
+        public static UInt64 Front(square sq, side sd)
         {
-            int rk = Square.Rank(sq);
-            return _pSideFront[sd][rk];
+            rank rk = Square.Rank(sq);
+            return _pSideFront[(int)sd][(int)rk];
         }
 
-        public static UInt64 Rear(int sq, int sd)
+        public static UInt64 Rear(square sq, side sd)
         {
-            int rk = Square.Rank(sq);
-            return _pSideRear[sd][rk];
+            rank rk = Square.Rank(sq);
+            return _pSideRear[(int)sd][(int)rk];
         }
 
         
@@ -197,10 +181,10 @@ namespace processAI1.Board.Bitboard
 
             for (int sq = Square.SIZE - 1; sq >= 0; sq--)
             {
-                if (IsSet(b, sq))
-                    s[7 - Square.Rank(sq)] += "[X]";
+                if (IsSet(b, (square)sq))
+                    s[7 - (int)Square.Rank((square)sq)] += "[X]";
                 else
-                    s[7 - Square.Rank(sq)] += "[ ]";
+                    s[7 - (int)Square.Rank((square)sq)] += "[ ]";
             }
             return String.Join("\n", s);
         }

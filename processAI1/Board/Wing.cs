@@ -11,7 +11,7 @@ namespace processAI1.Board
             QUEEN,
         };
 
-    public static readonly int[] shelter_file =new int[SIZE]{ (int)Square.file.FILE_G, (int) Square.file.FILE_B }; 
+    public static readonly int[] shelter_file =new int[SIZE]{ (int)file.FILE_G, (int) file.FILE_B }; 
 
     }
 }

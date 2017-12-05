@@ -7,26 +7,21 @@ namespace processAI1.Board
 {
     public class Move
     {
-        public int from;
-        public int to;
-        public int pieceMoving;
-        public int capturedPiece;
-        public int promotion;
+        public square from;
+        public square to;
+        public piece pieceMoving;
+        public piece capturedPiece;
+        public piece promotion;
 
         public Move()
         {
             
         }
-        public Move(int f, int t, int pc, int cp, int pp = (int)Piece.piece.NONE)
+        public Move(square f, square t, piece pc, piece cp, piece pp = piece.NONE)
         {
-            Debug.Assert(f < Square.SIZE);
-            Debug.Assert(t < Square.SIZE);
-            Debug.Assert(pc < Piece.SIZE);
-            Debug.Assert(cp < Piece.SIZE);
-            Debug.Assert(pp < Piece.SIZE);
 
-            Debug.Assert(pc != (int)Piece.piece.NONE);
-            Debug.Assert(pp == (int)Piece.piece.NONE || pc == (int)Piece.piece.PAWN);
+            Debug.Assert(pc != piece.NONE);
+            Debug.Assert(pp == piece.NONE || pc == piece.PAWN);
 
             this.from = f;
             this.to = t;
@@ -35,26 +30,16 @@ namespace processAI1.Board
             this.promotion = pp;
         }
 
-        public static int MakeFlags(int pc, int cp, int pp = (int)processAI1.Board.Piece.piece.NONE)
+        public static int MakeFlags(piece pc, piece cp, piece pp = piece.NONE)
         {
 
-            if (pc >= processAI1.Board.Piece.SIZE || cp >= processAI1.Board.Piece.SIZE || pp >= Piece.SIZE)
-                throw new Exception("notPiece");
-
-            return (pc << 6) | (cp << 3) | pp;
+            return ((int)pc << 6) | ((int)cp << 3) |(int) pp;
         }
 
-        public static Move Make(int f, int t, int pc, int cp, int pp = (int)Piece.piece.NONE)
+        public static Move CreateMove(square f, square t, piece pc, piece cp, piece pp = piece.NONE)
         {
-            
-            Debug.Assert(f < Square.SIZE);
-            Debug.Assert(t < Square.SIZE);
-            Debug.Assert(pc < Piece.SIZE);
-            Debug.Assert(cp < Piece.SIZE);
-            Debug.Assert(pp < Piece.SIZE);
-
-            Debug.Assert(pc != (int)Piece.piece.NONE);
-            Debug.Assert(pp == (int)Piece.piece.NONE || pc == (int)Piece.piece.PAWN);
+            Debug.Assert(pc != piece.NONE);
+            Debug.Assert(pp == piece.NONE || pc == piece.PAWN);
 
             Move m = new Move();
 
@@ -67,28 +52,28 @@ namespace processAI1.Board
             return m;
         }
 
-        public int GetFrom()
+        public square GetFrom()
         {
              
             return from;
         }
 
-        public int GetTo()
+        public square GetTo()
         {
             return to;
         }
 
-        public int GetPieceMoving()
+        public piece GetPieceMoving()
         {
             return pieceMoving;
         }
 
-        public int GetCapturedPiece()
+        public piece GetCapturedPiece()
         {
             return capturedPiece;
         }
 
-        public int GetPromoted()
+        public piece GetPromoted()
         {
             return promotion;
         }
@@ -106,27 +91,27 @@ namespace processAI1.Board
             s += Square.ToString(this.GetFrom());
             s += Square.ToString(this.GetTo());
 
-            if (this.GetPromoted() != (int) processAI1.Board.Piece.piece.NONE)
+            if (this.GetPromoted() != piece.NONE)
             {
                 s += Char.ToLower(processAI1.Board.Piece.ToChar(this.GetPromoted()));
             }
 
             return s;
         }
-        public static Move Make(int f, int t, int pp, ref Board bd) {
+        public static Move Make(square f, square t, piece pp, ref Board bd) {
 
-            int pc = bd.square(f);
-            int cp = bd.square(t);
+            piece pc = bd.getSquare(f);
+            piece cp = bd.getSquare(t);
 
-            if (pc ==(int) Piece.piece.PAWN && t == bd.ep_sq()) {
-                cp = (int)Piece.piece.PAWN;
+            if (pc == piece.PAWN && t == bd.ep_sq()) {
+                cp = piece.PAWN;
             }
 
-            if (pc == (int)Piece.piece.PAWN && Square.IsPromotion(t) && pp == (int)Piece.piece.NONE) { // not needed
-                pp = (int)Piece.piece.QUEEN;
+            if (pc == piece.PAWN && Square.IsPromotion(t) && pp == piece.NONE) { // not needed
+                pp = piece.QUEEN;
             }
 
-            return Make(f, t, pc, cp, pp);
+            return CreateMove(f, t, pc, cp, pp);
         }
 
         public static Move from_string(ref string s, ref Board bd) {
@@ -134,9 +119,9 @@ namespace processAI1.Board
             Debug.Assert(s.Length>= 4);
             string from = s.Substring(0, 2);
             string to = s.Substring(2, 2);
-            int f = Square.FromString(ref from );
-            int t = Square.FromString(ref to );
-            int pp = (s.Length > 4) ? Piece.FromChar(Char.ToUpper(s[4])) : (int)Piece.piece.NONE;
+            square f = Square.FromString(ref from );
+            square t = Square.FromString(ref to );
+            piece pp = (s.Length > 4) ? Piece.FromChar(Char.ToUpper(s[4])) : piece.NONE;
 
             return Move.Make(f, t, pp, ref bd);
         }

@@ -1,14 +1,19 @@
 ﻿namespace processAI1.Board
 {
+    public enum side
+    {
+        WHITE,
+        BLACK
+    }
+
     public static class Side
     {
         public const int SIZE = 2;
-        public const int WHITE = 0;
-        public const int BLACK = 1;
 
-        public static int Opposit(int side)
+        public static side Opposit(side side)
         {
-            return side ^ 1;
+
+            return (side)((int)side ^ 1);
         }
         
     }

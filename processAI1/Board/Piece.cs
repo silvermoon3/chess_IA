@@ -2,37 +2,39 @@
 
 namespace processAI1.Board
 {
+    public enum piece
+    {
+        PAWN,
+        KNIGHT,
+        BISHOP,
+        ROOK,
+        QUEEN,
+        KING,
+        NONE,
+    };
+
+    public enum side_Piece
+    {
+        WHITE_PAWN,
+        BLACK_PAWN,
+        WHITE_KNIGHT,
+        BLACK_KNIGHT,
+        WHITE_BISHOP,
+        BLACK_BISHOP,
+        WHITE_ROOK,
+        BLACK_ROOK,
+        WHITE_QUEEN,
+        BLACK_QUEEN,
+        WHITE_KING,
+        BLACK_KING,
+    };
+
     public static class Piece
     {
         public const int SIZE = 7;
         public const int SIDE_SIZE = 12;
 
-        public enum piece
-        {
-            PAWN,
-            KNIGHT,
-            BISHOP,
-            ROOK,
-            QUEEN,
-            KING,
-            NONE,
-        };
-
-        enum side_Piece
-        {
-            WHITE_PAWN,
-            BLACK_PAWN,
-            WHITE_KNIGHT,
-            BLACK_KNIGHT,
-            WHITE_BISHOP,
-            BLACK_BISHOP,
-            WHITE_ROOK,
-            BLACK_ROOK,
-            WHITE_QUEEN,
-            BLACK_QUEEN,
-            WHITE_KING,
-            BLACK_KING,
-        };
+        
 
         const int PAWN_VALUE = 100;
         const int KNIGHT_VALUE = 325;
@@ -48,82 +50,62 @@ namespace processAI1.Board
 
 
 
-        public static bool IsMinor(int pc)
+        public static bool IsMinor(piece pc)
         {
-            if(pc >= SIZE)
-                throw new Exception("int does not represent a piece");
-            return pc == (int)piece.KNIGHT || pc == (int)piece.BISHOP;
+            return pc == piece.KNIGHT || pc == piece.BISHOP;
         }
 
-        public static bool IsMajor(int pc)
+        public static bool IsMajor(piece pc)
         {
-            if (pc >= SIZE)
-                throw new Exception("int does not represent a piece");
-            return pc == (int)piece.ROOK || pc == (int)piece.QUEEN;
+            return pc == piece.ROOK || pc == piece.QUEEN;
         }
 
-        public static bool IsSlider(int pc)
+        public static bool IsSlider(piece pc)
         {
-            if (pc >= SIZE)
-                throw new Exception("int does not represent a piece");
-            return pc >= (int)piece.BISHOP && pc <= (int)piece.QUEEN;
+            return pc >= piece.BISHOP && pc <= piece.QUEEN;
         }
 
-        public static int Score(int pc)
+        //TODO pourquoi ?!
+        public static int Score(piece pc)
         {
-
-            if (pc >= SIZE)
-                throw new Exception("int does not represent a piece");
-            if (pc == (int)piece.NONE)
-                throw new Exception("piece is none");
-
-            return pc;
+            return (int)pc;
         }
 
-        public static int Value(int pc)
+        public static int Value(piece pc)
         {
-            if (pc >= SIZE)
-                throw new Exception("int does not represent a piece");
-            return value[pc];
+            return value[(int)pc];
         }
 
-        public static int Make(int pc, int sd)
+        public static int Make(piece pc, side sd)
         {
-            if (pc >= SIZE)
+            if (pc == piece.NONE)
                 throw new Exception("int does not represent a piece");
-            if(pc == (int)piece.NONE)
-                throw new Exception("int does not represent a piece");
-            if (sd >= Side.SIZE)
-                throw new Exception("not a side");
 
-            return (pc << 1) | sd;
+            return ((int)pc << 1) | (int)sd;
         }
 
-        public static int PieceType(int p12)
+        public static piece PieceType(int p12)
         {
             if(p12 >= SIDE_SIZE)
                 throw new Exception("it does not represent a piece from side");
-            return p12 >> 1;
+            return (piece)(p12 >> 1);
         }
 
-        public static int PieceSide(int p12)
+        public static side PieceSide(int p12)
         {
             if (p12 >= SIDE_SIZE)
                 throw new Exception("it does not represent a piece from side");
-            return p12 & 1;
+            return (side)(p12 & 1);
         }
 
-        public static int FromChar(char c)
+        public static piece FromChar(char c)
         {
-        return Char.IndexOf(c);
+        return (piece)Char.IndexOf(c);
         }
 
-        public static char ToChar(int pc)
+        public static char ToChar(piece pc)
         {
-            if (pc >= SIZE)
-                throw new Exception("int does not represent a piece");
-
-            return Char[pc];
+            return Char[(int)pc];
         }
 
         public static int FromFen(char c)

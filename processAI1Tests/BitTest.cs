@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using processAI1.Board;
 using processAI1.Board.Bitboard;
 
 namespace processAI1Tests
@@ -14,8 +15,8 @@ namespace processAI1Tests
             UInt64 b =  1UL;
             Assert.IsTrue(Bit.IsSet(b,0));
             
-            b = Bit.MakeBit(3);
-            Assert.IsTrue(Bit.IsSet(b, 3));
+            b = Bit.MakeBit(square.A3);
+            Assert.IsTrue(Bit.IsSet(b, square.A3));
             b = 0x4242424242424242UL;
             Assert.AreEqual(16, Bit.Count(b));
             b = 1UL;

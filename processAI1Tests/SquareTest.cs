@@ -11,7 +11,7 @@ namespace processAI1Tests
         public void TestMethod1()
         {
             for(int i = 0; i < Square.SIZE;i++)
-                Assert.AreEqual(i, Square.From88(Square.To88(i)));
+                Assert.AreEqual(i, Square.From88(Square.To88((square)i)));
         }
     }
 }
