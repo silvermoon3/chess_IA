@@ -9,7 +9,6 @@ using System.Threading;
 using processAI1.Agent;
 using System.Windows.Forms;
 using processAI1.Board;
-using processAI1.Board.Bitboard;
 
 namespace processAI1
 {
@@ -25,7 +24,7 @@ namespace processAI1
             Hash.Init();
             Castling.init();
             Attack.init();
-            
+            PieceSquareTable.init();
             
            IComunicationProtocol protocol = new UciProtocol();
             protocol.Run();

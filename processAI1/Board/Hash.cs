@@ -1,5 +1,4 @@
 ﻿using System;
-using processAI1.Board.Bitboard;
 
 namespace processAI1.Board
 {

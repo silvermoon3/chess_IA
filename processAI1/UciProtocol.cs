@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using processAI1.Agent;
 using processAI1.Board;
-using processAI1.Board.Bitboard;
 
 namespace processAI1
 {
@@ -112,9 +112,7 @@ namespace processAI1
         public void InputGo()
         {
             InputPrint();
-            List<Move> m = new List<Move>();
-            Gen.gen_legals(ref m, ref b);
-            Console.WriteLine("bestmove " + m[0]);
+            Console.WriteLine("bestmove " + Search.simpleMiniMaxRoot(b, 2, true));
             //Console.WriteLine("bestmove " + move.GetInitialPosition().ToString()+move.GetFinalPosition().ToString());
         }
         public String MoveToAlgebra(String move)

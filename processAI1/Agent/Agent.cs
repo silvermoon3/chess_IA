@@ -43,8 +43,7 @@ namespace processAI1.Agent
             Random rnd = new Random();
             // coord[0] = mesPieces[rnd.Next(mesPieces.Count)];
 
-            /*    Exploration      */
-            Search search = new Search();
+           
 
         }
 

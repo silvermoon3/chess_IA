@@ -1,6 +1,4 @@
-﻿using processAI1.Board.Bitboard;
-
-namespace processAI1.Board
+﻿namespace processAI1.Board
 {
     public static  class Wing
     {

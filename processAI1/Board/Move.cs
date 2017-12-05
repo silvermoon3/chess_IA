@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms.VisualStyles;
-using processAI1.Board.Bitboard;
 
 namespace processAI1.Board
 {

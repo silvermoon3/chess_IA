@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using processAI1.Board;
-using processAI1.Board.Bitboard;
 
 namespace processAI1.Board
 {

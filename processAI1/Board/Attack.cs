@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using processAI1.Board.Bitboard;
 
 namespace processAI1.Board
 {

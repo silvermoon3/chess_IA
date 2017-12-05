@@ -58,11 +58,13 @@
     <Compile Include="Agent\Sensor.cs" />
     <Compile Include="Board\Board.cs" />
     <Compile Include="Board\Castling.cs" />
+    <Compile Include="Board\Eval.cs" />
     <Compile Include="Board\Gen.cs" />
     <Compile Include="Board\Hash.cs" />
     <Compile Include="Board\Material.cs" />
     <Compile Include="Board\Move.cs" />
     <Compile Include="Board\Piece.cs" />
+    <Compile Include="Board\PieceSquareTable.cs" />
     <Compile Include="Board\Square.cs" />
     <Compile Include="Board\Side.cs" />
     <Compile Include="Board\Stage.cs" />

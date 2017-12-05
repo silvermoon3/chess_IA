@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using processAI1.Board;
-using processAI1.Board.Bitboard;
 
 namespace processAI1Tests
 {

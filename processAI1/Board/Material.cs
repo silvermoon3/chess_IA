@@ -33,10 +33,10 @@ namespace processAI1.Board
             return p_power[(int) pc];
         }
 
-        public static int score(piece pc, int stage)
+        public static int score(piece pc, Stage.stage stage)
         {
-            Debug.Assert(stage < Stage.SIZE);
-            return p_score[(int) pc][stage];
+            //Debug.Assert(stage < Stage.SIZE);
+            return p_score[(int) pc][(int)stage];
         }
 
         public static int force(side sd, ref Board bd)

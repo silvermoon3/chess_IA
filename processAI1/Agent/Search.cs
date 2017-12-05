@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace processAI1.Agent
 {
-    class Search
+    public static class  Search
     {
 
-        public Move simpleMiniMaxRoot(Board.Board fakeBoard, int depth, Boolean isMaximisingPlayer)
+        public static Move simpleMiniMaxRoot(Board.Board fakeBoard, int depth, Boolean isMaximisingPlayer)
         {
             Move bestMoveFound = null;
             int bestScore = Int32.MinValue;
@@ -31,10 +31,15 @@ namespace processAI1.Agent
 
         }
 
-        private int simpleMiniMax(Board.Board fakeBoard, int depth, Boolean isMaximisingPlayer)
+        private static int simpleMiniMax(Board.Board fakeBoard, int depth, Boolean isMaximisingPlayer)
         {
             if (depth == 0)
-                return -fakeBoard.EvaluateBoardWithPieceValue();
+            {
+                int bestScore = Eval.CompEval(ref fakeBoard, fakeBoard.turn());
+                Console.WriteLine("bestscore : " + bestScore);
+                return bestScore ;
+            }
+                
 
             List<Move> moves = new List<Move>();
             Gen.gen_legals(ref moves, ref fakeBoard);
@@ -45,6 +50,7 @@ namespace processAI1.Agent
                 {
                     fakeBoard.move(mv);
                     bestScore = Math.Max(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
+                    
                     fakeBoard.undo();
                 }
                 return bestScore;

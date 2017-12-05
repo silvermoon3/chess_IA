@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace processAI1.Board.Bitboard
+namespace processAI1.Board
 {
     public static class Bit
     {
