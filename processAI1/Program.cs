@@ -25,10 +25,37 @@ namespace processAI1
             Castling.init();
             Attack.init();
             PieceSquareTable.init();
-            
-           IComunicationProtocol protocol = new UciProtocol();
-            protocol.Run();
-
+            chooseProtocol();        
         }
+
+        static void chooseProtocol()
+        {
+            string inputString;
+            Console.WriteLine("Choix du protocole: \n  " +
+                                 "Plateforme de base : 1 \n  " +
+                                 "UCI protocol : 2 ");
+            inputString = Console.ReadLine() ?? "";
+            if ("1".Equals(inputString))
+            {
+                CustomProtocol protocol = new CustomProtocol();
+                Console.WriteLine("Plateforme de base lancée ");
+                Belief.SetMyColor(protocol.WhatIsMyColor());
+                protocol.Run();
+
+            }
+            else if ("2".Equals(inputString))
+            {
+                IComunicationProtocol protocol = new UciProtocol();
+                Console.WriteLine("UCI protocol lancé ");
+                protocol.Run();
+            }            
+            else
+            {
+                Console.WriteLine("Error, please choose a protocol");
+                chooseProtocol();
+            }
+        }
+       
+
     }
 }

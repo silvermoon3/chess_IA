@@ -53,9 +53,6 @@ namespace processAI1
                 }
 
             } while (inputString != "quit");
-
-            
-
         }
 
         public void InputUci()
@@ -112,7 +109,7 @@ namespace processAI1
         public void InputGo()
         {
             InputPrint();
-            Console.WriteLine("bestmove " + Search.simpleMiniMaxRoot(b, 2, true));
+            Console.WriteLine("bestmove " + Search.algoRoot(b, 3, true));
             //Console.WriteLine("bestmove " + move.GetInitialPosition().ToString()+move.GetFinalPosition().ToString());
         }
         public String MoveToAlgebra(String move)

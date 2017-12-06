@@ -436,7 +436,6 @@ namespace processAI1.Board
                 else
                 {
                     // assume piece
-
                     int p12 = Piece.FromFen(c);
                     piece pc = Piece.PieceType(p12);
                     side sd = Piece.PieceSide(p12);
