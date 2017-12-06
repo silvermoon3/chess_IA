@@ -66,6 +66,7 @@
     <Compile Include="Board\Pawn.cs" />
     <Compile Include="Board\Piece.cs" />
     <Compile Include="Board\PieceSquareTable.cs" />
+    <Compile Include="Board\Score.cs" />
     <Compile Include="Board\Square.cs" />
     <Compile Include="Board\Side.cs" />
     <Compile Include="Board\Stage.cs" />

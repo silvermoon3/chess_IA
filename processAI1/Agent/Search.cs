@@ -9,10 +9,14 @@ namespace processAI1.Agent
 {
     public static class  Search
     {
+        public static Eval.Table EvaTable = new Eval.Table();
+        public static Pawn.Table PawnTable = new Pawn.Table();
 
         public static Move algoRoot(Board.Board fakeBoard, int depth, Boolean isMaximisingPlayer)
         {
-            DateTime start = DateTime.Now; //Pour calculer le temps de réponse de l'IA
+            EvaTable = new Eval.Table();
+            PawnTable = new Pawn.Table();
+        DateTime start = DateTime.Now; //Pour calculer le temps de réponse de l'IA
             Move bestMoveFound = null;
             int bestScore = Int32.MinValue;
             List<Move> moves = new List<Move>();
@@ -21,7 +25,7 @@ namespace processAI1.Agent
             {
                 fakeBoard.move(mv);
                 //with simple minimax
-                // int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
+                //int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
                 //with alpha beta
                 int score = alphaBeta(fakeBoard, depth - 1, -10000, 10000, !isMaximisingPlayer);
                 fakeBoard.undo();
@@ -32,10 +36,10 @@ namespace processAI1.Agent
                     bestMoveFound = mv;
                 }
                 //On renvoie le meilleur coup trouvé après 200 ms
-                if (dur.TotalMilliseconds >= 200)
+               /* if (dur.TotalMilliseconds >= 200)
                 {
                     return bestMoveFound;
-                }
+                }*/
             }
                       
             return bestMoveFound;
@@ -45,7 +49,7 @@ namespace processAI1.Agent
         {
             if (depth == 0)
             {
-                int bestScore = Eval.CompEval(ref fakeBoard, fakeBoard.turn());
+                int bestScore = Eval.eval(ref fakeBoard,ref EvaTable,ref PawnTable);
                 Console.WriteLine("bestscore : " + bestScore);
                 return bestScore ;
             }
@@ -86,7 +90,7 @@ namespace processAI1.Agent
         {
             if (depth == 0)
             {
-                int bestScore = -Eval.CompEval(ref fakeBoard, fakeBoard.turn());
+                int bestScore = Eval.eval(ref fakeBoard, ref EvaTable, ref PawnTable);
                 //Console.WriteLine("bestscore : " + bestScore);
                 return bestScore;
             }

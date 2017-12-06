@@ -136,9 +136,9 @@ namespace processAI1.Board
             return (sd == (int)side.WHITE) ? +1 : -1;
         }
 
-        public static int Stop(square sq, side sd)
+        public static square Stop(square sq, side sd)
         {
-            return (int)sq + PawnInc(sd);
+            return sq + PawnInc(sd);
         }
 
         public static square Promotion(square sq, side sd)

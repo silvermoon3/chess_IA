@@ -36,12 +36,12 @@ namespace processAI1.Board
 
         
 
-        const int PAWN_VALUE = 100;
-        const int KNIGHT_VALUE = 325;
-        const int BISHOP_VALUE = 325;
-        const int ROOK_VALUE = 500;
-        const int QUEEN_VALUE = 975;
-        const int KING_VALUE = 10000; // for SEE
+        public const int PAWN_VALUE = 100;
+        public const int KNIGHT_VALUE = 325;
+        public const int BISHOP_VALUE = 325;
+        public const int ROOK_VALUE = 500;
+        public const int QUEEN_VALUE = 975;
+        public const int KING_VALUE = 10000; // for SEE
 
         public static readonly int[] value = new []{ PAWN_VALUE, KNIGHT_VALUE, BISHOP_VALUE, ROOK_VALUE, QUEEN_VALUE, KING_VALUE, 0 };
 

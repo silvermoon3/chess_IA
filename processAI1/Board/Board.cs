@@ -151,6 +151,7 @@ namespace processAI1.Board
         {
             
             Debug.Assert(pc != piece.NONE);
+            Debug.Assert(sq != square.NONE);
 
             return getSquare(sq) == pc && square_side(sq) == sd;
         }

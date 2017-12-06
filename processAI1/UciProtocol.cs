@@ -17,7 +17,7 @@ namespace processAI1
             // Déclaration du thread
             b = new Board.Board();
             b.init_fen(ref Board.Board.start_fen);
-
+            InputUci();
             do
             {
                 inputString = Console.ReadLine() ?? "";
@@ -109,7 +109,7 @@ namespace processAI1
         public void InputGo()
         {
             InputPrint();
-            Console.WriteLine("bestmove " + Search.algoRoot(b, 3, true));
+            Console.WriteLine("bestmove " + Search.algoRoot(b, 4, true));
             //Console.WriteLine("bestmove " + move.GetInitialPosition().ToString()+move.GetFinalPosition().ToString());
         }
         public String MoveToAlgebra(String move)
