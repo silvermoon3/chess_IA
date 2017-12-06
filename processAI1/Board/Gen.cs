@@ -28,10 +28,10 @@ namespace processAI1.Board
             }
         }
 
-        public static void add_piece_move(ref List<Move> ml, square f, square t,  ref Board  bd)
+        public static void add_piece_move(ref List<Move> ml, square f, square t,  ref Board  bd,bool isCastle = false)
         {
             Debug.Assert(bd.getSquare(f) != (int)piece.PAWN);
-            ml.Add(Move.CreateMove(f, t, bd.getSquare(f), bd.getSquare(t)));
+            ml.Add(Move.CreateMove(f, t, bd.getSquare(f), bd.getSquare(t),piece.NONE,isCastle));
         }
 
         public static void add_move(ref List<Move> ml, square f, square t,  ref Board  bd)
@@ -268,7 +268,7 @@ namespace processAI1.Board
                 if (can_castle(sd, wg,ref bd))
                 {
                     int index = Castling.index(sd, wg);
-                    add_piece_move(ref ml, Castling.info[index].kf, Castling.info[index].kt,ref bd);
+                    add_piece_move(ref ml, Castling.info[index].kf, Castling.info[index].kt,ref bd,true);
                 }
             }
         }

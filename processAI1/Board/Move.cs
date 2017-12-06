@@ -11,7 +11,7 @@ namespace processAI1.Board
         public piece pieceMoving;
         public piece capturedPiece;
         public piece promotion;
-
+        public bool isCastle;
         public Move()
         {
             
@@ -35,7 +35,7 @@ namespace processAI1.Board
             return ((int)pc << 6) | ((int)cp << 3) |(int) pp;
         }
 
-        public static Move CreateMove(square f, square t, piece pc, piece cp, piece pp = piece.NONE)
+        public static Move CreateMove(square f, square t, piece pc, piece cp, piece pp = piece.NONE,Boolean isCastle = false)
         {
             Debug.Assert(pc != piece.NONE);
             Debug.Assert(pp == piece.NONE || pc == piece.PAWN);
@@ -47,6 +47,7 @@ namespace processAI1.Board
             m.pieceMoving = pc;
             m.capturedPiece = cp;
             m.promotion = pp;
+            m.isCastle = isCastle;
 
             return m;
         }
@@ -75,6 +76,11 @@ namespace processAI1.Board
         public piece GetPromoted()
         {
             return promotion;
+        }
+
+        public bool GetIsCastle()
+        {
+            return isCastle;
         }
 
         public override string ToString()
