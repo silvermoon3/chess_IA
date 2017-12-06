@@ -11,7 +11,7 @@ namespace processAI1.Agent
     {
         public static Eval.Table EvaTable = new Eval.Table();
         public static Pawn.Table PawnTable = new Pawn.Table();
-
+        
         public static Move algoRoot(Board.Board fakeBoard, int depth, Boolean isMaximisingPlayer)
         {
             EvaTable = new Eval.Table();
@@ -94,8 +94,7 @@ namespace processAI1.Agent
                 //Console.WriteLine("bestscore : " + bestScore);
                 return bestScore;
             }
-
-
+            
             List<Move> moves = new List<Move>();
             Gen.gen_legals(ref moves, ref fakeBoard);
             if (isMaximisingPlayer)

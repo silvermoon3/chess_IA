@@ -9,17 +9,32 @@ namespace processAI1
 {
     public class CustomProtocol : IComunicationProtocol
     {
-
+        string rep = "";
+        string mutex = "";
+        string mutexStart = "";
         public ColorPlayer WhatIsMyColor()
         {
             string inputString;
             Console.WriteLine("What is my color ?  w / b");
             inputString = Console.ReadLine() ?? "";
-            if ("w".Equals(inputString))            
+            if ("w".Equals(inputString))
+            {
+                rep = "repAI1";
+                mutex = "mutexAI1";
+                mutexStart = "mutexStartAI1";
                 return ColorPlayer.White;
 
-            else if("b".Equals(inputString))
+            }   
+               
+
+            else if ("b".Equals(inputString))
+            {
+                rep = "repAI2";
+                mutex = "mutexAI2";
+                mutexStart = "mutexStartAI2";
                 return ColorPlayer.Black;
+            }
+            
             else
             {
                 Console.WriteLine("Error, please enter a correct color player ");
@@ -44,7 +59,7 @@ namespace processAI1
                                                    "a3","b3","c3","d3","e3","f3","g3","h3",
                                                    "a2","b2","c2","d2","e2","f2","g2","h2",
                                                    "a1","b1","c1","d1","e1","f1","g1","h1" };
-                Agent.Agent a = new Agent.Agent();
+                Agent.Agent agent = new Agent.Agent();
 
 
 
@@ -53,10 +68,10 @@ namespace processAI1
 
                     using (var mmf = MemoryMappedFile.OpenExisting("plateau"))
                     {
-                        using (var mmf2 = MemoryMappedFile.OpenExisting("repAI1"))
+                        using (var mmf2 = MemoryMappedFile.OpenExisting(rep))
                         {
-                            Mutex mutexStartAi1 = Mutex.OpenExisting("mutexStartAI1");
-                            Mutex mutexAi1 = Mutex.OpenExisting("mutexAI1");
+                            Mutex mutexStartAi1 = Mutex.OpenExisting(mutexStart);
+                            Mutex mutexAi1 = Mutex.OpenExisting(mutex);
                             mutexAi1.WaitOne();
                             mutexStartAi1.WaitOne();
 
@@ -80,38 +95,40 @@ namespace processAI1
                             }
                             if (!stop)
                             {
-                                Agent.Agent agent = new Agent.Agent();
-
-                                //Sensor action
-                                for (int i = 0; i < tabVal.Length; i++)
-                                {
-                                    Console.Write(tabVal[i]);
-                                    if ((i + 1) % 8 == 0) Console.Write("\n");
-
-                                }
-
-
-                                //agent.DrawBelief(tabVal);
-                                String fenBoard = agent.ReadWithSensor(tabVal);
-                           
-
-                                //update belief
-                                agent.UpdateBelief(fenBoard);
-
-                                //Think
-                                agent.Think();
-
-                                //result 
-                                String[] result = agent.GetBestMove();
-                                coord[0] = result[0];
-                                coord[1] = result[1];
-
 
                                 /******************************************************************************************************/
                                 /***************************************** ECRIRE LE CODE DE L'IA *************************************/
                                 /******************************************************************************************************/
 
+                                /***************************************** BOUCLE IA *************************************/
+                                //Sensor action
+                                for (int i = 0; i < tabVal.Length; i++)
+                                {
+                                    Console.Write(tabVal[i]);
+                                    if ((i + 1) % 8 == 0) Console.Write("\n");
+                                }
 
+                                //agent.DrawBelief(tabVal);
+                                String fenBoard = agent.ReadWithSensor(tabVal);                           
+
+                                //update belief
+                                agent.UpdateBelief(fenBoard);
+
+                                //Think and update the best move to do
+                                agent.Think();
+
+                                /***************************************** FIN BOUCLE IA *************************************/
+
+                                //result 
+                                if (agent.GetBestMove()[0] != "echec")
+                                {
+                                    String[] result = agent.GetBestMove();
+                                    coord[0] = result[0];
+                                    coord[1] = result[1];
+                                    coord[2] = result[2];
+                                }
+                                
+                              
                                 //List<String> mesPieces = new List<String>();
                                 //for (int i = 0; i < tabVal.Length; i++)
                                 //{

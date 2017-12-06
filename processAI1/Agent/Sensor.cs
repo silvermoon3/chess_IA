@@ -17,13 +17,7 @@ namespace processAI1.Agent
         public Sensor()
         {
             isWhiteTurn = true;
-        }
-
-        //Read the board
-        public void MakeBoard()
-        {
-
-        }
+        }       
 
         //Show the board 
 
