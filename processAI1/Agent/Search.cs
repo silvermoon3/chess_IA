@@ -11,12 +11,12 @@ namespace processAI1.Agent
     {
         public static Eval.Table EvaTable = new Eval.Table();
         public static Pawn.Table PawnTable = new Pawn.Table();
-        
+        public static DateTime start;
         public static Move algoRoot(Board.Board fakeBoard, int depth, Boolean isMaximisingPlayer)
         {
             EvaTable = new Eval.Table();
             PawnTable = new Pawn.Table();
-        DateTime start = DateTime.Now; //Pour calculer le temps de réponse de l'IA
+            start = DateTime.Now; //Pour calculer le temps de réponse de l'IA
             Move bestMoveFound = null;
             int bestScore = Int32.MinValue;
             List<Move> moves = new List<Move>();
@@ -29,17 +29,14 @@ namespace processAI1.Agent
                 //with alpha beta
                 int score = alphaBeta(fakeBoard, depth - 1, -10000, 10000, !isMaximisingPlayer);
                 fakeBoard.undo();
-                TimeSpan dur = DateTime.Now - start;
+             
                 if (score >= bestScore)
                 {
                     bestScore = score;
                     bestMoveFound = mv;
                 }
                 //On renvoie le meilleur coup trouvé après 200 ms
-               /* if (dur.TotalMilliseconds >= 200)
-                {
-                    return bestMoveFound;
-                }*/
+              
             }
                       
             return bestMoveFound;
@@ -88,18 +85,25 @@ namespace processAI1.Agent
         /******** ALPHA BETA PRUNNING ********/
         private static int alphaBeta(Board.Board fakeBoard, int depth, int alpha, int beta, Boolean isMaximisingPlayer)
         {
+            int bestScore=0;
+            TimeSpan dur = DateTime.Now - start;
             if (depth == 0)
             {
-                int bestScore = Eval.eval(ref fakeBoard, ref EvaTable, ref PawnTable);
+                bestScore = Eval.eval(ref fakeBoard, ref EvaTable, ref PawnTable);
                 //Console.WriteLine("bestscore : " + bestScore);
                 return bestScore;
             }
-            
+            Console.WriteLine("temps : " + dur.TotalMilliseconds + " depth:" + depth);
+
+            if (dur.TotalMilliseconds >= 200)
+            {
+                return bestScore;
+            }
             List<Move> moves = new List<Move>();
             Gen.gen_legals(ref moves, ref fakeBoard);
             if (isMaximisingPlayer)
             {
-                int bestScore = Int32.MinValue;
+                bestScore = Int32.MinValue;
                 foreach (Move mv in moves)
                 {
                     fakeBoard.move(mv);
@@ -113,7 +117,7 @@ namespace processAI1.Agent
             }
             else
             {
-                int bestScore = Int32.MaxValue;
+                bestScore = Int32.MaxValue;
                 foreach (Move mv in moves)
                 {
                     fakeBoard.move(mv);
@@ -124,7 +128,6 @@ namespace processAI1.Agent
                         return bestScore;
                 }
                 return bestScore;
-
             }
         }
 
