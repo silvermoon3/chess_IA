@@ -18,10 +18,8 @@ namespace processAI1.Board
         }
         public Move(square f, square t, piece pc, piece cp, piece pp = piece.NONE)
         {
-
             Debug.Assert(pc != piece.NONE);
             Debug.Assert(pp == piece.NONE || pc == piece.PAWN);
-
             this.from = f;
             this.to = t;
             this.pieceMoving = pc;
@@ -31,7 +29,6 @@ namespace processAI1.Board
 
         public static int MakeFlags(piece pc, piece cp, piece pp = piece.NONE)
         {
-
             return ((int)pc << 6) | ((int)cp << 3) |(int) pp;
         }
 

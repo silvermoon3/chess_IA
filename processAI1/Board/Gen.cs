@@ -28,10 +28,10 @@ namespace processAI1.Board
             }
         }
 
-        public static void add_piece_move(ref List<Move> ml, square f, square t,  ref Board  bd,bool isCastle = false)
+        public static void add_piece_move(ref List<Move> ml, square f, square t,  ref Board  bd, bool isCastle = false)
         {
             Debug.Assert(bd.getSquare(f) != (int)piece.PAWN);
-            ml.Add(Move.CreateMove(f, t, bd.getSquare(f), bd.getSquare(t),piece.NONE,isCastle));
+            ml.Add(Move.CreateMove(f, t, bd.getSquare(f), bd.getSquare(t),piece.NONE, isCastle));
         }
 
         public static void add_move(ref List<Move> ml, square f, square t,  ref Board  bd)
@@ -123,7 +123,7 @@ namespace processAI1.Board
             }
         }
 
-        public static void add_promotions(ref List<Move> ml, side sd, UInt64 ts, ref Board  bd)
+        public static void add_promotions(ref List<Move> ml, side sd, UInt64 ts, ref Board bd)
         {
             UInt64 pawns = bd.getPieceBit((int)piece.PAWN, sd);
 
@@ -584,6 +584,13 @@ namespace processAI1.Board
             bd.undo();
 
             return b;
+        }
+
+        public static Move force_move_king(ref Board bd, side sd)
+        {
+            //forcer le roi à faire un mouvement pour qu'il puisse être mangé au prochain tour
+                     
+            return null;
         }
 
         public static void gen_moves_debug(ref List<Move> ml, ref Board  bd)

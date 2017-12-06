@@ -14,7 +14,8 @@ namespace processAI1.Agent
         Intention _intention;
         Desire _desire;
         Move _bestMoveFound;
-                      
+       
+
         public Agent()
         {
            _sensor = new Sensor();
@@ -22,6 +23,7 @@ namespace processAI1.Agent
            _desire = new Desire();
            _intention = new Intention();
            _bestMoveFound = null;
+          
         }
               
 
@@ -33,24 +35,34 @@ namespace processAI1.Agent
         public void Think()
         {
             /***** Think with Minimax ****/
-            _bestMoveFound = Search.algoRoot(_belief.GetBoard(), 3, true);
+            _bestMoveFound = Search.algoRoot(_belief.GetBoard(), 5, true);
             Console.WriteLine("bestmove " + _bestMoveFound);
 
         }
 
         public String[] GetBestMove()
         {
+            if (_bestMoveFound == null)
+            {
+                //King is in check but we need to force it to move for plateforme
+              // _bestMoveFound =  Gen.force_move_king();
+              
+            }
+                
 
-            //TODO gestion des promotions et des roques 
-            //O position de départ ou grand roque /petit roque 
-            //1 position arrivé 
-            //2 promotion => nouvelle pièce
             String[] bestMove = new String[3];
             
             bestMove[0] = _bestMoveFound.from.ToString();
             bestMove[1] = _bestMoveFound.to.ToString();
-            if(_bestMoveFound.GetPromoted() != piece.NONE)
+            if (_bestMoveFound.isCastle)
             {
+                bestMove[0] = Castling.WhichCastle(_bestMoveFound);
+            }
+        
+            if (_bestMoveFound.GetPromoted() != piece.NONE)
+            {
+               
+
                 if (_bestMoveFound.GetPromoted() == piece.ROOK)
                 {
                     bestMove[2] = "TG";
@@ -68,6 +80,7 @@ namespace processAI1.Agent
                     bestMove[2] = "D";
                 }
             }
+          
                 
        
             return bestMove;

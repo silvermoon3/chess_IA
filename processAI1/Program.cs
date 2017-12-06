@@ -33,7 +33,7 @@ namespace processAI1
             string inputString;
             Console.WriteLine("Choix du protocole: \n  " +
                                  "Plateforme de base : 1 \n  " +
-                                 "UCI protocol : 2 ");
+                                 "UCI protocol : uci ");
             inputString = Console.ReadLine() ?? "";
             if ("1".Equals(inputString))
             {
@@ -43,7 +43,7 @@ namespace processAI1
                 protocol.Run();
 
             }
-            else if ("2".Equals(inputString))
+            else if ("uci".Equals(inputString))
             {
                 IComunicationProtocol protocol = new UciProtocol();
                 Console.WriteLine("UCI protocol lancé ");

@@ -11,14 +11,8 @@ namespace processAI1.Agent.BDI
         public Desire()
         {
 
-        }
-
-        public Boolean IsOtherPlayerInChess(Belief belief)
-        {
-           
-            return false;
-        }
-        //put other player in check 
+        }     
+       
 
     }
 }

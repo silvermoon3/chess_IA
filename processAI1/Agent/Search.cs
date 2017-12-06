@@ -9,7 +9,6 @@ namespace processAI1.Agent
 {
     public static class  Search
     {
-
         public static Move algoRoot(Board.Board fakeBoard, int depth, Boolean isMaximisingPlayer)
         {
             DateTime start = DateTime.Now; //Pour calculer le temps de réponse de l'IA
@@ -90,8 +89,7 @@ namespace processAI1.Agent
                 //Console.WriteLine("bestscore : " + bestScore);
                 return bestScore;
             }
-
-
+            
             List<Move> moves = new List<Move>();
             Gen.gen_legals(ref moves, ref fakeBoard);
             if (isMaximisingPlayer)

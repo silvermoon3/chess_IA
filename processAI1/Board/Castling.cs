@@ -66,26 +66,43 @@ namespace processAI1.Board
     public static void init()
     {
 
-    for (int sq = 0; sq < Square.SIZE; sq++)
-    {
-    flags_mask[sq] = 0;
+        for (int sq = 0; sq < Square.SIZE; sq++)
+        {
+            flags_mask[sq] = 0;
+        }
+
+        set_flag(ref flags_mask[(int)square.E1], 0);
+        set_flag(ref flags_mask[(int)square.E1], 1);
+        set_flag(ref flags_mask[(int)square.H1], 0);
+        set_flag(ref flags_mask[(int)square.A1], 1);
+
+        set_flag(ref flags_mask[(int)square.E8], 2);
+        set_flag(ref flags_mask[(int)square.E8], 3);
+        set_flag(ref flags_mask[(int)square.H8], 2);
+        set_flag(ref flags_mask[(int)square.A8], 3);
+
+        for (int flags = 0; flags < (1 << 4); flags++)
+        {
+            flags_key[flags] = flags_key_debug(flags);
+        }
     }
 
-    set_flag(ref flags_mask[(int)square.E1], 0);
-    set_flag(ref flags_mask[(int)square.E1], 1);
-    set_flag(ref flags_mask[(int)square.H1], 0);
-    set_flag(ref flags_mask[(int)square.A1], 1);
+        public static String WhichCastle(Move move)
+        {
+            //petit roque 
+            if (move.to == square.G8 || move.to == square.G1)
+            {
+                return "petit roque";
+            }
 
-    set_flag(ref flags_mask[(int)square.E8], 2);
-    set_flag(ref flags_mask[(int)square.E8], 3);
-    set_flag(ref flags_mask[(int)square.H8], 2);
-    set_flag(ref flags_mask[(int)square.A8], 3);
 
-    for (int flags = 0; flags < (1 << 4); flags++)
-    {
-    flags_key[flags] = flags_key_debug(flags);
-    }
-    }
+            if (move.to == square.C8 || move.to == square.C1)
+            {
+                return "grand roque";
+            }
+            //grand roque
+            return ""; 
+        }
 
     }
 }
