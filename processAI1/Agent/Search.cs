@@ -23,12 +23,12 @@ namespace processAI1.Agent
             int bestScore = -9999;
             List<Move> moves = new List<Move>();
             Gen.gen_legals_sort(ref moves, ref fakeBoard, ref EvaTable, ref PawnTable);
-            TimeSpan dur = DateTime.Now - start;
+            TimeSpan dur = DateTime.Now - CustomProtocol.start;
             foreach (Move mv in moves)
             {
                 fakeBoard.move(mv);
                 //with simple minimax
-                //int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
+               // int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
                 //with alpha beta
                 int score = alphaBeta(fakeBoard, depth - 1, -10000, 10000, !isMaximisingPlayer);
                 fakeBoard.undo();
@@ -38,7 +38,7 @@ namespace processAI1.Agent
                     bestScore = score;
                     bestMoveFound = mv;
                 }
-                dur = DateTime.Now - start;
+                dur = DateTime.Now - CustomProtocol.start;
                 Console.WriteLine("Move :" + mv + "temps : " + dur.TotalMilliseconds + " score :" + score);
                 Console.WriteLine("current BestMove :" + bestMoveFound);
                 //On renvoie le meilleur coup trouvé après 200 ms
@@ -48,7 +48,7 @@ namespace processAI1.Agent
             return bestMoveFound;
         }
 
-        private static int simpleMiniMax(Board.Board fakeBoard, int depth)
+        private static int simpleMiniMax(Board.Board fakeBoard, int depth, bool isMaximisingPlayer)
         {
             if (depth == 0)
             {
@@ -60,13 +60,13 @@ namespace processAI1.Agent
             Console.WriteLine("temps : " + dur.TotalMilliseconds + " depth:" + (TotalDepth - depth) + " / " + TotalDepth);
             List<Move> moves = new List<Move>();
             Gen.gen_legals(ref moves, ref fakeBoard);
-            if (fakeBoard.turn() == side.WHITE)
+            if (isMaximisingPlayer)
             {
                 int bestScore = Score.EVAL_MIN + 1;
                 foreach (Move mv in moves)
                 {
                     fakeBoard.move(mv);
-                    bestScore = Math.Max(bestScore, simpleMiniMax(fakeBoard, depth - 1));
+                    bestScore = Math.Max(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
 
                     fakeBoard.undo();
                 }
@@ -78,7 +78,7 @@ namespace processAI1.Agent
                 foreach (Move mv in moves)
                 {
                     fakeBoard.move(mv);
-                    bestScore = Math.Min(bestScore, simpleMiniMax(fakeBoard, depth - 1));
+                    bestScore = Math.Min(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
                     fakeBoard.undo();
                 }
                 return bestScore;
@@ -92,8 +92,8 @@ namespace processAI1.Agent
         private static int alphaBeta(Board.Board fakeBoard, int depth, int alpha, int beta, bool isMaximisingPlayer)
         {
             int bestScore = 0;
-            TimeSpan dur = DateTime.Now - start;
-            if (depth == 0 || dur.TotalMilliseconds >= 1000)
+            TimeSpan dur = DateTime.Now - CustomProtocol.start;
+            if (depth == 0 || dur.TotalMilliseconds >= 230)
             {
                 bestScore = -Eval.eval(ref fakeBoard, ref EvaTable, ref PawnTable);
                 //Console.WriteLine("bestscore : " + bestScore);
@@ -102,7 +102,7 @@ namespace processAI1.Agent
 
 
             List<Move> moves = new List<Move>();
-            Gen.gen_legals(ref moves, ref fakeBoard);
+            Gen.gen_legals_sort(ref moves, ref fakeBoard, ref EvaTable, ref PawnTable);
             if (isMaximisingPlayer)
             {
                 bestScore = -9999;
@@ -113,7 +113,7 @@ namespace processAI1.Agent
                     fakeBoard.undo();
                     alpha = Math.Max(alpha, bestScore);
                     if (beta <= alpha)
-                        return bestScore;
+                        break;
 
                 }
                 return bestScore;
@@ -128,7 +128,7 @@ namespace processAI1.Agent
                     fakeBoard.undo();
                     beta = Math.Min(beta, bestScore);
                     if (beta <= alpha)
-                        return bestScore;
+                        break;
                 }
                 return bestScore;
 

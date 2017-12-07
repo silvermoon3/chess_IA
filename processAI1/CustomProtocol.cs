@@ -9,6 +9,7 @@ namespace processAI1
 {
     public class CustomProtocol : IComunicationProtocol
     {
+        public static DateTime start;
         string rep = "";
         string mutex = "";
         string mutexStart = "";
@@ -74,7 +75,7 @@ namespace processAI1
                             Mutex mutexAi1 = Mutex.OpenExisting(mutex);
                             mutexAi1.WaitOne();
                             mutexStartAi1.WaitOne();
-
+                            start = DateTime.Now;
 
                             using (var accessor = mmf.CreateViewAccessor())
                             {
