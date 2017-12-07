@@ -13,33 +13,49 @@ namespace processAI1.Agent
         public static Pawn.Table PawnTable = new Pawn.Table();
         public static DateTime start;
         public static int TotalDepth;
+        public static int[] depths;
+        static TimeSpan OneMoveAvg = new TimeSpan();
         public static Move algoRoot(Board.Board fakeBoard, int depth, bool isMaximisingPlayer)
         {
             TotalDepth = depth;
+            depths = new int[TotalDepth];
             EvaTable = new Eval.Table();
             PawnTable = new Pawn.Table();
             start = DateTime.Now; //Pour calculer le temps de réponse de l'IA
             Move bestMoveFound = null;
-            int bestScore = -9999;
+            int bestScore = Int32.MinValue;
             List<Move> moves = new List<Move>();
             Gen.gen_legals_sort(ref moves, ref fakeBoard, ref EvaTable, ref PawnTable);
-            TimeSpan dur = DateTime.Now - CustomProtocol.start;
+            side playingSide = fakeBoard.turn();
+            TimeSpan dur;
+            List<long> moveSearched = new List<long>();
             foreach (Move mv in moves)
             {
+                dur = DateTime.Now - Program.start;
+                Console.WriteLine("Move : " + mv + " start search at : " + dur.Milliseconds);
                 fakeBoard.move(mv);
+                int score;
                 //with simple minimax
-               // int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
+                // int score = simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer);
                 //with alpha beta
-                int score = alphaBeta(fakeBoard, depth - 1, -10000, 10000, !isMaximisingPlayer);
+                score = NegaMax(ref fakeBoard, -Score.MAX, -Score.MIN, depth - 1);
                 fakeBoard.undo();
 
-               if(score >= bestScore)
+               if(score > bestScore)
                 {
                     bestScore = score;
                     bestMoveFound = mv;
                 }
-                dur = DateTime.Now - CustomProtocol.start;
-                Console.WriteLine("Move :" + mv + "temps : " + dur.TotalMilliseconds + " score :" + score);
+
+                dur = DateTime.Now - Program.start;
+                OneMoveAvg =new TimeSpan( moveSearched.Count > 0? (long)moveSearched.Average():0);
+                moveSearched.Add(dur.Ticks);
+                Console.WriteLine("Average : "+ OneMoveAvg.Milliseconds);
+                for (int i=0; i < depths.Length;i++)
+                {
+                    Console.WriteLine(" depth "+i+" : "+ depths[i]);
+                }
+                Console.WriteLine("Move : " + mv + " temps : " + dur.TotalMilliseconds + " score : " + score);
                 Console.WriteLine("current BestMove :" + bestMoveFound);
                 //On renvoie le meilleur coup trouvé après 200 ms
 
@@ -47,95 +63,31 @@ namespace processAI1.Agent
 
             return bestMoveFound;
         }
-
-        private static int simpleMiniMax(Board.Board fakeBoard, int depth, bool isMaximisingPlayer)
+        public static int NegaMax(ref Board.Board fakeBoard, int alpha, int beta, int depthleft)
         {
-            if (depth == 0)
-            {
-                int bestScore = Eval.eval(ref fakeBoard, ref EvaTable, ref PawnTable);
-                Console.WriteLine("bestscore : " + bestScore);
-                return bestScore;
-            }
-            TimeSpan dur = DateTime.Now - start;
-            Console.WriteLine("temps : " + dur.TotalMilliseconds + " depth:" + (TotalDepth - depth) + " / " + TotalDepth);
-            List<Move> moves = new List<Move>();
-            Gen.gen_legals(ref moves, ref fakeBoard);
-            if (isMaximisingPlayer)
-            {
-                int bestScore = Score.EVAL_MIN + 1;
-                foreach (Move mv in moves)
-                {
-                    fakeBoard.move(mv);
-                    bestScore = Math.Max(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
-
-                    fakeBoard.undo();
-                }
-                return bestScore;
-            }
-            else
-            {
-                int bestScore = Score.EVAL_MAX - 1;
-                foreach (Move mv in moves)
-                {
-                    fakeBoard.move(mv);
-                    bestScore = Math.Min(bestScore, simpleMiniMax(fakeBoard, depth - 1, !isMaximisingPlayer));
-                    fakeBoard.undo();
-                }
-                return bestScore;
-
-            }
-        }
-
-
-
-        /******** ALPHA BETA PRUNNING ********/
-        private static int alphaBeta(Board.Board fakeBoard, int depth, int alpha, int beta, bool isMaximisingPlayer)
-        {
-            int bestScore = 0;
-            TimeSpan dur = DateTime.Now - CustomProtocol.start;
-            if (depth == 0 || dur.TotalMilliseconds >= 230)
-            {
-                bestScore = -Eval.eval(ref fakeBoard, ref EvaTable, ref PawnTable);
-                //Console.WriteLine("bestscore : " + bestScore);
-                return bestScore;
-            }
-
-
+            depths[(TotalDepth - 1) - depthleft]++;
+            TimeSpan dur = DateTime.Now - Program.start;
+            
+            if (depthleft == 0)
+                return Eval.eval(ref fakeBoard, ref EvaTable, ref PawnTable);
             List<Move> moves = new List<Move>();
             Gen.gen_legals_sort(ref moves, ref fakeBoard, ref EvaTable, ref PawnTable);
-            if (isMaximisingPlayer)
-            {
-                bestScore = -9999;
-                foreach (Move mv in moves)
-                {
-                    fakeBoard.move(mv);
-                    bestScore = Math.Max(bestScore, alphaBeta(fakeBoard, depth - 1, alpha, beta, !isMaximisingPlayer));
-                    fakeBoard.undo();
-                    alpha = Math.Max(alpha, bestScore);
-                    if (beta <= alpha)
-                        break;
-
-                }
-                return bestScore;
-            }
-            else
-            {
-                bestScore = 9999;
-                foreach (Move mv in moves)
-                {
-                    fakeBoard.move(mv);
-                    bestScore = Math.Min(bestScore, alphaBeta(fakeBoard, depth - 1, alpha, beta, !isMaximisingPlayer));
-                    fakeBoard.undo();
-                    beta = Math.Min(beta, bestScore);
-                    if (beta <= alpha)
-                        break;
-                }
-                return bestScore;
-
-            }
-
            
+            foreach (Move mv in moves)
+            {
+                int score;
+                fakeBoard.move(mv); 
+                score = -NegaMax(ref fakeBoard,-beta, -alpha, depthleft - 1);
+                fakeBoard.undo();
+                if (score >= beta)
+                    return beta;   //  fail hard beta-cutoff
+                if (score > alpha)
+                    alpha = score; // alpha acts like max in MiniMax
+            }
+            return alpha;
         }
+
+       
 
     }
 }

@@ -9,10 +9,11 @@ namespace processAI1
 {
     public class CustomProtocol : IComunicationProtocol
     {
-        public static DateTime start;
+        
         string rep = "";
         string mutex = "";
         string mutexStart = "";
+
         public ColorPlayer WhatIsMyColor()
         {
             string inputString;
@@ -75,7 +76,7 @@ namespace processAI1
                             Mutex mutexAi1 = Mutex.OpenExisting(mutex);
                             mutexAi1.WaitOne();
                             mutexStartAi1.WaitOne();
-                            start = DateTime.Now;
+                            Program.start = DateTime.Now;
 
                             using (var accessor = mmf.CreateViewAccessor())
                             {
@@ -175,6 +176,7 @@ namespace processAI1
                     }
 
                 }
+                Console.ReadLine();
             }
             catch (FileNotFoundException)
             {

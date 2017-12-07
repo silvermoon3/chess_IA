@@ -42,15 +42,20 @@ namespace processAI1.Agent
 
         public String[] GetBestMove()
         {
+            String[] bestMove = new String[3];
             if (_bestMoveFound == null)
             {
+                List<Move> pseudos = new List<Move>();
+                Board.Board b = _belief.GetBoard();
+                Gen.gen_moves_debug(ref pseudos, ref b);
+                _bestMoveFound = pseudos[0];
                 //King is in check but we need to force it to move for plateforme
-              // _bestMoveFound =  Gen.force_move_king();
-              
+                // _bestMoveFound =  Gen.force_move_king();
+
             }
                 
 
-            String[] bestMove = new String[3];
+           
             
             bestMove[0] = _bestMoveFound.from.ToString();
             bestMove[1] = _bestMoveFound.to.ToString();

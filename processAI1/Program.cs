@@ -16,7 +16,8 @@ namespace processAI1
     public enum ColorPlayer { White, Black };
     class Program
     {
-        
+        public static DateTime start;
+
         static void Main(string[] args)
         {
             Bit.Init();
@@ -57,7 +58,5 @@ namespace processAI1
                 chooseProtocol();
             }
         }
-       
-
     }
 }
