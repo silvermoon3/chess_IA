@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using processAI1.Board;
@@ -632,6 +633,23 @@ namespace processAI1.Board
             filter_legals(ref ml, ref pseudos,ref bd);
         }
 
+        public static void gen_legals_sort(ref List<Move> ml, ref Board bd,ref Eval.Table table, ref Pawn.Table pawn_table)
+        {
+            SortedList<int,Move> sortedMoves = new SortedList<int,Move>(new DuplicateKeyComparer<int>());
+            Gen.gen_legals(ref ml,ref bd);
+            int score;
+            foreach (Move mv in ml)
+            {
+                bd.move(mv);
+                score = Eval.eval(ref bd, ref table, ref pawn_table);
+                bd.undo();
+                sortedMoves.Add(Math.Abs(score),mv);
+
+            }
+            ml.Clear();
+            ml.AddRange(sortedMoves.Values);
+            
+        }
         public static void gen_legal_evasions(ref List<Move> ml, ref Board bd)
         {
             side sd = bd.turn();

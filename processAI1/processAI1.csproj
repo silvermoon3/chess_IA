@@ -52,6 +52,7 @@
     <Compile Include="Agent\Agent.cs" />
     <Compile Include="Agent\BDI\Desire.cs" />
     <Compile Include="Agent\BDI\Intention.cs" />
+    <Compile Include="Board\DuplicateKeyComparer.cs" />
     <Compile Include="Agent\Search.cs" />
     <Compile Include="Board\Attack.cs" />
     <Compile Include="Board\Bit.cs" />

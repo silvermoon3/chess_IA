@@ -109,7 +109,7 @@ namespace processAI1
         public void InputGo()
         {
             InputPrint();
-            Console.WriteLine("bestmove " + Search.algoRoot(b, 4, true));
+            Console.WriteLine("bestmove " + Search.algoRoot(b, 1));
             //Console.WriteLine("bestmove " + move.GetInitialPosition().ToString()+move.GetFinalPosition().ToString());
         }
         public String MoveToAlgebra(String move)

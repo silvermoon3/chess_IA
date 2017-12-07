@@ -35,7 +35,7 @@ namespace processAI1.Agent
         public void Think()
         {
             /***** Think with Minimax ****/
-            _bestMoveFound = Search.algoRoot(_belief.GetBoard(), 3, true);
+            _bestMoveFound = Search.algoRoot(_belief.GetBoard(), 9);
             Console.WriteLine("bestmove " + _bestMoveFound);
 
         }
