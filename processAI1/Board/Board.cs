@@ -746,37 +746,37 @@ namespace processAI1.Board
 
         public override string ToString()
         {
-            string[] s= new string[8];
-            
+            string[][] board= new string[8][];
+            string result = "";
             for (int sq = Square.SIZE - 1; sq >= 0; sq--)
             {
+                
                 Boolean pieceFound = false;
                 for (int sd = 0; sd < Side.SIZE; sd++)
                 {
                     for (int pc = 0; pc < Piece.SIZE-1; pc++)
                     {
-                        if (s[7-(int)Square.Rank((square)sq)] == null)
-                            s[7-(int)Square.Rank((square)sq)] = "";
+                        if (board[7-(int)Square.Rank((square)sq)] == null)
+                            board[7-(int)Square.Rank((square)sq)] = new String[8];
+
                         if (square_is((square)sq, (piece)pc, (side)sd))
                         {
                             pieceFound = true;
-                            s[7 - (int)Square.Rank((square)sq)] += "[" + Piece.ToFen(Piece.Make((piece)pc, (side)sd)) + "]";
+                            board[7 - (int)Square.Rank((square)sq)][(int)Square.File((square)sq)] += "[" + Piece.ToFen(Piece.Make((piece)pc, (side)sd)) + "]";
                         }
                            
                         
                     }
                 }
                 if (!pieceFound)
-                    s[7 - (int)Square.Rank((square)sq)] += "[" + Piece.ToChar(piece.NONE) + "]";
+                    board[7 - (int)Square.Rank((square)sq)][(int)Square.File((square)sq)] = "[" + Piece.ToChar(piece.NONE) + "]";
             }
-            for(int i = 0; i < s.Length;i++)
+            for(int i = 0; i < board.Length;i++)
             {
-                Char[] chars = s[i].ToCharArray();
-                Array.Reverse(chars);
-                s[i] = String.Join("", chars.ToString());
+               result +=String.Join("", board[i]);
+                result += "\n";
             }
-            
-            return String.Join("\n",s);
+            return result;
         }
 
 
