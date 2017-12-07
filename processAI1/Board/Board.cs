@@ -769,7 +769,14 @@ namespace processAI1.Board
                 if (!pieceFound)
                     s[7 - (int)Square.Rank((square)sq)] += "[" + Piece.ToChar(piece.NONE) + "]";
             }
-            return String.Join("\n", s);
+            for(int i = 0; i < s.Length;i++)
+            {
+                Char[] chars = s[i].ToCharArray();
+                Array.Reverse(chars);
+                s[i] = String.Join("", chars.ToString());
+            }
+            
+            return String.Join("\n",s);
         }
 
 
