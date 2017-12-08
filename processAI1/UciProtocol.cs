@@ -9,6 +9,8 @@ namespace processAI1
 {
     public class UciProtocol : IComunicationProtocol
     {
+        public static Eval.Table EvaTable = new Eval.Table();
+        public static Pawn.Table PawnTable = new Pawn.Table();
         const string Enginename = "Deep Elie";
         public Board.Board b;
         public void Run()
@@ -50,6 +52,10 @@ namespace processAI1
                 else if ("print".Equals(inputString))
                 {
                     InputPrint();
+                }else if ("evaluate".Equals(inputString))
+                {
+                    
+                    Console.WriteLine("Current board eval: "+Eval.eval(ref b,ref EvaTable,ref PawnTable));
                 }
 
             } while (inputString != "quit");
@@ -110,7 +116,7 @@ namespace processAI1
         {
             InputPrint();
             Program.start = DateTime.Now;
-            Console.WriteLine("bestmove " + Search.algoRoot(b, 4, true));
+            Console.WriteLine("bestmove " + Search.algoRoot(b, 2, true));
             //Console.WriteLine("bestmove " + move.GetInitialPosition().ToString()+move.GetFinalPosition().ToString());
         }
         public String MoveToAlgebra(String move)

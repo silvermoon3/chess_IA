@@ -643,7 +643,7 @@ namespace processAI1.Board
                 bd.move(mv);
                 score = Eval.eval(ref bd, ref table, ref pawn_table);
                 bd.undo();
-                sortedMoves.Add(Math.Abs(score),mv);
+                sortedMoves.Add(score,mv);
 
             }
             ml.Clear();
